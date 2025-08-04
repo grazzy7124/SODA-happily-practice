@@ -65,8 +65,7 @@ class PageList extends StatelessWidget {
               Text(date),
               Text(public)
             ],
-          )
-          ,
+          ),
         ],
       ),
     );
