@@ -74,14 +74,12 @@ class _MainpageState extends State<Mainpage>  with TickerProviderStateMixin {
                 children: [
                   Align(
                     alignment: Alignment.center,
-                    child: Container(
+                    child: SizedBox(
                       width: 316, height: 162,
-                      decoration: BoxDecoration(
-                        border: BoxBorder.all(
-                        width: 3,
-                        color: Color(0xff777777)
-                      ),
-                      borderRadius: BorderRadius.circular(20),
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 4,
+                        shadowColor: const Color.fromARGB(82, 0, 0, 0),
                       ),
                     ),
                   ),
@@ -92,7 +90,7 @@ class _MainpageState extends State<Mainpage>  with TickerProviderStateMixin {
                         '오늘은 어떤 하루였나요?',
                         style: TextStyle(
                           fontFamily: 'gangwon',
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w300,
                           fontSize: 22,
                           letterSpacing: 0,
                         ),

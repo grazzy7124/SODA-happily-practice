@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffFCFAF5),
       body: TabBarView(
         controller: _tabController,
         children: [
@@ -113,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ]
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xffFCFAF5),
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: false,
         showSelectedLabels: false,

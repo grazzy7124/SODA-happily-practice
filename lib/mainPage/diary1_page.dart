@@ -14,22 +14,20 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffFCFAF5),
       body: Column(
         children: [
           SizedBox(height: 30,),
           Container(
             height: 43,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 3
-              )
-            ),
             child: Stack(
               children: [
                 Row(
                   children: [
                     TextButton(
-                      onPressed: (){}, 
+                      onPressed: (){
+                        Navigator.pop(context);
+                      }, 
                       child: Text('취소')
                     ),
                   ],
@@ -58,6 +56,51 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     ),
                   ],
                 )
+              ],
+            ),
+          ),
+          Container(
+            height: 1, width: double.infinity,
+            color: Colors.black,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 45,
+                  child: Card(
+                    color: Color(0xffD9ECFA),
+                    child: Row(
+                      children: [
+                        Text('data')
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 180,
+                ),
+                SizedBox(
+                  height: 45,
+                  child: Card(
+                    color: Color(0xffD9ECFA),
+                    child: Row(
+                      children: [
+                        Text('data')
+                      ],
+                    ),
+                  ),
+                ),
+                TextField(
+                  
+                ),
+                TextField(
+                  
+                ),
+                TextField(
+                  
+                ),
               ],
             ),
           )
