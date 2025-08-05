@@ -154,6 +154,8 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                         Text('제목: ', style: _titleStyle,),
                         Expanded(
                           child: TextField(
+                            style: _titleStyle,
+                            // cursorHeight: 20,
                             decoration: InputDecoration(
                               border: InputBorder.none
                             ),
@@ -163,52 +165,50 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     ),
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        TextField(
-                          style: _textStyle,
-                          decoration: InputDecoration(
-                            hint: Text('오늘은 어떤 일이 있었나요?', style: _hintStyle,),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffEAEAEA),
-                                width: 2
-                              )
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        style: _textStyle,
+                        decoration: InputDecoration(
+                          hint: Text('오늘은 어떤 일이 있었나요?', style: _hintStyle,),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2
                             )
-                          ),
-                          maxLines: 5,            
+                          )
                         ),
-                        TextField(
-                          style: _textStyle,
-                          decoration: InputDecoration(
-                            hint: Text('어떤 생각이 들었나요?', style: _hintStyle,),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffEAEAEA),
-                                width: 2
-                              )
+                        maxLines: 5,            
+                      ),
+                      TextField(
+                        style: _textStyle,
+                        decoration: InputDecoration(
+                          hint: Text('어떤 생각이 들었나요?', style: _hintStyle,),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2
                             )
-                          ),
-                          maxLines: 5,            
+                          )
                         ),
-                        TextField(
-                          style: _textStyle,
-                          decoration: InputDecoration(
-                            hint: Text('어떤 감정을 느꼈나요?', style: _hintStyle,),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffEAEAEA),
-                                width: 2
-                              )
+                        maxLines: 5,            
+                      ),
+                      TextField(
+                        style: _textStyle,
+                        decoration: InputDecoration(
+                          hint: Text('어떤 감정을 느꼈나요?', style: _hintStyle,),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2
                             )
-                          ),
-                          maxLines: 5,            
+                          )
                         ),
-                      ],
-                    ),
+                        maxLines: 5,            
+                      ),
+                    ],
                   ),
                 ),
               ],

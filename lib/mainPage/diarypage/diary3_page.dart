@@ -154,6 +154,7 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                         Text('제목: ', style: _titleStyle,),
                         Expanded(
                           child: TextField(
+                            style: _titleStyle,
                             decoration: InputDecoration(
                               border: InputBorder.none
                             ),

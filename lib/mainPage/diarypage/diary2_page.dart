@@ -65,10 +65,9 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                             setState(() {
                               showImage = true;
                             });
-
-                            Future.delayed(Duration(seconds: 2), () {
+                            Future.delayed(Duration(milliseconds: 1500), () {
                               setState(() {
-                                showImage = false;
+                                showImage = !showImage;
                               });
                             });
 
@@ -171,6 +170,7 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                               Text('제목: ', style: _titleStyle,),
                               Expanded(
                                 child: TextField(
+                                  style: _titleStyle,
                                   decoration: InputDecoration(
                                     border: InputBorder.none
                                   ),
@@ -180,52 +180,50 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                           ),
                         ),
                       ),
-                      SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              TextField(
-                                style: _textStyle,
-                                decoration: InputDecoration(
-                                  hint: Text('오늘 하루 동안 감사했던 일은?', style: _hintStyle,),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0xffEAEAEA),
-                                      width: 2
-                                    )
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            TextField(
+                              style: _textStyle,
+                              decoration: InputDecoration(
+                                hint: Text('오늘 하루 동안 감사했던 일은?', style: _hintStyle,),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xffEAEAEA),
+                                    width: 2
                                   )
-                                ),
-                                maxLines: 5,            
+                                )
                               ),
-                              TextField(
-                                style: _textStyle,
-                                decoration: InputDecoration(
-                                  hint: Text('오늘 하루 동안 나에게 칭찬하고 싶은 일은?', style: _hintStyle,),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0xffEAEAEA),
-                                      width: 2
-                                    )
+                              maxLines: 5,            
+                            ),
+                            TextField(
+                              style: _textStyle,
+                              decoration: InputDecoration(
+                                hint: Text('오늘 하루 동안 나에게 칭찬하고 싶은 일은?', style: _hintStyle,),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xffEAEAEA),
+                                    width: 2
                                   )
-                                ),
-                                maxLines: 5,            
+                                )
                               ),
-                              TextField(
-                                style: _textStyle,
-                                decoration: InputDecoration(
-                                  hint: Text('어떤 행동을 했을 때 행복한 감정이 드나요?\n예시) 나는 걸으면서 노래를 들으면 행복해, ~하는 걸 좋아해', style: _hintStyle,),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0xffEAEAEA),
-                                      width: 2
-                                    )
+                              maxLines: 5,            
+                            ),
+                            TextField(
+                              style: _textStyle,
+                              decoration: InputDecoration(
+                                hint: Text('어떤 행동을 했을 때 행복한 감정이 드나요?\n예시) 나는 걸으면서 노래를 들으면 행복해, ~하는 걸 좋아해', style: _hintStyle,),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xffEAEAEA),
+                                    width: 2
                                   )
-                                ),
-                                maxLines: 5,            
+                                )
                               ),
-                            ],
-                          ),
+                              maxLines: 5,            
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -235,11 +233,18 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
             ],
           ),
           Center(
-            child: (showImage? 
-            Image.asset('assets/images/diary/compliment.png', width: 320,) 
-            : Text('')
-            
-            )
+            child:
+            IgnorePointer(
+              ignoring: !showImage,
+              child: AnimatedOpacity(
+                opacity: showImage? 1.0 : 0.0,
+                duration: Duration(milliseconds: 300),
+                child: Image.asset(
+                  'assets/images/diary/compliment.png', 
+                  width: 320,
+                )
+              ),
+            ) 
           )
         ],
       )
