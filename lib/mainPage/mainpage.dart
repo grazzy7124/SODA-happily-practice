@@ -99,11 +99,11 @@ class _MainpageState extends State<Mainpage>  with TickerProviderStateMixin {
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(width: 50,),
-                          Text('꽝', style: _emotion,), SizedBox(width: 43,),
-                          Text('별로', style: _emotion,), SizedBox(width: 33,),
-                          Text('보통', style: _emotion,), SizedBox(width: 35,),
-                          Text('좋음', style: _emotion,), SizedBox(width: 20,),
+                          SizedBox(width: 55,),
+                          Text('꽝', style: _emotion,), SizedBox(width: 46,),
+                          Text('별로', style: _emotion,), SizedBox(width: 43,),
+                          Text('보통', style: _emotion,), SizedBox(width: 41,),
+                          Text('좋음', style: _emotion,), SizedBox(width: 32,),
                           Text('완전 좋음', style: _emotion,)
                         ],
                       ),
