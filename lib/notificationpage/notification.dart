@@ -26,10 +26,9 @@ class _NotificationPageState extends State<NotificationPage> {
                 ),
               ],
             ),
-            Visibility(
-              visible: _isVisible,
-              child: CardItem('라이딩 러버', '이별한 지 23일', true,)
-            ),
+            CardItem('라이딩 러버', '이별한 지 23일', true,),
+            CardItem('예은', '이별한 지 23일', true),
+            CardItem('차은우', '이별한 지 23일', false),
           ],
         ),
       ],
@@ -68,10 +67,12 @@ class CardItem extends StatefulWidget {
 }
 
 class _CardItemState extends State<CardItem> {
-  
+  bool _isVisible = true;  
 
   @override
   Widget build(BuildContext context) {
+    if (!_isVisible) return const SizedBox.shrink();
+
     return SizedBox(
       height: 57,
       child: Card(
@@ -116,7 +117,7 @@ class _CardItemState extends State<CardItem> {
                       style: _cardItemStyle,
                     ),
                     TextSpan(
-                      text: '이 ',
+                      text: '님이 ',
                       style: _cardItemStyle,
                     ),
                     TextSpan(
@@ -124,7 +125,7 @@ class _CardItemState extends State<CardItem> {
                       style: _boldCardItemStyle,
                     ),
                     TextSpan(
-                      text: '글에 댓글을 남겼습니다.',
+                      text: ' 글에 댓글을 남겼습니다.',
                       style: _cardItemStyle,
                     ),
                   ]
