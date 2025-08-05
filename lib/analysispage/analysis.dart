@@ -13,6 +13,12 @@ class Analysis extends StatelessWidget {
       children: [
         Column(
           children: [
+            Row(
+              children: [
+                SizedBox(width: 20,),
+                Text('감정 변화', style: _explanationStyle,),
+              ],
+            ),
             SizedBox(
               width: 330, height: 270,
               child: Stack(
@@ -127,11 +133,40 @@ class Analysis extends StatelessWidget {
                         ],
                       ),
                     ],
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(height: 230,),
+                      Row(
+                        children: [
+                          SizedBox(width: 34,),
+                          Text('월', style: _dateStsyle,),
+                          SizedBox(width: 33,),
+                          Text('화', style: _dateStsyle,),
+                          SizedBox(width: 33,),
+                          Text('수', style: _dateStsyle,),
+                          SizedBox(width: 33,),
+                          Text('목', style: _dateStsyle,),
+                          SizedBox(width: 33,),
+                          Text('금', style: _dateStsyle,),
+                          SizedBox(width: 33,),
+                          Text('토', style: _dateStsyle,),
+                          SizedBox(width: 33,),
+                          Text('일', style: _dateStsyle,),
+                        ],
+                      )
+                    ],
                   )
                 ],
               ),
             ),
             SizedBox(height: 59,),
+            Row(
+              children: [
+                SizedBox(width: 20,),
+                Text('감정 분석', style: _explanationStyle,),
+              ],
+            ),
             SizedBox(
               width: 330, height: 415,
               child: Card(
@@ -190,3 +225,24 @@ class Analysis extends StatelessWidget {
     );
   }
 }
+
+TextStyle _explanationStyle = TextStyle(
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.bold,
+  fontSize: 22,
+  letterSpacing: 0.6,
+  color: Color(0xff000000),
+);
+
+
+
+TextStyle _dateStsyle = TextStyle(
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.w300,
+  fontSize: 13,
+  letterSpacing: 0,
+  color: Color(0xff000000),
+);
+
+
+
