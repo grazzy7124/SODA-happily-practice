@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class Analysis extends StatelessWidget {
-  double? pidChartRadius;
+  double? pieChartRadius;
 
 
-  Analysis({super.key, this.pidChartRadius = 80});
+  Analysis({super.key, this.pieChartRadius = 80});
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +168,7 @@ class Analysis extends StatelessWidget {
               ],
             ),
             SizedBox(
-              width: 330, height: 415,
+              width: 330, height: 430,
               child: Card(
                 color: Colors.white,
                 child: Column(
@@ -183,26 +183,31 @@ class Analysis extends StatelessWidget {
                               PieChartSectionData(
                                 value: 14.3,
                                 color: Color(0xffA6F2DD),
-                                radius: pidChartRadius
+                                radius: pieChartRadius,
+                                titleStyle: _pieTitleStyle
                               ),
                               PieChartSectionData(
                                 value: 28.6,
                                 color: Color(0xffFFBB8B),
-                                radius: pidChartRadius
+                                radius: pieChartRadius,
+                                titleStyle: _pieTitleStyle
                               ),
                               PieChartSectionData(
                                 value: 28.5,
                                 color: Color(0xffE3E3E3),
-                                radius: pidChartRadius
+                                radius: pieChartRadius,
+                                titleStyle: _pieTitleStyle
                               ),
                               PieChartSectionData(
                                 value: 14.3,
                                 color: Color(0xffFF8789),
-                                radius: pidChartRadius
+                                radius: pieChartRadius,
+                                titleStyle: _pieTitleStyle
                               ),
                               PieChartSectionData(
                                 color: Color(0xffAFD4FF),
-                                radius: pidChartRadius
+                                radius: pieChartRadius,
+                                titleStyle: _pieTitleStyle
                               )
                             ],
                             centerSpaceRadius: 50,
@@ -212,9 +217,9 @@ class Analysis extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('긍정 감정 비율'),
-                    Text('긍정 감정 비율'),
-                    Text('긍정 감정 비율'),
+                    Text('긍정 감정 비율: ', style: _analysisStyle,),
+                    Text('중립 감정 비율: ', style: _analysisStyle,),
+                    Text('부정 감정 비율: ', style: _analysisStyle,),
                   ],
                 ),
               ),
@@ -244,5 +249,20 @@ TextStyle _dateStsyle = TextStyle(
   color: Color(0xff000000),
 );
 
+TextStyle _pieTitleStyle = TextStyle(
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+  letterSpacing: 0,
+  color: Color(0xff767676),
+);
+
+TextStyle _analysisStyle = TextStyle(
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.w300,
+  fontSize: 22,
+  letterSpacing: 0.6,
+  color: Color(0xff000000),
+);
 
 

@@ -45,7 +45,10 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
           width: 320, height: 55,
           child: TabBar(
             controller: _tabController,
-            indicatorColor: Colors.transparent,
+            indicatorColor: Colors.black,
+            indicatorWeight: 2,
+            indicatorPadding: EdgeInsetsGeometry.only(left: 40, right: 40),
+            indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
                 icon: Container(
