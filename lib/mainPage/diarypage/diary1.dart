@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/mainPage/diary1_page.dart';
+import 'package:ver1/mainPage/diarypage/diary1_page.dart';
 
 class FirstDiary extends StatelessWidget {
   const FirstDiary({super.key});

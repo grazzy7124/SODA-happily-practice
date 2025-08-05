@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:ver1/mainPage/analysispage.dart';
+import 'package:ver1/analysispage/analysispage.dart';
 import 'package:ver1/mainPage/mainpage.dart';
 import 'package:ver1/mainPage/pageview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -124,25 +124,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               Icons.home,
               color: _currentPageIndex == 0 ? Colors.black : Colors.grey,
             ), 
-            label: 'abc'
+            label: '홈'
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.analytics,
               color: _currentPageIndex == 1 ? Colors.black : Colors.grey,
             ), 
-            label: 'abc'
+            label: '분석'
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.feed,
               color: _currentPageIndex == 2 ? Colors.black : Colors.grey,
             ), 
-            label: 'abc'
+            label: '피드'
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'abc'
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: '알림'
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'abc'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
         ],
         currentIndex: _currentPageIndex,
         onTap: (index) {

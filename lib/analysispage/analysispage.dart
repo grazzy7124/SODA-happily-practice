@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/mainPage/analysis.dart';
-import 'package:ver1/mainPage/calendar.dart';
+import 'package:ver1/analysispage/analysis.dart';
+import 'package:ver1/analysispage/calendar.dart';
 
 class Analysispage extends StatefulWidget {
   const Analysispage({super.key});
@@ -60,7 +60,9 @@ class _AnalysispageState extends State<Analysispage> {
                   alignment: AlignmentGeometry.directional(0, -1),
                   child: Analysis()
                 ),
-                Calendar()
+                Align(
+                  child: Calendar()
+                )
               ]
             ),
           )

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class Analysis extends StatelessWidget {
-  const Analysis({super.key});
+  double? pidChartRadius;
+
+
+  Analysis({super.key, this.pidChartRadius = 80});
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +32,20 @@ class Analysis extends StatelessWidget {
                               LineChartBarData(
                                 spots: [
                                   FlSpot(0, 0),
-                                  FlSpot(1, 3),
+                                  FlSpot(1, -2),
                                   FlSpot(2, 7),
                                   FlSpot(3, 4),
                                   FlSpot(4, 5),
+                                  FlSpot(6, -1)
                                 ],
-                                isCurved: true,
-                                color: Colors.blue,
-                                barWidth: 3,
+                                // isCurved: true,
+                                // curveSmoothness: 0.2,
+                                color: Color(0xff9BCFFF),
+                                barWidth: 2,
+                                // gradient: LinearGradient(colors: [Colors.red, Colors.amber, Colors.blue]),
+                                dotData: FlDotData(
+                                  
+                                )
                               ),
                             ],
                             clipData: FlClipData.all(),
@@ -122,6 +131,59 @@ class Analysis extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 59,),
+            SizedBox(
+              width: 330, height: 415,
+              child: Card(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 1.0,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: PieChart(
+                          PieChartData(
+                            sections: [
+                              PieChartSectionData(
+                                value: 14.3,
+                                color: Color(0xffA6F2DD),
+                                radius: pidChartRadius
+                              ),
+                              PieChartSectionData(
+                                value: 28.6,
+                                color: Color(0xffFFBB8B),
+                                radius: pidChartRadius
+                              ),
+                              PieChartSectionData(
+                                value: 28.5,
+                                color: Color(0xffE3E3E3),
+                                radius: pidChartRadius
+                              ),
+                              PieChartSectionData(
+                                value: 14.3,
+                                color: Color(0xffFF8789),
+                                radius: pidChartRadius
+                              ),
+                              PieChartSectionData(
+                                color: Color(0xffAFD4FF),
+                                radius: pidChartRadius
+                              )
+                            ],
+                            centerSpaceRadius: 50,
+                            sectionsSpace: 0,
+                            
+                          )
+                        ),
+                      ),
+                    ),
+                    Text('긍정 감정 비율'),
+                    Text('긍정 감정 비율'),
+                    Text('긍정 감정 비율'),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ],
