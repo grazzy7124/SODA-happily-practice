@@ -4,6 +4,7 @@ import 'package:ver1/analysispage/analysispage.dart';
 import 'package:ver1/mainPage/mainpage.dart';
 import 'package:ver1/mainPage/pageview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ver1/notificationpage/notification.dart';
 
 void main() {
   runApp(const MyApp());
@@ -108,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Mainpage(),
           Analysispage(),
           Center(),
-          Center(),
+          NotificationPage(),
           Center(),
         ]
       ),
