@@ -39,27 +39,30 @@ class ReadAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          behavior: HitTestBehavior.opaque,
-          child: Image.asset('assets/Vector.png', width: 9, height: 17),
-        ),
-        SizedBox(width: 15),
-        SizedBox(
-          width: 35,
-          height: 35,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(90),
-            child: Image.asset(wholemain, fit: BoxFit.cover),
+    return Padding(
+      padding: EdgeInsets.only(left: 9),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            behavior: HitTestBehavior.opaque,
+            child: Image.asset('assets/Vector.png', width: 9, height: 17),
           ),
-        ),
-        SizedBox(width: 15),
-        Text(wholename, style: TextStyle(fontSize: 17)),
-      ],
+          SizedBox(width: 15),
+          SizedBox(
+            width: 35,
+            height: 35,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(90),
+              child: Image.asset(wholemain, fit: BoxFit.cover),
+            ),
+          ),
+          SizedBox(width: 15),
+          Text(wholename, style: TextStyle(fontSize: 17)),
+        ],
+      ),
     );
   }
 }
@@ -95,22 +98,40 @@ class ReadMainMy extends StatelessWidget {
             height: 60,
             child: Card(
               color: Color(0xffFFF2FA),
-              child: Row(
-                children: [
-                  Text('$wholeyear년', style: TextStyle(fontSize: 18)),
-                  Text('$wholemonth월', style: TextStyle(fontSize: 18)),
-                  Text('$wholeday일', style: TextStyle(fontSize: 18)),
-                  Text('$wholedate요일', style: TextStyle(fontSize: 18)),
-                ],
+              child: Padding(
+                padding: EdgeInsets.all(15),
+                child: Row(
+                  children: [
+                    Text('제목 : $wholetitle', style: TextStyle(fontSize: 16)),
+                    Spacer(),
+                    Text(
+                      '$wholeyear.',
+                      style: TextStyle(fontSize: 16, color: Color(0xff7F7F7F)),
+                    ),
+                    Text(
+                      '$wholemonth.',
+                      style: TextStyle(fontSize: 16, color: Color(0xff7F7F7F)),
+                    ),
+                    Text(
+                      wholeday,
+                      style: TextStyle(fontSize: 16, color: Color(0xff7F7F7F)),
+                    ),
+                    Text(
+                      '  ($wholedate)',
+                      style: TextStyle(fontSize: 16, color: Color(0xff7F7F7F)),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
+
         Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.only(left: 15, right: 15, top: 10),
           child: SizedBox(
             width: double.infinity,
-            height: 210,
+            height: 228,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(wholephoto, fit: BoxFit.fill),
@@ -118,22 +139,7 @@ class ReadMainMy extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: SizedBox(
-            width: double.infinity,
-            height: 60,
-            child: Card(
-              color: Color(0xffFFF2FA),
-              child: Row(
-                children: [
-                  Text('제목 : $wholetitle', style: TextStyle(fontSize: 16)),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.only(left: 30, right: 30, top: 10),
           child: Text(wholetext, style: TextStyle(fontSize: 17)),
         ),
         Row(

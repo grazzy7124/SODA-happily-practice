@@ -48,8 +48,8 @@ class WholePage extends StatelessWidget {
           wholeday: '29',
           wholephoto: 'assets/mainlist/1.png',
           wholetitle: '보드리랑 산책',
-          wholetext: '오늘은 하루종일 뒹굴대다가 저녁에 보들이랑 산책을 했다.',
-          wholetext2: '산책하는데 보들이가 똥을 3번이나 쌌다. 치우기 힘들었다.',
+          wholetext:
+              '오늘은 하루종일 뒹굴대다가 저녁에 보들이랑 산책을 했다. 산책하는데 보들이가 똥을 3번이나 쌌다. 치우기 힘들었다.',
           ProfileTap: () {
             // 친구 프로필로 넘어가는 함수
             Navigator.push(
@@ -72,8 +72,8 @@ class WholePage extends StatelessWidget {
           wholeday: '29',
           wholephoto: 'assets/mainlist/2.png',
           wholetitle: '친구가 집에 놀러 온 날',
-          wholetext: '오늘은 은지가 집에 놀러 왔다. 날이 더워서 함께 팥빙수를',
-          wholetext2: '만들어 먹었다. 수박도 먹었다. 진짜 맛있었다. 앞으로 설빙 ...',
+          wholetext:
+              '오늘은 은지가 집에 놀러 왔다. 날이 더워서 함께 팥빙수를 만들어 먹었다. 수박도 먹었다. 진짜 맛있었다. 앞으로 설빙 ...',
         ),
         PageList(
           wholemain: 'assets/main/3.png',
@@ -83,8 +83,7 @@ class WholePage extends StatelessWidget {
           wholeday: '29',
           wholephoto: 'assets/mainlist/3.png',
           wholetitle: '포은흥해도서관',
-          wholetext: '포항에 새로 생긴 도서관에 갔다',
-          wholetext2: '새로 생긴 데라 그런지 삐까뻔쩍하고 아주 좋았다...',
+          wholetext: '포항에 새로 생긴 도서관에 갔다. 새로 생긴 데라 그런지 삐까뻔쩍하고 아주 좋았다...',
         ),
       ],
     );
@@ -106,8 +105,7 @@ class FriendPage extends StatelessWidget {
           wholeday: '24',
           wholephoto: 'assets/mainlist/4.png',
           wholetitle: '쇼미더머니 오디션 후기',
-          wholetext: '오늘 목걸이 받았다 ㅋㅋ',
-          wholetext2: '담에 다 죽었다 ㅋㅋ 연습 드간다 ㅋㅋ',
+          wholetext: '오늘 목걸이 받았다 ㅋㅋ 담에 다 죽었다 ㅋㅋ 연습 드간다 ㅋㅋ',
         ),
         PageList(
           wholemain: 'assets/main/5.png',
@@ -117,8 +115,7 @@ class FriendPage extends StatelessWidget {
           wholeday: '24',
           wholephoto: 'assets/mainlist/5.png',
           wholetitle: '폰케 바꿈',
-          wholetext: '오랜만에 폰케이스 바꿨다!!',
-          wholetext2: '아싸가오리~ ~ ~',
+          wholetext: '오랜만에 폰케이스 바꿨다!! 아싸가오리~ ~ ~',
         ),
       ],
     );
@@ -136,7 +133,6 @@ class PageList extends StatelessWidget {
     required this.wholephoto,
     required this.wholetitle,
     required this.wholetext,
-    required this.wholetext2,
     this.ProfileTap,
     this.MainTap,
     this.diaryColor = const Color(0xffFFFFF6),
@@ -150,108 +146,118 @@ class PageList extends StatelessWidget {
   final String wholephoto;
   final String wholetitle;
   final String wholetext;
-  final String wholetext2;
   final VoidCallback? ProfileTap;
   final VoidCallback? MainTap;
   final Color diaryColor;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: diaryColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 25, top: 30),
-            child: GestureDetector(
-              onTap: ProfileTap,
+    return Padding(
+      padding: EdgeInsets.only(left: 7.5, right: 7.5, bottom: 6),
+      child: Card(
+        color: diaryColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 16.5, top: 16, bottom: 15),
+              child: GestureDetector(
+                onTap: ProfileTap,
+                behavior: HitTestBehavior.opaque,
+                child: Row(
+                  children: [
+                    ClipOval(
+                      child: Image.asset(
+                        wholemain,
+                        width: 34,
+                        height: 34,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.5, bottom: 1),
+                          child: Text(
+                            wholename,
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Row(
+                            children: [
+                              Text(
+                                '$wholeyear.',
+                                style: TextStyle(
+                                  color: Color(0xff818181),
+                                  fontSize: 13,
+                                ),
+                              ),
+                              Text(
+                                '$wholemonth.',
+                                style: TextStyle(
+                                  color: Color(0xff818181),
+                                  fontSize: 13,
+                                ),
+                              ),
+                              Text(
+                                wholeday,
+                                style: TextStyle(
+                                  color: Color(0xff818181),
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: MainTap,
               behavior: HitTestBehavior.opaque,
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipOval(
-                    child: Image.asset(
-                      wholemain,
-                      width: 45,
-                      height: 45,
-                      fit: BoxFit.cover,
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 16.5,
+                      right: 16.5,
+                      bottom: 15,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 150,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(wholephoto, fit: BoxFit.fill),
+                      ),
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 1),
-                        child: Text(wholename, style: TextStyle(fontSize: 14)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Row(
-                          children: [
-                            Text(
-                              '$wholeyear.',
-                              style: TextStyle(
-                                color: Color(0xff818181),
-                                fontSize: 13,
-                              ),
-                            ),
-                            Text(
-                              '$wholemonth.',
-                              style: TextStyle(
-                                color: Color(0xff818181),
-                                fontSize: 13,
-                              ),
-                            ),
-                            Text(
-                              wholeday,
-                              style: TextStyle(
-                                color: Color(0xff818181),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.5, right: 16.5),
+                    child: Text(wholetitle, style: TextStyle(fontSize: 18)),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.5, right: 16.5, top: 10),
+                    child: Text(
+                      wholetext,
+                      style: TextStyle(fontSize: 14),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(height: 24),
                 ],
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: MainTap,
-            behavior: HitTestBehavior.opaque,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(   
-                  padding: EdgeInsets.only(left: 16.5, right: 16.5),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 150,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(wholephoto, fit: BoxFit.fill),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 25, bottom: 7),
-                  child: Text(wholetitle, style: TextStyle(fontSize: 18)),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 25, bottom: 3),
-                  child: Text(wholetext, style: TextStyle(fontSize: 14)),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 25, bottom: 3),
-                  child: Text(wholetext2, style: TextStyle(fontSize: 14)),
-                ),
-                SizedBox(height: 40),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
