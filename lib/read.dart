@@ -110,7 +110,7 @@ class ReadMainMy extends StatelessWidget {
           padding: EdgeInsets.all(15),
           child: SizedBox(
             width: double.infinity,
-            height: 230,
+            height: 210,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(wholephoto, fit: BoxFit.fill),
@@ -140,6 +140,7 @@ class ReadMainMy extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Spacer(),
             Image.asset('assets/c.png', width: 89, height: 34),
             SizedBox(width: 8),
             GestureDetector(
@@ -151,6 +152,7 @@ class ReadMainMy extends StatelessWidget {
               },
               child: Image.asset('assets/cc.png', width: 30, height: 30),
             ),
+            SizedBox(width: 17),
           ],
         ),
       ],

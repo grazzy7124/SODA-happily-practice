@@ -8,30 +8,28 @@ class MyApp2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          backgroundColor: Color(0xffFCFAF5),
-          body: Column(
-            children: [
-              Container(
-                color: Color(0xffFCFAF5),
-                child: const TabBar(
-                  tabs: [
-                    Tab(text: '전체 일기'),
-                    Tab(text: '친구 일기'),
-                  ],
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Color(0xff878787),
-                  indicatorColor: Colors.black,
-                ),
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Color(0xffFCFAF5),
+        body: Column(
+          children: [
+            Container(
+              color: Color(0xffFCFAF5),
+              child: const TabBar(
+                tabs: [
+                  Tab(text: '전체 일기'),
+                  Tab(text: '친구 일기'),
+                ],
+                labelColor: Colors.black,
+                unselectedLabelColor: Color(0xff878787),
+                indicatorColor: Colors.black,
               ),
-              Expanded(
-                child: TabBarView(children: [WholePage(), FriendPage()]),
-              ),
-            ],
-          ),
+            ),
+            Expanded(child: TabBarView(children: [WholePage(), FriendPage()])),
+          ],
         ),
-      );
+      ),
+    );
   }
 }
 
@@ -52,7 +50,8 @@ class WholePage extends StatelessWidget {
           wholetitle: '보드리랑 산책',
           wholetext: '오늘은 하루종일 뒹굴대다가 저녁에 보들이랑 산책을 했다.',
           wholetext2: '산책하는데 보들이가 똥을 3번이나 쌌다. 치우기 힘들었다.',
-          ProfileTap: () { // 친구 프로필로 넘어가는 함수
+          ProfileTap: () {
+            // 친구 프로필로 넘어가는 함수
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => WholeProfile()),
@@ -65,7 +64,6 @@ class WholePage extends StatelessWidget {
             );
           },
         ),
-        Divider(),
         PageList(
           wholemain: 'assets/main/2.png',
           wholename: '예은',
@@ -77,7 +75,6 @@ class WholePage extends StatelessWidget {
           wholetext: '오늘은 은지가 집에 놀러 왔다. 날이 더워서 함께 팥빙수를',
           wholetext2: '만들어 먹었다. 수박도 먹었다. 진짜 맛있었다. 앞으로 설빙 ...',
         ),
-        Divider(),
         PageList(
           wholemain: 'assets/main/3.png',
           wholename: '방구뽕',
@@ -112,7 +109,6 @@ class FriendPage extends StatelessWidget {
           wholetext: '오늘 목걸이 받았다 ㅋㅋ',
           wholetext2: '담에 다 죽었다 ㅋㅋ 연습 드간다 ㅋㅋ',
         ),
-        Divider(),
         PageList(
           wholemain: 'assets/main/5.png',
           wholename: '박지수',
@@ -229,10 +225,10 @@ class PageList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(25),
+                  padding: EdgeInsets.only(left: 16.5, right: 16.5),
                   child: SizedBox(
                     width: double.infinity,
-                    height: 230,
+                    height: 150,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.asset(wholephoto, fit: BoxFit.fill),
@@ -264,4 +260,3 @@ class PageList extends StatelessWidget {
 Color _firstDiaryColor = Color(0xffD9ECFA);
 Color _secondDiaryColor = Color(0xffFBFFD7);
 Color _thirdDiaryColor = Color(0xffF9EEF3);
-
