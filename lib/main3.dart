@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ver1/profileedit1.dart';
 import 'package:ver1/write.dart';
 
-void main() => runApp(const MaterialApp(home: MyApp()));
+void main() => runApp(const MaterialApp(home: MyApp3()));
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp3 extends StatelessWidget {
+  const MyApp3({super.key});
 
   @override
   Widget build(BuildContext context) {
