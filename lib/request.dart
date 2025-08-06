@@ -81,35 +81,31 @@ class _FriendRequestMainState extends State<FriendRequestMain> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: 225, top: 25),
-          child: SizedBox(
-            width: 49,
-            height: 49,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(widget.wholemain, fit: BoxFit.fill),
-            ),
+        SizedBox(height: 30),
+        SizedBox(
+          width: 49,
+          height: 49,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.asset(widget.wholemain, fit: BoxFit.fill),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 200, top: 25),
-          child: Text(widget.wholename, style: TextStyle(fontSize: 18)),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 62, top: 50),
-          child: Container(
-            width: 353,
-            height: 100,
-            decoration: BoxDecoration(
-              color: Color(0xffFFEBEB),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: 100),
+        Text(widget.wholename, style: TextStyle(fontSize: 18)), // 닉네임
+        SizedBox(height: 42,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 340,
+              height: 97,
+              decoration: BoxDecoration(
+                color: Color(0xffFFEBEB),
+                borderRadius: BorderRadius.circular(15),
+              ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('친구로 추가합니다. ', style: TextStyle(fontSize: 19)),
                   const SizedBox(width: 4),
@@ -141,7 +137,7 @@ class _FriendRequestMainState extends State<FriendRequestMain> {
                 ],
               ),
             ),
-          ),
+          ],
         ),
       ],
     );
@@ -164,45 +160,38 @@ class ScreenA extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.only(left: 225, top: 25),
-            child: SizedBox(
-              width: 49,
-              height: 49,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(wholemain, fit: BoxFit.fill),
-              ),
+          SizedBox(height: 38,),
+          SizedBox(
+            width: 49,
+            height: 49,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(wholemain, fit: BoxFit.fill),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 200, top: 25),
-            child: Text(wholename, style: TextStyle(fontSize: 18)),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 180, top: 25),
-            child: Text('친구 추가했습니다.', style: TextStyle(fontSize: 18)),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 62, top: 50),
-            child: Container(
-              width: 353,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Color(0xffFFEBEB),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(left: 70),
+          SizedBox(height: 10,),
+          Text(wholename, style: TextStyle(fontSize: 18)),
+          Text('친구 추가했습니다.', style: TextStyle(fontSize: 18)),
+          SizedBox(height: 36,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 340,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Color(0xffFFEBEB),
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('보들이발닦개님 홈가기', style: TextStyle(fontSize: 19)),
-                    SizedBox(width: 55),
+                    SizedBox(width: 40),
                     GestureDetector(
                       onTap:
-                          onTap ??
                           () {
                             Navigator.pop(context, true);
                           },
@@ -211,7 +200,7 @@ class ScreenA extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

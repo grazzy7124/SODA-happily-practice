@@ -64,6 +64,18 @@ class _WholeProfileMainState extends State<WholeProfileMain> {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        Row(
+          children: [
+            SizedBox(width: 10,),
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Image.asset(
+                'assets/Vector.png',
+                width: 13, height: 20,
+              ),
+            ),
+          ],
+        ),
         Padding(
           padding: EdgeInsets.only(left: 25, top: 20, bottom: 10),
           child: Image.asset(widget.wholemain, width: 39, height: 39),
@@ -82,39 +94,42 @@ class _WholeProfileMainState extends State<WholeProfileMain> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 20, left: 200, bottom: 10),
-          child: TextButton(
-            onPressed: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FriendRequest()),
-              );
-              if (result == true) {
-                setState(() {
-                  isFriendAdded = true;
-                });
-                Navigator.push(
+          padding: EdgeInsets.only(top: 20, left: 80, bottom: 10),
+          child: SizedBox(
+            height: 30,
+            child: TextButton(
+              onPressed: () async {
+                final result = await Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => ScreenA(
-                      wholemain: widget.wholemain,
-                      wholename: widget.wholename,
-                    ),
-                  ),
+                  MaterialPageRoute(builder: (context) => FriendRequest()),
                 );
-              }
-            },
-            style: TextButton.styleFrom(
-              fixedSize: Size(71, 31),
-              foregroundColor: Colors.black,
-              side: BorderSide(color: Colors.black),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
+                if (result == true) {
+                  setState(() {
+                    isFriendAdded = true;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ScreenA(
+                        wholemain: widget.wholemain,
+                        wholename: widget.wholename,
+                      ),
+                    ),
+                  );
+                }
+              },
+              style: TextButton.styleFrom(
+                fixedSize: Size(71, 31),
+                foregroundColor: Colors.black,
+                side: BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
-            ),
-            child: Text(
-              isFriendAdded ? '친구' : '+친구 신청',
-              style: TextStyle(fontSize: 10),
+              child: Text(
+                isFriendAdded ? '친구' : '+친구 신청',
+                style: TextStyle(fontSize: 10),
+              ),
             ),
           ),
         ),
