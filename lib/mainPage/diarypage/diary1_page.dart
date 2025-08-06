@@ -14,6 +14,23 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
   int _selectedIndex = 0; // dropdownbuttonItem
 
+  // 제목 받아오는 컨트롤러
+  final titleController = TextEditingController();
+  // 첫 번째 본문 컨트롤러
+  final firstTextController = TextEditingController();
+  // 두 번쨰 본문 컨트롤러
+  final secondTextController = TextEditingController();
+  // 세 번째 본문 컨트롤러 
+  final thirdTextController = TextEditingController();
+
+  // String title = titleController.text;
+
+  @override
+  void dispose () {
+    titleController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +72,9 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print(titleController.text); // 제목 출력
+                      },
                       child: Text('등록', style: _uploadStyle),
                     ),
                   ],
@@ -154,6 +173,7 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                         Text('제목: ', style: _titleStyle),
                         Expanded(
                           child: TextField(
+                            controller: titleController,
                             style: _titleStyle,
                             // cursorHeight: 20,
                             decoration: InputDecoration(
@@ -170,6 +190,7 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                   child: Column(
                     children: [
                       TextField(
+                        controller: firstTextController,
                         style: _textStyle,
                         decoration: InputDecoration(
                           hint: Text('오늘은 어떤 일이 있었나요?', style: _hintStyle),
@@ -183,6 +204,7 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                         maxLines: 5,
                       ),
                       TextField(
+                        controller: secondTextController,
                         style: _textStyle,
                         decoration: InputDecoration(
                           hint: Text('어떤 생각이 들었나요?', style: _hintStyle),
@@ -196,6 +218,7 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                         maxLines: 5,
                       ),
                       TextField(
+                        controller: thirdTextController,
                         style: _textStyle,
                         decoration: InputDecoration(
                           hint: Text('어떤 감정을 느꼈나요?', style: _hintStyle),
