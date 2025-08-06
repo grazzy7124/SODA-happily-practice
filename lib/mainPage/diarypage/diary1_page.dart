@@ -14,14 +14,13 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
   int _selectedIndex = 0; // dropdownbuttonItem
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffFCFAF5),
       body: Column(
         children: [
-          SizedBox(height: 30,),
+          SizedBox(height: 30),
           Container(
             height: 43,
             child: Stack(
@@ -29,10 +28,10 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                 Row(
                   children: [
                     TextButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.pop(context);
-                      }, 
-                      child: Text('취소', style: _cancleStyle,)
+                      },
+                      child: Text('취소', style: _cancleStyle),
                     ),
                   ],
                 ),
@@ -42,32 +41,29 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     Checkbox(
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
-                      value: isChecked, 
+                      value: isChecked,
                       onChanged: (bool? value) {
                         setState(() {
                           isChecked = value!;
                         });
                       },
                     ),
-                    Text('공개', style: _dateStyle,),
+                    Text('공개', style: _dateStyle),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: (){}, 
-                      child: Text('등록', style: _uploadStyle,)
+                      onPressed: () {},
+                      child: Text('등록', style: _uploadStyle),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
-          Container(
-            height: 1, width: double.infinity,
-            color: Colors.black,
-          ),
+          Container(height: 1, width: double.infinity, color: Colors.black),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
@@ -79,8 +75,8 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(formattedDate, style: _dateStyle,),
-                        SizedBox(width: 30,),
+                        Text(formattedDate, style: _dateStyle),
+                        SizedBox(width: 30),
                         DropdownButton(
                           value: _selectedIndex,
                           items: [
@@ -88,46 +84,51 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                               value: 0,
                               child: Image.asset(
                                 'assets/images/emotions/emotion1.png',
-                                width: 28, height: 23,
-                              )
+                                width: 28,
+                                height: 23,
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 1,
                               child: Image.asset(
                                 'assets/images/emotions/emotion2.png',
-                                width: 28, height: 23,
-                              )
+                                width: 28,
+                                height: 23,
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 2,
                               child: Image.asset(
                                 'assets/images/emotions/emotion3.png',
-                                width: 28, height: 23,
-                              )
+                                width: 28,
+                                height: 23,
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 3,
                               child: Image.asset(
                                 'assets/images/emotions/emotion4.png',
-                                width: 28, height: 23,
-                              )
+                                width: 28,
+                                height: 23,
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 4,
                               child: Image.asset(
                                 'assets/images/emotions/emotion5.png',
-                                width: 28, height: 23,
-                              )
+                                width: 28,
+                                height: 23,
+                              ),
                             ),
-                          ], 
-                        onChanged: (int? value) {
-                          setState(() {
-                            if (value != null) {
-                              _selectedIndex = value;
-                            }
-                          });
-                        },
-                        )
+                          ],
+                          onChanged: (int? value) {
+                            setState(() {
+                              if (value != null) {
+                                _selectedIndex = value;
+                              }
+                            });
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -135,12 +136,11 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                 Container(
                   height: 180,
                   child: GestureDetector(
-                    onTap: () {
-                      
-                    },
+                    onTap: () {},
                     child: Image.asset(
                       'assets/images/diary/photo.png',
-                      width: 80, height: 80,
+                      width: 80,
+                      height: 80,
                     ),
                   ),
                 ),
@@ -150,17 +150,17 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     color: Color(0xffD9ECFA),
                     child: Row(
                       children: [
-                        SizedBox(width: 30,),
-                        Text('제목: ', style: _titleStyle,),
+                        SizedBox(width: 30),
+                        Text('제목: ', style: _titleStyle),
                         Expanded(
                           child: TextField(
                             style: _titleStyle,
                             // cursorHeight: 20,
                             decoration: InputDecoration(
-                              border: InputBorder.none
+                              border: InputBorder.none,
                             ),
-                          )
-                        )
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -172,50 +172,50 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                       TextField(
                         style: _textStyle,
                         decoration: InputDecoration(
-                          hint: Text('오늘은 어떤 일이 있었나요?', style: _hintStyle,),
+                          hint: Text('오늘은 어떤 일이 있었나요?', style: _hintStyle),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xffEAEAEA),
-                              width: 2
-                            )
-                          )
+                              width: 2,
+                            ),
+                          ),
                         ),
-                        maxLines: 5,            
+                        maxLines: 5,
                       ),
                       TextField(
                         style: _textStyle,
                         decoration: InputDecoration(
-                          hint: Text('어떤 생각이 들었나요?', style: _hintStyle,),
+                          hint: Text('어떤 생각이 들었나요?', style: _hintStyle),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xffEAEAEA),
-                              width: 2
-                            )
-                          )
+                              width: 2,
+                            ),
+                          ),
                         ),
-                        maxLines: 5,            
+                        maxLines: 5,
                       ),
                       TextField(
                         style: _textStyle,
                         decoration: InputDecoration(
-                          hint: Text('어떤 감정을 느꼈나요?', style: _hintStyle,),
+                          hint: Text('어떤 감정을 느꼈나요?', style: _hintStyle),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xffEAEAEA),
-                              width: 2
-                            )
-                          )
+                              width: 2,
+                            ),
+                          ),
                         ),
-                        maxLines: 5,            
+                        maxLines: 5,
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
-      )
+      ),
     );
   }
 }
@@ -267,4 +267,3 @@ TextStyle _uploadStyle = TextStyle(
   letterSpacing: 0.6,
   color: Color(0xff80C2FF),
 );
-

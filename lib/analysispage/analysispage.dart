@@ -9,7 +9,8 @@ class Analysispage extends StatefulWidget {
   State<Analysispage> createState() => _AnalysispageState();
 }
 
-class _AnalysispageState extends State<Analysispage> with SingleTickerProviderStateMixin {
+class _AnalysispageState extends State<Analysispage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
 
@@ -30,19 +31,19 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
     _tabController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 70,),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             // color: Color(0xffF2F3F5),
           ),
-          
-          width: 320, height: 55,
+
+          width: 320,
+          height: 55,
           child: TabBar(
             controller: _tabController,
             indicatorColor: Colors.black,
@@ -52,24 +53,40 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
             tabs: [
               Tab(
                 icon: Container(
-                  width: 160, height: 44,
+                  width: 160,
+                  height: 44,
                   // decoration: BoxDecoration(
                   //   color: Color(0xffFFFFFF),
                   //   borderRadius: BorderRadius.circular(11.9)
                   // ),
-                  child: Center(child: Text('분석', style: _selectedIndex == 0 ? _selectedTabStyle : _unselectedTabStyle,)),
-                )
+                  child: Center(
+                    child: Text(
+                      '분석',
+                      style: _selectedIndex == 0
+                          ? _selectedTabStyle
+                          : _unselectedTabStyle,
+                    ),
+                  ),
+                ),
               ),
               Tab(
                 icon: Container(
-                  width: 160, height: 44,
+                  width: 160,
+                  height: 44,
                   // decoration: BoxDecoration(
                   //   color: Color(0xffFFFFFF),
                   //   borderRadius: BorderRadius.circular(11.9)
                   // ),
-                  child: Center(child: Text('달력', style:  _selectedIndex == 1 ? _selectedTabStyle : _unselectedTabStyle,)),
-                )
-              )
+                  child: Center(
+                    child: Text(
+                      '달력',
+                      style: _selectedIndex == 1
+                          ? _selectedTabStyle
+                          : _unselectedTabStyle,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -79,14 +96,12 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
             children: [
               Align(
                 alignment: AlignmentGeometry.directional(0, -1),
-                child: Analysis()
+                child: Analysis(),
               ),
-              Align(
-                child: Calendar()
-              )
-            ]
+              Align(child: Calendar()),
+            ],
           ),
-        )
+        ),
       ],
     );
   }

@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 class Analysis extends StatelessWidget {
   double? pieChartRadius;
 
-
   Analysis({super.key, this.pieChartRadius = 80});
 
   @override
