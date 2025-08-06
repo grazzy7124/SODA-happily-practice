@@ -52,24 +52,6 @@ class _CalendarState extends State<Calendar> {
             ),
             isTodayHighlighted: false,
             tableBorder: TableBorder(
-              // horizontalInside: BorderSide(
-              //   color: Colors.black
-              // ),
-              // verticalInside: BorderSide(
-              //   color: Colors.black
-              // ),
-              // top: BorderSide(
-              //   color: Colors.black
-              // ),
-              // bottom: BorderSide(
-              //   color: Colors.black
-              // ),
-              // left: BorderSide(
-              //   color: Colors.black
-              // ),
-              // right: BorderSide(
-              //   color: Colors.black
-              // ),
             ),
           ),
         
