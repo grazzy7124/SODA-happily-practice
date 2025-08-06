@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/2request.dart';
+import 'package:ver1/request.dart';
 
 class WholeProfile extends StatelessWidget {
   const WholeProfile({super.key});
@@ -24,14 +24,12 @@ class Whole extends StatelessWidget {
         ),
         Divider(),
         WholeProfileList(
-          happily: 'assets/happily/4.png',
           wholetitle: '보드리랑 산책',
           wholephoto: 'assets/mainlist/1.png',
           wholetext: '오늘은 하루종일 뒹굴대다가 저녁에 보들이랑 산책을 했다.',
           wholetext2: '산책하는데 보들이가 똥을 3번이나 쌌다. 치우기 힘들었다...',
         ),
         WholeProfileList(
-          happily: 'assets/happily/4.png',
           wholetitle: '그림 그리기 우승',
           wholephoto: 'assets/123.jpg',
           wholetext: '흐흐 그림 그리기 대회 우승했당~~',
@@ -43,7 +41,6 @@ class Whole extends StatelessWidget {
   }
 }
 
-// ✅ 친구 상태 반영을 위한 StatefulWidget 변경
 class WholeProfileMain extends StatefulWidget {
   const WholeProfileMain({
     super.key,
@@ -77,7 +74,10 @@ class _WholeProfileMainState extends State<WholeProfileMain> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(widget.wholename, style: TextStyle(fontSize: 16)),
-              Text('${widget.wholefriend}명의 친구', style: TextStyle(fontSize: 10)),
+              Text(
+                '${widget.wholefriend}명의 친구',
+                style: TextStyle(fontSize: 10),
+              ),
             ],
           ),
         ),
@@ -89,11 +89,19 @@ class _WholeProfileMainState extends State<WholeProfileMain> {
                 context,
                 MaterialPageRoute(builder: (context) => FriendRequest()),
               );
-
               if (result == true) {
                 setState(() {
                   isFriendAdded = true;
                 });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ScreenA(
+                      wholemain: widget.wholemain,
+                      wholename: widget.wholename,
+                    ),
+                  ),
+                );
               }
             },
             style: TextButton.styleFrom(
@@ -105,7 +113,7 @@ class _WholeProfileMainState extends State<WholeProfileMain> {
               ),
             ),
             child: Text(
-              isFriendAdded ? '친구 추가됨' : '+친구 신청',
+              isFriendAdded ? '친구' : '+친구 신청',
               style: TextStyle(fontSize: 10),
             ),
           ),
@@ -118,14 +126,12 @@ class _WholeProfileMainState extends State<WholeProfileMain> {
 class WholeProfileList extends StatelessWidget {
   const WholeProfileList({
     super.key,
-    required this.happily,
     required this.wholetitle,
     required this.wholephoto,
     required this.wholetext,
     required this.wholetext2,
   });
 
-  final String happily;
   final String wholetitle;
   final String wholephoto;
   final String wholetext;
@@ -144,7 +150,6 @@ class WholeProfileList extends StatelessWidget {
               padding: EdgeInsets.only(left: 22, top: 25),
               child: Row(
                 children: [
-                  Image.asset(happily, width: 28, height: 23),
                   SizedBox(width: 7),
                   Text(wholetitle, style: TextStyle(fontSize: 15)),
                 ],

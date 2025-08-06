@@ -8,19 +8,11 @@ class FriendRequest extends StatefulWidget {
 }
 
 class _FriendRequestState extends State<FriendRequest> {
-  bool isChecked = false;
+  bool checked = false;
 
-  Future<void> onConfirm() async {
-    if (isChecked) {
-      if (isChecked) {
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context, true);
-      } else {
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context, false);
-      }
-    }
-  }
+ Future<void> onConfirm() async {
+  Navigator.pop(context, checked);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +20,13 @@ class _FriendRequestState extends State<FriendRequest> {
       appBar: AppBar(
         backgroundColor: Color(0xffFCFAF5),
         automaticallyImplyLeading: false,
-        title: FriendRequestAppbar(onConfirm: onConfirm),
+        title: FriendRequestAppbar(Confirm: onConfirm),
       ),
       body: FriendRequestMain(
         wholemain: 'assets/main/1.png',
         wholename: '보들이발닦개',
-        isChecked: isChecked,
-        onCheckChanged: (val) => setState(() => isChecked = val),
+        isChecked: checked,
+        onCheckChanged: (val) => setState(() => checked = val),
       ),
       backgroundColor: Color(0xffFCFAF5),
     );
@@ -42,9 +34,9 @@ class _FriendRequestState extends State<FriendRequest> {
 }
 
 class FriendRequestAppbar extends StatelessWidget {
-  const FriendRequestAppbar({super.key, required this.onConfirm});
+  const FriendRequestAppbar({super.key, required this.Confirm});
 
-  final VoidCallback onConfirm;
+  final VoidCallback Confirm;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +51,8 @@ class FriendRequestAppbar extends StatelessWidget {
         ),
         Text('친구추가'),
         GestureDetector(
-          onTap: onConfirm,
-          child: const Text('확인', style: TextStyle(fontSize: 19)),
+          onTap: Confirm,
+          child: Text('확인', style: TextStyle(fontSize: 19)),
         ),
       ],
     );
@@ -104,7 +96,7 @@ class _FriendRequestMainState extends State<FriendRequestMain> {
         ),
         Padding(
           padding: EdgeInsets.only(left: 200, top: 25),
-          child: Text(widget.wholename, style: const TextStyle(fontSize: 18)),
+          child: Text(widget.wholename, style: TextStyle(fontSize: 18)),
         ),
         Padding(
           padding: EdgeInsets.only(left: 62, top: 50),
@@ -131,8 +123,8 @@ class _FriendRequestMainState extends State<FriendRequestMain> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: widget.isChecked
-                            ? const Color(0xffFFA1A1)
-                            : const Color(0xffFFEBEB),
+                            ? Color(0xffFFA1A1)
+                            : Color(0xffFFEBEB),
                         border: Border.all(color: Colors.black, width: 1),
                       ),
                       child: Center(

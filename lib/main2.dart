@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/2profilefriend.dart';
+import 'package:ver1/profilefriend.dart';
+import 'package:ver1/read.dart';
 
 void main() => runApp(const MaterialApp(home: MyApp2()));
 
@@ -55,10 +56,16 @@ class WholePage extends StatelessWidget {
           wholetitle: '보드리랑 산책',
           wholetext: '오늘은 하루종일 뒹굴대다가 저녁에 보들이랑 산책을 했다.',
           wholetext2: '산책하는데 보들이가 똥을 3번이나 쌌다. 치우기 힘들었다.',
-          onTap: () {
+          ProfileTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => WholeProfile()),
+            );
+          },
+          MainTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Read()),
             );
           },
         ),
@@ -138,7 +145,8 @@ class PageList extends StatelessWidget {
     required this.wholetitle,
     required this.wholetext,
     required this.wholetext2,
-    this.onTap,
+    this.ProfileTap,
+    this.MainTap,
   });
 
   final String wholemain;
@@ -150,7 +158,8 @@ class PageList extends StatelessWidget {
   final String wholetitle;
   final String wholetext;
   final String wholetext2;
-  final VoidCallback? onTap;
+  final VoidCallback? ProfileTap;
+  final VoidCallback? MainTap;
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +169,7 @@ class PageList extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(left: 25, top: 30),
           child: GestureDetector(
-            onTap: onTap,
+            onTap: ProfileTap,
             behavior: HitTestBehavior.opaque,
             child: Row(
               children: [
@@ -213,30 +222,39 @@ class PageList extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.all(25),
-          child: SizedBox(
-            width: double.infinity,
-            height: 230,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(wholephoto, fit: BoxFit.fill),
-            ),
+        GestureDetector(
+          onTap: MainTap,
+          behavior: HitTestBehavior.opaque,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(25),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 230,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(wholephoto, fit: BoxFit.fill),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 25, bottom: 7),
+                child: Text(wholetitle, style: TextStyle(fontSize: 18)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 25, bottom: 3),
+                child: Text(wholetext, style: TextStyle(fontSize: 14)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 25, bottom: 3),
+                child: Text(wholetext2, style: TextStyle(fontSize: 14)),
+              ),
+              SizedBox(height: 40),
+            ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 25, bottom: 7),
-          child: Text(wholetitle, style: TextStyle(fontSize: 18)),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 25, bottom: 3),
-          child: Text(wholetext, style: TextStyle(fontSize: 14)),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 25, bottom: 3),
-          child: Text(wholetext2, style: TextStyle(fontSize: 14)),
-        ),
-        SizedBox(height: 40),
       ],
     );
   }
