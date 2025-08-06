@@ -1,19 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ver1/profileedit1.dart';
 import 'package:ver1/write.dart';
-
-void main() => runApp(const MaterialApp(home: MyApp3()));
-
-class MyApp3 extends StatelessWidget {
-  const MyApp3({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(      
-      home: Scaffold(body: ProfileMain(), backgroundColor: Color(0xffFCFAF5)),
-    );
-  }
-}   
  
 class ProfileMain extends StatelessWidget {
   const ProfileMain({super.key});

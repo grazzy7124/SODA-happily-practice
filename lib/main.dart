@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Analysispage(),
           MyApp2(),
           NotificationPage(),
-          MyApp3(),
+          ProfileMain(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

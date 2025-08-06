@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ver1/profilefriend.dart';
 import 'package:ver1/read.dart';
 
-void main() => runApp(const MaterialApp(home: MyApp2()));
-
 class MyApp2 extends StatelessWidget {
   const MyApp2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
+    return DefaultTabController(
         length: 2,
         child: Scaffold(
           backgroundColor: Color(0xffFCFAF5),
@@ -34,8 +31,7 @@ class MyApp2 extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
 
