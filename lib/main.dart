@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      title: 'HAPPI-LY',
+      title: 'HAPPI-LY', 
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
       ),
