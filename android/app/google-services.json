@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "721037065826",
+    "project_id": "soda-happily-practice",
+    "storage_bucket": "soda-happily-practice.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721037065826:android:cfd7a547a34306ab929b3b",
+        "android_client_info": {
+          "package_name": "com.example.ver1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT-2FXAVfNClkfuWbT_nvZdEAyFS3GCjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
