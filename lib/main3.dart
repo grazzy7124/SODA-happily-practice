@@ -2,19 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ver1/profileedit1.dart';
 import 'package:ver1/write.dart';
 
-void main() => runApp(const MaterialApp(home: MyApp3()));
-
-class MyApp3 extends StatelessWidget {
-  const MyApp3({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(      
-      home: Scaffold(body: ProfileMain(), backgroundColor: Color(0xffFCFAF5)),
-    );
-  }
-}   
- 
 class ProfileMain extends StatelessWidget {
   const ProfileMain({super.key});
 
@@ -36,16 +23,14 @@ class ProfileMain extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(height: 5),
-        Divider(),
-        SizedBox(height: 15),
+        Divider(color: Color(0xffD4D4D4)),
+        SizedBox(height: 7),
         Padding(
           padding: EdgeInsets.only(left: 30),
           child: Text('내가 쓴 일기', style: TextStyle(fontSize: 16)),
         ),
         ProfileList(
           happliy: 'assets/happily/4.png',
-
           photo: 'assets/list/1.png',
           title: '이별한지 23일',
           text: '너가 없으니 내 행복도 사라졌다',
@@ -119,7 +104,7 @@ class ProfileMain extends StatelessWidget {
 }
 
 class ProfileMy extends StatelessWidget {
-  const ProfileMy({ 
+  const ProfileMy({
     super.key,
     required this.main,
     required this.name,
@@ -178,24 +163,18 @@ class ProfileList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 10),
-                child: Row(
-                  children: [
-                    Image.asset(happliy, width: 28, height: 23),
-                    SizedBox(width: 10),
-                    Text(title),
-                  ],
-                ),
+                padding: EdgeInsets.only(left: 20, top: 15),
+                child: Text(title),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 17, right: 17, top: 15),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
+                    width: double.infinity,
+                    height: 160,
                     photo,
                     fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: 190,
                   ),
                 ),
               ),
@@ -209,9 +188,16 @@ class ProfileList extends StatelessWidget {
               ),
               SizedBox(height: 25),
               Padding(
-                padding: EdgeInsets.only(left: 16, bottom: 10),
+                padding: EdgeInsets.only(left: 16, bottom: 13),
                 child: Row(
-                  children: [Text(date), SizedBox(width: 10), Text(public)],
+                  children: [
+                    Text(date),
+                    SizedBox(width: 10),
+                    Text(public),
+                    Spacer(),
+                    Image.asset(happliy, width: 28, height: 23),
+                    SizedBox(width: 17),
+                  ],
                 ),
               ),
             ],

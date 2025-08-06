@@ -2,37 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:ver1/profilefriend.dart';
 import 'package:ver1/read.dart';
 
-void main() => runApp(const MaterialApp(home: MyApp2()));
-
 class MyApp2 extends StatelessWidget {
   const MyApp2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          backgroundColor: Color(0xffFCFAF5),
-          body: Column(
-            children: [
-              Container(
-                color: Color(0xffFCFAF5),
-                child: const TabBar(
-                  tabs: [
-                    Tab(text: '전체 일기'),
-                    Tab(text: '친구 일기'),
-                  ],
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Color(0xff878787),
-                  indicatorColor: Colors.black,
-                ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Color(0xffFCFAF5),
+        body: Column(
+          children: [
+            Container(
+              color: Color(0xffFCFAF5),
+              child: const TabBar(
+                tabs: [
+                  Tab(text: '전체 일기'),
+                  Tab(text: '친구 일기'),
+                ],
+                labelColor: Colors.black,
+                unselectedLabelColor: Color(0xff878787),
+                indicatorColor: Colors.black,
               ),
-              Expanded(
-                child: TabBarView(children: [WholePage(), FriendPage()]),
-              ),
-            ],
-          ),
+            ),
+            Expanded(child: TabBarView(children: [WholePage(), FriendPage()])),
+          ],
         ),
       ),
     );

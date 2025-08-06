@@ -17,7 +17,7 @@ class Edit extends StatelessWidget {
               },
               child: Image.asset('assets/Vector.png', width: 9, height: 17),
             ),
-            SizedBox(width: 165),
+            SizedBox(width: 95),
             Text('프로필 편집', style: TextStyle(fontSize: 21)),
           ],
         ),

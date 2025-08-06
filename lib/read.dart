@@ -13,7 +13,7 @@ class Read extends StatelessWidget {
         backgroundColor: Color(0xffFCFAF5),
         title: ReadAppbar(wholemain: 'assets/main/1.png', wholename: '보들이발닦개'),
       ),
-      body: ReadMain(
+      body: ReadMainMy(
         wholeyear: '2025',
         wholemonth: '7',
         wholeday: '30',
@@ -64,8 +64,8 @@ class ReadAppbar extends StatelessWidget {
   }
 }
 
-class ReadMain extends StatelessWidget {
-  const ReadMain({
+class ReadMainMy extends StatelessWidget {
+  const ReadMainMy({
     super.key,
     required this.wholeyear,
     required this.wholemonth,
@@ -136,33 +136,20 @@ class ReadMain extends StatelessWidget {
           padding: EdgeInsets.all(15),
           child: Text(wholetext, style: TextStyle(fontSize: 17)),
         ),
-
         Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Color(0xffd9eaff),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text('댓글 남기기', style: TextStyle(fontSize: 14)),
-                ),
-                SizedBox(width: 8),
-                FloatingActionButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Comment()),
-                    );
-                  },
-                  backgroundColor: Color(0xFF4E4E4E),
-                  mini: true,
-                  child: Icon(Icons.remove),
-                ),
-              ],
+            Image.asset('assets/c.png', width: 89, height: 34),
+            SizedBox(width: 8),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Comment()),
+                );
+              },
+              child: Image.asset('assets/cc.png', width: 30, height: 30),
             ),
           ],
         ),
