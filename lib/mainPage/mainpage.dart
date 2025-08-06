@@ -12,6 +12,8 @@ class _MainpageState extends State<Mainpage>  with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
 
+  double emotion = 0; // 오늘의 감정
+
   @override 
   void initState() {
     super.initState();
@@ -137,6 +139,9 @@ class _MainpageState extends State<Mainpage>  with TickerProviderStateMixin {
                             max: 10, min: -10,
                             divisions: 20,
                             onChangeEnd: (value) {
+
+                              emotion = _currentDiscreteSliderValue;
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   elevation: 5,
@@ -146,7 +151,7 @@ class _MainpageState extends State<Mainpage>  with TickerProviderStateMixin {
                                       // Code to execute.
                                     },
                                   ),
-                                  content: const Text('분석 탭에 저장!', style: TextStyle(fontFamily: 'gangwon', fontSize: 17),),
+                                  content: Text('분석 탭에 저장!', style: TextStyle(fontFamily: 'gangwon', fontSize: 17),),
                                   duration: const Duration(milliseconds: 1500),
                                   width: 200.0, // Width of the SnackBar.
                                   padding: const EdgeInsets.symmetric(
@@ -178,7 +183,7 @@ class _MainpageState extends State<Mainpage>  with TickerProviderStateMixin {
           ),
           // SizedBox(height: 58,),
           Expanded(
-            child: DiaryPageView()         
+            child: DiaryPageView(currentEmotion: emotion,)         
           ),
           // SizedBox(height: 62,)
         ]

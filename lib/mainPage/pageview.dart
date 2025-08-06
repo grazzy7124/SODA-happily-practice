@@ -5,7 +5,9 @@ import 'package:ver1/mainPage/diarypage/diary2.dart';
 import 'package:ver1/mainPage/diarypage/diary3.dart';
 
 class DiaryPageView extends StatefulWidget {
-  const DiaryPageView({super.key});
+  final double currentEmotion;
+
+  const DiaryPageView({super.key, required this.currentEmotion});
 
   @override
   State<DiaryPageView> createState() => _DiaryPageViewState();
@@ -16,11 +18,14 @@ class _DiaryPageViewState extends State<DiaryPageView> with TickerProviderStateM
   late TabController _tabController;
   int _currentPageIndex = 0;
 
+  late double emotion;
+
   @override
   void initState() {
     super.initState();
     _pageViewController = PageController();
     _tabController = TabController(length: 3, vsync: this);
+    emotion = widget.currentEmotion;
   }
 
   @override
@@ -42,7 +47,7 @@ class _DiaryPageViewState extends State<DiaryPageView> with TickerProviderStateM
           controller: _pageViewController,
           onPageChanged: _handlePageViewChanged,
           children: <Widget>[
-            FirstDiary(),
+            FirstDiary(currentEmotion: emotion,),
             SecondDiary(),
             ThirdDiary(),
           ],
