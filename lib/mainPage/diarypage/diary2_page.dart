@@ -15,6 +15,15 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
   int _selectedIndex = 0; // dropdownbuttonItem
   bool showImage = false;
 
+    // 제목 받아오는 컨트롤러
+  final titleController = TextEditingController();
+  // 첫 번째 본문 컨트롤러
+  final firstTextController = TextEditingController();
+  // 두 번쨰 본문 컨트롤러
+  final secondTextController = TextEditingController();
+  // 세 번째 본문 컨트롤러 
+  final thirdTextController = TextEditingController();
+
   
 
 
@@ -170,6 +179,7 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                               Text('제목: ', style: _titleStyle,),
                               Expanded(
                                 child: TextField(
+                                  controller: titleController,
                                   style: _titleStyle,
                                   decoration: InputDecoration(
                                     border: InputBorder.none
@@ -185,6 +195,7 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                         child: Column(
                           children: [
                             TextField(
+                              controller: firstTextController,
                               style: _textStyle,
                               decoration: InputDecoration(
                                 hint: Text('오늘 하루 동안 감사했던 일은?', style: _hintStyle,),
@@ -198,6 +209,7 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                               maxLines: 5,            
                             ),
                             TextField(
+                              controller: secondTextController,
                               style: _textStyle,
                               decoration: InputDecoration(
                                 hint: Text('오늘 하루 동안 나에게 칭찬하고 싶은 일은?', style: _hintStyle,),
@@ -211,6 +223,7 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                               maxLines: 5,            
                             ),
                             TextField(
+                              controller: thirdTextController,
                               style: _textStyle,
                               decoration: InputDecoration(
                                 hint: Text('어떤 행동을 했을 때 행복한 감정이 드나요?\n예시) 나는 걸으면서 노래를 들으면 행복해, ~하는 걸 좋아해', style: _hintStyle,),

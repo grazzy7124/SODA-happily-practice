@@ -14,6 +14,11 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
   String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
   int _selectedIndex = 0; // dropdownbuttonItem
 
+    // 제목 받아오는 컨트롤러
+  final titleController = TextEditingController();
+  // 본문 컨트롤러
+  final textController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +159,7 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                         Text('제목: ', style: _titleStyle,),
                         Expanded(
                           child: TextField(
+                            controller: titleController,
                             style: _titleStyle,
                             decoration: InputDecoration(
                               border: InputBorder.none
@@ -168,6 +174,7 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      controller: textController,
                       style: _textStyle,
                       decoration: InputDecoration(
                         hint: Text('자유롭게 하루 일기를 남겨 주세요.', style: _hintStyle,),
