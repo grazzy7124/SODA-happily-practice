@@ -119,7 +119,7 @@ class ProfileMain extends StatelessWidget {
 }
 
 class ProfileMy extends StatelessWidget {
-  const ProfileMy({
+  const ProfileMy({ 
     super.key,
     required this.main,
     required this.name,
