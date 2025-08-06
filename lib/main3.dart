@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ver1/profileedit1.dart';
 import 'package:ver1/write.dart';
 
- 
 class ProfileMain extends StatelessWidget {
   const ProfileMain({super.key});
 
@@ -10,24 +9,21 @@ class ProfileMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: ProfileMy(
-            main: 'assets/profile1.png',
-            name: '고먐미',
-            friend: '11',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Edit()),
-              );
-            },
-          ),
+        ProfileMy(
+          main: 'assets/profile1.png',
+          name: '고먐미',
+          friend: '11',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Edit()),
+            );
+          },
         ),
         Divider(color: Color(0xffD4D4D4)),
         SizedBox(height: 7),
         Padding(
-          padding: EdgeInsets.only(left: 30),
+          padding: EdgeInsets.only(left: 22),
           child: Text('내가 쓴 일기', style: TextStyle(fontSize: 16)),
         ),
         ProfileList(
@@ -122,8 +118,14 @@ class ProfileMy extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: onTap,
-      leading: Image.asset(main, width: 48, height: 48),
-      title: Text(name, style: TextStyle(fontSize: 17)),
+      leading: Padding(
+        padding: EdgeInsets.only(left: 5, top: 6.94),
+        child: Image.asset(main, width: 48, height: 48),
+      ),
+      title: Padding(
+        padding: EdgeInsets.only(top: 7),
+        child: Text(name, style: TextStyle(fontSize: 17)),
+      ),
       subtitle: Text('$friend명의 친구', style: TextStyle(fontSize: 10)),
     );
   }
@@ -157,18 +159,18 @@ class ProfileList extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.only(top: 5.5, left: 15, right: 15),
         child: Card(
           color: Color(0xffFFFFF6),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 15),
+                padding: EdgeInsets.only(left: 16, top: 15),
                 child: Text(title),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 17, right: 17, top: 15),
+                padding: EdgeInsets.only(left: 16, right: 16, top: 13),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
