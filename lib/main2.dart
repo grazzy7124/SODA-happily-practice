@@ -224,7 +224,7 @@ class PageList extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
+                Padding(   
                   padding: EdgeInsets.only(left: 16.5, right: 16.5),
                   child: SizedBox(
                     width: double.infinity,
