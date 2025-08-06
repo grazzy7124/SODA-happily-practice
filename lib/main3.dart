@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ver1/profileedit1.dart';
 import 'package:ver1/write.dart';
 
+ 
 class ProfileMain extends StatelessWidget {
   const ProfileMain({super.key});
 
