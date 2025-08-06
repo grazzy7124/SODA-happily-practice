@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:ver1/main.dart';
+import 'package:ver1/eunji/main.dart';
 
 
 class Calendar extends StatefulWidget {

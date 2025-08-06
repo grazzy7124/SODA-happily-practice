@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:ver1/analysispage/analysispage.dart';
+import 'package:ver1/eunji/feed.dart';
 import 'package:ver1/mainPage/mainpage.dart';
 import 'package:ver1/mainPage/pageview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -108,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         children: [
           Mainpage(),
           Analysispage(),
-          Center(),
+          FeedPage(),
           NotificationPage(),
           Center(),
         ]
