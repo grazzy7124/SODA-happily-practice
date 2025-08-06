@@ -13,7 +13,7 @@ class MyApp3 extends StatelessWidget {
       home: Scaffold(body: ProfileMain(), backgroundColor: Color(0xffFCFAF5)),
     );
   }
-}
+}   
  
 class ProfileMain extends StatelessWidget {
   const ProfileMain({super.key});
