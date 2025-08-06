@@ -29,6 +29,16 @@ class _DiaryPageViewState extends State<DiaryPageView> with TickerProviderStateM
   }
 
   @override
+  void didUpdateWidget(covariant DiaryPageView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.currentEmotion != oldWidget.currentEmotion) {
+      setState(() {
+        emotion = widget.currentEmotion;
+      });
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _pageViewController.dispose();

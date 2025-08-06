@@ -169,6 +169,7 @@ class _MainpageState extends State<Mainpage>  with TickerProviderStateMixin {
                             onChanged: (double value) {
                               setState(() {
                                 _currentDiscreteSliderValue = value;
+                                emotion = value;
                                 _thumbColor = getThumbColor(value);
                               });
                             }
