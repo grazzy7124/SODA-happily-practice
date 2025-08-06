@@ -17,7 +17,7 @@ class Comment extends StatelessWidget {
   }
 }
 
-class CommentAppbar extends StatelessWidget { 
+class CommentAppbar extends StatelessWidget {
   const CommentAppbar({super.key});
 
   @override
