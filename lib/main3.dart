@@ -9,7 +9,7 @@ class MyApp3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp(      
       home: Scaffold(body: ProfileMain(), backgroundColor: Color(0xffFCFAF5)),
     );
   }
