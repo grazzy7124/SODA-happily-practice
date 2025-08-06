@@ -51,7 +51,6 @@ class WholePage extends StatelessWidget {
           wholetext:
               '오늘은 하루종일 뒹굴대다가 저녁에 보들이랑 산책을 했다. 산책하는데 보들이가 똥을 3번이나 쌌다. 치우기 힘들었다.',
           ProfileTap: () {
-            // 친구 프로필로 넘어가는 함수
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => WholeProfile()),
@@ -181,7 +180,10 @@ class PageList extends StatelessWidget {
                           padding: EdgeInsets.only(left: 16.5, bottom: 1),
                           child: Text(
                             wholename,
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'gangwon',
+                            ),
                           ),
                         ),
                         Padding(
@@ -193,6 +195,7 @@ class PageList extends StatelessWidget {
                                 style: TextStyle(
                                   color: Color(0xff818181),
                                   fontSize: 13,
+                                  fontFamily: 'gangwon',
                                 ),
                               ),
                               Text(
@@ -200,6 +203,7 @@ class PageList extends StatelessWidget {
                                 style: TextStyle(
                                   color: Color(0xff818181),
                                   fontSize: 13,
+                                  fontFamily: 'gangwon',
                                 ),
                               ),
                               Text(
@@ -207,6 +211,7 @@ class PageList extends StatelessWidget {
                                 style: TextStyle(
                                   color: Color(0xff818181),
                                   fontSize: 13,
+                                  fontFamily: 'gangwon',
                                 ),
                               ),
                             ],
@@ -241,13 +246,24 @@ class PageList extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 16.5, right: 16.5),
-                    child: Text(wholetitle, style: TextStyle(fontSize: 18)),
+                    child: Text(
+                      wholetitle,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'gangwon',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 16.5, right: 16.5, top: 10),
                     child: Text(
                       wholetext,
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'gangwon',
+                        fontWeight: FontWeight.w300,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -24,7 +24,10 @@ class ProfileMain extends StatelessWidget {
         SizedBox(height: 7),
         Padding(
           padding: EdgeInsets.only(left: 22),
-          child: Text('내가 쓴 일기', style: TextStyle(fontSize: 16)),
+          child: Text(
+            '내가 쓴 일기',
+            style: TextStyle(fontSize: 16, fontFamily: 'gangwon'),
+          ),
         ),
         ProfileList(
           happliy: 'assets/happily/4.png',
@@ -124,9 +127,15 @@ class ProfileMy extends StatelessWidget {
       ),
       title: Padding(
         padding: EdgeInsets.only(top: 7),
-        child: Text(name, style: TextStyle(fontSize: 17)),
+        child: Text(
+          name,
+          style: TextStyle(fontSize: 17, fontFamily: 'gangwon'),
+        ),
       ),
-      subtitle: Text('$friend명의 친구', style: TextStyle(fontSize: 10)),
+      subtitle: Text(
+        '$friend명의 친구',
+        style: TextStyle(fontSize: 10, fontFamily: 'gangwon'),
+      ),
     );
   }
 }
@@ -167,7 +176,10 @@ class ProfileList extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 16, top: 15),
-                child: Text(title),
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 16, right: 16, top: 13),
@@ -182,21 +194,33 @@ class ProfileList extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20, left: 17),
-                child: Text(text),
+                padding: EdgeInsets.only(top: 13, left: 17),
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 5, left: 17),
-                child: Text(text2),
+                child: Text(
+                  text2,
+                  style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
+                ),
               ),
               SizedBox(height: 25),
               Padding(
                 padding: EdgeInsets.only(left: 16, bottom: 13),
                 child: Row(
                   children: [
-                    Text(date),
-                    SizedBox(width: 10),
-                    Text(public),
+                    Text(
+                      date,
+                      style: TextStyle(fontSize: 13, fontFamily: 'gangwon'),
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      public,
+                      style: TextStyle(fontSize: 13, fontFamily: 'gangwon'),
+                    ),
                     Spacer(),
                     Image.asset(happliy, width: 28, height: 23),
                     SizedBox(width: 17),

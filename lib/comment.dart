@@ -9,31 +9,25 @@ class Comment extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xffFCFAF5),
-        title: CommentAppbar(),
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              behavior: HitTestBehavior.opaque,
+              child: Image.asset('assets/Vector.png', width: 9, height: 17),
+            ),
+            SizedBox(width: 15),
+            Text(
+              '말 한마디',
+              style: TextStyle(fontSize: 18, fontFamily: 'gangwon'),
+            ),
+          ],
+        ),
       ),
       body: CommentMain(),
       backgroundColor: Color(0xffFCFAF5),
-    );
-  }
-}
-
-class CommentAppbar extends StatelessWidget {
-  const CommentAppbar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          behavior: HitTestBehavior.opaque,
-          child: Image.asset('assets/Vector.png', width: 9, height: 17),
-        ),
-        SizedBox(width: 15),
-        Text('말 한마디', style: TextStyle(fontSize: 18)),
-      ],
     );
   }
 }
@@ -105,21 +99,36 @@ class CommentList extends StatelessWidget {
               ),
 
               SizedBox(width: 10),
-              Text(othername, style: TextStyle(fontSize: 16)),
+              Text(
+                othername,
+                style: TextStyle(fontSize: 16, fontFamily: 'gangwon'),
+              ),
             ],
           ),
         ),
         Padding(
           padding: EdgeInsets.only(left: 15, top: 10),
-          child: Text(commenttext, style: TextStyle(fontSize: 16)),
+          child: Text(
+            commenttext,
+            style: TextStyle(fontSize: 16, fontFamily: 'gangwon'),
+          ),
         ),
         Padding(
           padding: EdgeInsets.only(left: 15, top: 10, bottom: 15),
           child: Row(
             children: [
-              Text('$commentyear.', style: TextStyle(fontSize: 12)),
-              Text('$commentmonth.', style: TextStyle(fontSize: 12)),
-              Text(commentday, style: TextStyle(fontSize: 12)),
+              Text(
+                '$commentyear.',
+                style: TextStyle(fontSize: 12, fontFamily: 'gangwon'),
+              ),
+              Text(
+                '$commentmonth.',
+                style: TextStyle(fontSize: 12, fontFamily: 'gangwon'),
+              ),
+              Text(
+                commentday,
+                style: TextStyle(fontSize: 12, fontFamily: 'gangwon'),
+              ),
             ],
           ),
         ),
@@ -151,7 +160,7 @@ class CommentWrite extends StatelessWidget {
                   hintText: '댓글을 입력해주세요.',
                   border: InputBorder.none,
                 ),
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, fontFamily: 'gangwon'),
               ),
             ),
           ),
@@ -164,7 +173,11 @@ class CommentWrite extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 '등록',
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontFamily: 'gangwon',
+                ),
               ),
             ),
           ),

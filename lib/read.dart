@@ -60,7 +60,10 @@ class ReadAppbar extends StatelessWidget {
             ),
           ),
           SizedBox(width: 15),
-          Text(wholename, style: TextStyle(fontSize: 17)),
+          Text(
+            wholename,
+            style: TextStyle(fontSize: 17, fontFamily: 'gangwon'),
+          ),
         ],
       ),
     );
@@ -89,79 +92,116 @@ class ReadMainMy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: SizedBox(
-            width: double.infinity,
-            height: 60,
-            child: Card(
-              color: Color(0xffFFF2FA),
-              child: Padding(
-                padding: EdgeInsets.all(15),
-                child: Row(
-                  children: [
-                    Text('제목 : $wholetitle', style: TextStyle(fontSize: 16)),
-                    Spacer(),
-                    Text(
-                      '$wholeyear.',
-                      style: TextStyle(fontSize: 16, color: Color(0xff7F7F7F)),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: Card(
+                      color: Color(0xffFFF2FA),
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Row(
+                          children: [
+                            Text(
+                              '제목 : $wholetitle',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              '$wholeyear.',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                                color: Color(0xff7F7F7F),
+                              ),
+                            ),
+                            Text(
+                              '$wholemonth.',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                                color: Color(0xff7F7F7F),
+                              ),
+                            ),
+                            Text(
+                              wholeday,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                                color: Color(0xff7F7F7F),
+                              ),
+                            ),
+                            Text(
+                              '  ($wholedate)',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                                color: Color(0xff7F7F7F),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Text(
-                      '$wholemonth.',
-                      style: TextStyle(fontSize: 16, color: Color(0xff7F7F7F)),
-                    ),
-                    Text(
-                      wholeday,
-                      style: TextStyle(fontSize: 16, color: Color(0xff7F7F7F)),
-                    ),
-                    Text(
-                      '  ($wholedate)',
-                      style: TextStyle(fontSize: 16, color: Color(0xff7F7F7F)),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 228,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(wholephoto, fit: BoxFit.fill),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+                  child: Text(
+                    wholetext,
+                    style: TextStyle(fontSize: 17, fontFamily: 'gangwon'),
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
-
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-          child: SizedBox(
-            width: double.infinity,
-            height: 228,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(wholephoto, fit: BoxFit.fill),
+          Positioned(
+            bottom: 70,
+            right: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset('assets/c.png', width: 89, height: 34),
+                SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Comment()),
+                    );
+                  },
+                  child: Image.asset('assets/cc.png', width: 30, height: 30),
+                ),
+                SizedBox(width: 17),
+              ],
             ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 30, right: 30, top: 10),
-          child: Text(wholetext, style: TextStyle(fontSize: 17)),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Spacer(),
-            Image.asset('assets/c.png', width: 89, height: 34),
-            SizedBox(width: 8),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Comment()),
-                );
-              },
-              child: Image.asset('assets/cc.png', width: 30, height: 30),
-            ),
-            SizedBox(width: 17),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

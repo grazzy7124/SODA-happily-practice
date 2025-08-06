@@ -33,7 +33,8 @@ class Write extends StatelessWidget {
             wholedate: '토',
             wholephoto: 'assets/list/1.png',
             wholetitle: '이별한 지 23일',
-            wholetext: '',
+            wholetext:
+                '너가 없으니 내 행복도 사라졌ㄷr.. 잘 지내길...ㅜ 사진처럼 우리가 우리의 시간 안에서 최선을 다 한 거길..... 이제 보내주자...',
           ),
         ],
       ),
@@ -64,87 +65,116 @@ class ReadMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: SizedBox(
-            width: double.infinity,
-            height: 60,
-            child: Card(
-              color: Color(0xffFFF2FA),
-              child: Row(
-                children: [
-                  Text('$wholeyear년', style: TextStyle(fontSize: 18)),
-                  Text('$wholemonth월', style: TextStyle(fontSize: 18)),
-                  Text('$wholeday일', style: TextStyle(fontSize: 18)),
-                  Text('$wholedate요일', style: TextStyle(fontSize: 18)),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(15),
-          child: SizedBox(
-            width: double.infinity,
-            height: 230,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(wholephoto, fit: BoxFit.fill),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: SizedBox(
-            width: double.infinity,
-            height: 60,
-            child: Card(
-              color: Color(0xffFFF2FA),
-              child: Row(
-                children: [
-                  Text('제목 : $wholetitle', style: TextStyle(fontSize: 16)),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(15),
-          child: Text(wholetext, style: TextStyle(fontSize: 17)),
-        ),
-
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Color(0xffd9eaff),
-                    borderRadius: BorderRadius.circular(20),
+                Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: Card(
+                      color: Color(0xffFFF2FA),
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Row(
+                          children: [
+                            Text(
+                              '제목 : $wholetitle',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              '$wholeyear.',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                                color: Color(0xff7F7F7F),
+                              ),
+                            ),
+                            Text(
+                              '$wholemonth.',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                                color: Color(0xff7F7F7F),
+                              ),
+                            ),
+                            Text(
+                              wholeday,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                                color: Color(0xff7F7F7F),
+                              ),
+                            ),
+                            Text(
+                              '  ($wholedate)',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'gangwon',
+                                color: Color(0xff7F7F7F),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                  child: Text('댓글 남기기', style: TextStyle(fontSize: 14)),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 228,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(wholephoto, fit: BoxFit.fill),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+                  child: Text(
+                    wholetext,
+                    style: TextStyle(fontSize: 17, fontFamily: 'gangwon'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 170,
+            right: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset('assets/c.png', width: 89, height: 34),
                 SizedBox(width: 8),
-                FloatingActionButton(
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Comment()),
                     );
                   },
-                  backgroundColor: Color(0xFF4E4E4E),
-                  mini: true,
-                  child: Icon(Icons.remove),
+                  child: Image.asset('assets/cc.png', width: 30, height: 30),
                 ),
+                SizedBox(width: 17),
               ],
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
