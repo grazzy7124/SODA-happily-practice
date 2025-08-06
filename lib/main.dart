@@ -26,7 +26,7 @@ class ProfileMain extends StatelessWidget {
           padding: EdgeInsets.only(left: 10),
           child: ProfileMy(
             main: 'assets/profile1.png',
-            name: '고먐미',
+            name: '고먐미', 
             friend: '11',
             onTap: () {
               Navigator.push(
