@@ -41,8 +41,8 @@ class EditMyProfile extends StatelessWidget {
       children: [
         SizedBox(height: 30),
         SizedBox(
-          width: 56,
-          height: 56,
+          width: 100,
+          height: 100,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(90),
             child: Image.asset(main, fit: BoxFit.cover),
