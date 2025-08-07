@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ver1/mainPage/mainpage.dart';
 import 'package:ver1/mainPage/myDiary/mydiaryFirstType.dart';
 
 class FirstDiaryPage extends StatefulWidget {
@@ -24,7 +23,7 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   final firstTextController = TextEditingController();
   // 두 번쨰 본문 컨트롤러
   final secondTextController = TextEditingController();
-  // 세 번째 본문 컨트롤러
+  // 세 번째 본문 컨트롤러 
   final thirdTextController = TextEditingController();
 
   late double currentEmotion;
@@ -32,25 +31,33 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   @override
   void initState() {
     super.initState();
-    currentEmotion = widget.emotion;
+    // Provider에서 emotion 읽어와서 _selectedIndex 초기화
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _selectedIndex = getSelectedIndex(currentEmotion);
+      });
+    });
 
-    _selectedIndex = getSelectedIndex(currentEmotion);
+    _selectedIndex =  getSelectedIndex(currentEmotion);
   }
 
   @override
-  void dispose() {
+  void dispose () {
     titleController.dispose();
+    firstTextController.dispose();
+    secondTextController.dispose();
+    thirdTextController.dispose();
     super.dispose();
   }
 
-  int getSelectedIndex(double currentEmotion) {
-    if (currentEmotion <= -8) return 0;
-    if (currentEmotion <= -3) return 1;
-    if (currentEmotion <= 2) return 2;
-    if (currentEmotion <= 7) return 3;
-    if (currentEmotion <= 10) return 4;
-    return 0;
-  }
+int getSelectedIndex (double currentEmotion) {
+  if (currentEmotion <= -8) return 0;
+  if (currentEmotion <= -3) return 1;
+  if (currentEmotion <= 2) return 2;
+  if (currentEmotion <= 7) return 3;
+  if (currentEmotion <= 10) return 4;
+  return 0;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +87,10 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
                       side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: Colors.black, width: 2),
+                        (states) => BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       value: isReleased,
                       onChanged: (bool? value) {
@@ -98,11 +108,11 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     TextButton(
                       onPressed: () {
                         Navigator.push(
-                          context,
+                          context, 
                           MaterialPageRoute(
                             builder: (context) {
                               return MydiaryFirstType(
-                                date: formattedDate,
+                                date: formattedDate, 
                                 selectedIndex: _selectedIndex,
                                 title: titleController.text,
                                 firstText: firstTextController.text,
@@ -110,8 +120,8 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                                 thirdText: thirdTextController.text,
                                 isReleased: isReleased,
                               );
-                            },
-                          ),
+                            }
+                          )
                         );
                       },
                       child: Text('등록', style: _uploadStyle),
@@ -133,7 +143,7 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(width: 21),
+                        SizedBox(width: 21,),
                         Text(formattedDate, style: _dateStyle),
                         SizedBox(width: 70),
                         DropdownButton(
