@@ -264,4 +264,3 @@ TextStyle _analysisStyle = TextStyle(
   color: Color(0xff000000),
 );
 
-

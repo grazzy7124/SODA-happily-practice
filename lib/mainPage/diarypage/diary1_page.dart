@@ -31,6 +31,8 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   @override
   void initState() {
     super.initState();
+    currentEmotion = widget.emotion;
+
     // Provider에서 emotion 읽어와서 _selectedIndex 초기화
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
