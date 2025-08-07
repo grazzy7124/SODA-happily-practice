@@ -72,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xffFCFAF5),
         type: BottomNavigationBarType.fixed,
+        currentIndex: _currentPageIndex,
         showUnselectedLabels: false,
         showSelectedLabels: false,
         items: [
@@ -81,6 +82,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           BottomNavigationBarItem(icon: Icon(Icons.notifications), label: '알림'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
         ],
+        onTap: (index) {
+          setState(() {
+            _currentPageIndex = index;
+            _tabController.index = index;
+          });
+        },
       ),
     );
   }
