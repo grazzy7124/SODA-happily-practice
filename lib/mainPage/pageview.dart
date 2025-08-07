@@ -52,8 +52,6 @@ class _DiaryPageViewState extends State<DiaryPageView> with TickerProviderStateM
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         PageView(
-          /// [PageView.scrollDirection] defaults to [Axis.horizontal].
-          /// Use [Axis.vertical] to scroll vertically.
           controller: _pageViewController,
           onPageChanged: _handlePageViewChanged,
           children: <Widget>[
@@ -90,14 +88,6 @@ void _handlePageViewChanged(int currentPageIndex) {
 
 }
 
-/// Page indicator for desktop and web platforms.
-///
-/// On Desktop and Web, drag gesture for horizontal scrolling in a PageView is disabled by default.
-/// You can defined a custom scroll behavior to activate drag gestures,
-/// see https://docs.flutter.dev/release/breaking-changes/default-scroll-behavior-drag.
-///
-/// In this sample, we use a TabPageSelector to navigate between pages,
-/// in order to build natural behavior similar to other desktop applications.
 class PageIndicator extends StatelessWidget {
   const PageIndicator({
     super.key,

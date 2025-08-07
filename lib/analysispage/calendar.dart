@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:ver1/main.dart';
-
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -18,19 +15,17 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    SizedBox(
-      width: 340, height: 600,
+    return SizedBox(
+      width: 340,
+      height: 600,
       child: Card(
         color: Colors.white,
         // borderRadius: BorderRadius.circular(20),
         child: TableCalendar(
           locale: 'ko_KR',
-          focusedDay: _focusedDay, 
-          firstDay: DateTime(2020), 
+          focusedDay: _focusedDay,
+          firstDay: DateTime(2020),
           lastDay: DateTime(2030),
-        
-        
           daysOfWeekHeight: 50,
           rowHeight: 70,
           headerStyle: HeaderStyle(
@@ -38,23 +33,18 @@ class _CalendarState extends State<Calendar> {
             titleTextFormatter: (date, locale) {
               return DateFormat('yyyy년 M월', locale).format(date);
             },
-            formatButtonVisible: false
+            formatButtonVisible: false,
           ),
           calendarFormat: CalendarFormat.month,
-          // 테두리
           calendarStyle: CalendarStyle(
             tablePadding: EdgeInsets.only(left: 20, right: 20),
-        
             cellAlignment: AlignmentGeometry.xy(-1, -1),
             selectedTextStyle: TextStyle(color: Colors.blueAccent),
-            selectedDecoration: BoxDecoration(
-              color: Colors.transparent
-            ),
+            selectedDecoration: BoxDecoration(color: Colors.transparent),
             isTodayHighlighted: false,
-            tableBorder: TableBorder(
-            ),
+            tableBorder: TableBorder(),
           ),
-        
+
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
           },

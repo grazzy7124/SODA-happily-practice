@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ver1/mainPage/mainpage.dart';
 
 class FirstDiaryPage extends StatefulWidget {
   final double emotion;
@@ -36,6 +35,12 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
     _selectedIndex =  getSelectedIndex(currentEmotion);
   }
 
+  @override
+  void dispose () {
+    titleController.dispose();
+    super.dispose();
+  }
+
 int getSelectedIndex (double currentEmotion) {
   if (currentEmotion <= -8) return 0;
   if (currentEmotion <= -3) return 1;
@@ -44,12 +49,6 @@ int getSelectedIndex (double currentEmotion) {
   if (currentEmotion <= 10) return 4;
   return 0;
 }
-
-  @override
-  void dispose () {
-    titleController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +117,13 @@ int getSelectedIndex (double currentEmotion) {
                         SizedBox(width: 30),
                         DropdownButton(
                           value: _selectedIndex,
+                          onChanged: (int? value) {
+                            setState(() {
+                              if (value != null) {
+                                _selectedIndex = value;
+                              }
+                            });
+                          },
                           items: [
                             DropdownMenuItem(
                               value: 0,
@@ -160,13 +166,6 @@ int getSelectedIndex (double currentEmotion) {
                               ),
                             ),
                           ],
-                          onChanged: (int? value) {
-                            setState(() {
-                              if (value != null) {
-                                _selectedIndex = value;
-                              }
-                            });
-                          },
                         ),
                       ],
                     ),

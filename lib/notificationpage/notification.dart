@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-bool _isVisible = true;
-
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
 
@@ -60,7 +58,7 @@ class CardItem extends StatefulWidget {
 //   return profilePicture;
 // }
 
-  CardItem(this.name, this.diaryTitle, this.isEmotion, {super.key, this.profilePicture = 'assets/images/smileface.png'});
+ CardItem(this.name, this.diaryTitle, this.isEmotion, {super.key, this.profilePicture = 'assets/images/smileface.png'});
 
   @override
   State<CardItem> createState() => _CardItemState();
@@ -86,8 +84,8 @@ class _CardItemState extends State<CardItem> {
             ),
             SizedBox(width: 17,),
             Flexible(
-              child: widget.isEmotion ? 
-              RichText(
+              child: widget.isEmotion 
+              ? RichText(
                 text: TextSpan(
                   children: [
                     TextSpan(
