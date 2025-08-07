@@ -13,7 +13,7 @@ class FirstDiaryPage extends StatefulWidget {
 }
 
 class _FirstDiaryPageState extends State<FirstDiaryPage> {
-  bool isChecked = false;
+  bool isReleased = false;
   DateTime todayDate = DateTime.now();
   String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
   int _selectedIndex = 0; // dropdownbuttonItem
@@ -79,10 +79,10 @@ int getSelectedIndex (double currentEmotion) {
                     Checkbox(
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
-                      value: isChecked,
+                      value: isReleased,
                       onChanged: (bool? value) {
                         setState(() {
-                          isChecked = value!;
+                          isReleased = value!;
                         });
                       },
                     ),
@@ -105,6 +105,7 @@ int getSelectedIndex (double currentEmotion) {
                                 firstText: firstTextController.text,
                                 secondText: secondTextController.text,
                                 thirdText: thirdTextController.text,
+                                isReleased: isReleased,
                               );
                             }
                           )

@@ -9,10 +9,12 @@ class MydiaryThirdType extends StatefulWidget {
   final String title;
   final String text;
   final String image;
+  final bool isReleased;
 
   const MydiaryThirdType({
         super.key, required this.date, required this.selectedIndex,
         required this.title, required this.text, 
+        required this.isReleased,
         this.image = 'assets/images/defaultImage.png'
       }
     );
@@ -27,6 +29,7 @@ class _MydiaryThirdTypeState extends State<MydiaryThirdType> {
   late String title;
   late String text;
   late String image;
+  late bool isReleased;
 
   @override
   void initState() {
@@ -37,6 +40,7 @@ class _MydiaryThirdTypeState extends State<MydiaryThirdType> {
     title = widget.title;
     text = widget.text;
     image = widget.image;
+    isReleased = widget.isReleased;
   }
 
 
@@ -61,6 +65,10 @@ class _MydiaryThirdTypeState extends State<MydiaryThirdType> {
             ),
           ],
         ),
+        title: isReleased ? 
+          Text('공개글', style: _titleStyle,) 
+          : Text('비공개글', style: _titleStyle,),
+        centerTitle: true,
         actions: [
           Row(
             children: [

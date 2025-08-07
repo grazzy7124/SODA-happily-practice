@@ -12,7 +12,7 @@ class ThirdDiaryPage extends StatefulWidget {
 }
 
 class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
-  bool isChecked = false;
+  bool isReleased = false;
   DateTime todayDate = DateTime.now();
   String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
   int _selectedIndex = 0; // dropdownbuttonItem
@@ -69,10 +69,10 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                     Checkbox(
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
-                      value: isChecked, 
+                      value: isReleased, 
                       onChanged: (bool? value) {
                         setState(() {
-                          isChecked = value!;
+                          isReleased = value!;
                         });
                       },
                     ),
@@ -93,6 +93,7 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                                 selectedIndex: _selectedIndex,
                                 title: titleController.text,
                                 text: textController.text,
+                                isReleased: isReleased,
                               );
                             }
                           )

@@ -11,10 +11,12 @@ class MydiaryFirstType extends StatefulWidget {
   final String secondText;
   final String thirdText;
   final String image;
+  final bool isReleased;
 
   const MydiaryFirstType({
         super.key, required this.date, required this.selectedIndex,
         required this.title, required this.firstText, required this.secondText, required this.thirdText,
+        required this.isReleased,
         this.image = 'assets/images/defaultImage.png'
       }
     );
@@ -31,6 +33,7 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
   late String secondText;
   late String thirdText;
   late String image;
+  late bool isReleased;
 
   @override
   void initState() {
@@ -43,6 +46,7 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
     secondText = widget.secondText;
     thirdText = widget.thirdText;
     image = widget.image;
+    isReleased = widget.isReleased;
   }
 
 
@@ -67,6 +71,10 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
             ),
           ],
         ),
+        title: isReleased ? 
+          Text('공개글', style: _titleStyle,) 
+          : Text('비공개글', style: _titleStyle,),
+        centerTitle: true,
         actions: [
           Row(
             children: [
