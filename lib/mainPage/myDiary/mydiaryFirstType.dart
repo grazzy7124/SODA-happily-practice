@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ver1/color.dart';
+import 'package:ver1/main3.dart';
 import 'package:ver1/notificationpage/notification.dart';
 
 class MydiaryFirstType extends StatefulWidget {
@@ -67,6 +68,13 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) =>
+                //         ProfileMain(diaryTitle1: title, diaryTitle2: firstText),
+                //   ),
+                // );
               },
               child: Image.asset('assets/Vector.png', width: 9),
             ),

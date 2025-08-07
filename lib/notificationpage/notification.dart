@@ -3,9 +3,9 @@ import 'package:ver1/main.dart';
 import 'package:ver1/write.dart';
 
 class NotificationPage extends StatefulWidget {
-  const NotificationPage({super.key, required this.diaryTitle});
+  const NotificationPage({super.key, required this.diaryTitle1});
 
-  final String diaryTitle;
+  final String diaryTitle1;
 
   @override
   State<NotificationPage> createState() => _NotificationPageState();
@@ -25,9 +25,9 @@ class _NotificationPageState extends State<NotificationPage> {
                 Text('알림', style: _notificationStyle),
               ],
             ),
-            CardItem('라이딩 러버', true, diaryTitle: widget.diaryTitle),
-            CardItem('예은', true, diaryTitle: widget.diaryTitle),
-            CardItem('차은우', false, diaryTitle: widget.diaryTitle),
+            CardItem('라이딩 러버', true, diaryTitle1: widget.diaryTitle1),
+            CardItem('예은', true, diaryTitle1: widget.diaryTitle1),
+            CardItem('차은우', false, diaryTitle1: widget.diaryTitle1),
           ],
         ),
       ],
@@ -37,7 +37,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
 class CardItem extends StatefulWidget {
   late String name = '';
-  final String diaryTitle;
+  final String diaryTitle1;
   late bool isEmotion = false;
   final String profilePicture;
 
@@ -64,7 +64,7 @@ class CardItem extends StatefulWidget {
     this.isEmotion, {
     super.key,
     this.profilePicture = 'assets/images/smileface.png',
-    required this.diaryTitle,
+    required this.diaryTitle1,
   });
 
   @override
@@ -106,12 +106,12 @@ class _CardItemState extends State<CardItem> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: widget.diaryTitle,
+                              text: widget.diaryTitle1,
                               style: _cardItemStyle,
                             ),
                             TextSpan(text: '님이 ', style: _cardItemStyle),
                             TextSpan(
-                              text: widget.diaryTitle,
+                              text: widget.diaryTitle1,
                               style: _boldCardItemStyle,
                             ),
                             TextSpan(
@@ -125,12 +125,12 @@ class _CardItemState extends State<CardItem> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: widget.diaryTitle,
+                              text: widget.diaryTitle1,
                               style: _cardItemStyle,
                             ),
                             TextSpan(text: '님이 ', style: _cardItemStyle),
                             TextSpan(
-                              text: widget.diaryTitle,
+                              text: widget.diaryTitle1,
                               style: _boldCardItemStyle,
                             ),
                             TextSpan(

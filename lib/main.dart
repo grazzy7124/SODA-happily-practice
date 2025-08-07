@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ver1/notificationpage/notification.dart';
 
 final TextEditingController globalTitleController = TextEditingController();
+final TextEditingController globalfirstTextController = TextEditingController();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,8 +70,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Mainpage(),
           Analysispage(),
           MyApp2(),
-          NotificationPage(diaryTitle: globalTitleController.text),
-          ProfileMain(),
+          NotificationPage(diaryTitle1: globalTitleController.text),
+          ProfileMain(
+            diaryTitle1: globalTitleController.text,
+            diaryTitle2: globalfirstTextController.text,
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

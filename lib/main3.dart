@@ -3,7 +3,14 @@ import 'package:ver1/profileedit1.dart';
 import 'package:ver1/write.dart';
 
 class ProfileMain extends StatelessWidget {
-  const ProfileMain({super.key});
+  const ProfileMain({
+    super.key,
+    required this.diaryTitle1,
+    required this.diaryTitle2,
+  });
+
+  final String diaryTitle1;
+  final String diaryTitle2;
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +36,11 @@ class ProfileMain extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontFamily: 'gangwon'),
           ),
         ),
-        ProfileList(
+        ProfileListLast(
           happliy: 'assets/happily/4.png',
           photo: 'assets/list/1.png',
-          title: '이별한지 23일',
-          text: '너가 없으니 내 행복도 사라졌다',
-          text2: '잘지내길...ㅜ',
+          title: diaryTitle1,
+          text: diaryTitle2,
           date: '2025.7.30',
           public: '공개',
           onTap: () {
@@ -44,6 +50,21 @@ class ProfileMain extends StatelessWidget {
             );
           },
         ),
+        // ProfileList(
+        //   happliy: 'assets/happily/4.png',
+        //   photo: 'assets/list/1.png',
+        //   title: '이별한지 23일',
+        //   text: '너가 없으니 내 행복도 사라졌다',
+        //   text2: '잘지내길...ㅜ',
+        //   date: '2025.7.30',
+        //   public: '공개',
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => Write()),
+        //     );
+        //   },
+        // ),
         ProfileList(
           happliy: 'assets/happily/4.png',
           photo: 'assets/list/2.png',
@@ -204,6 +225,92 @@ class ProfileList extends StatelessWidget {
                 padding: EdgeInsets.only(top: 5, left: 17),
                 child: Text(
                   text2,
+                  style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
+                ),
+              ),
+              SizedBox(height: 25),
+              Padding(
+                padding: EdgeInsets.only(left: 16, bottom: 13),
+                child: Row(
+                  children: [
+                    Text(
+                      date,
+                      style: TextStyle(fontSize: 13, fontFamily: 'gangwon'),
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      public,
+                      style: TextStyle(fontSize: 13, fontFamily: 'gangwon'),
+                    ),
+                    Spacer(),
+                    Image.asset(happliy, width: 28, height: 23),
+                    SizedBox(width: 17),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileListLast extends StatelessWidget {
+  const ProfileListLast({
+    super.key,
+    required this.happliy,
+    required this.title,
+    required this.photo,
+    required this.text,
+    required this.date,
+    required this.public,
+    this.onTap,
+  });
+
+  final String happliy;
+  final String title;
+  final String photo;
+  final String text;
+  final String date;
+  final String public;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: EdgeInsets.only(top: 5.5, left: 15, right: 15),
+        child: Card(
+          color: Color(0xffFFFFF6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16, top: 15),
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, top: 13),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    width: double.infinity,
+                    height: 160,
+                    photo,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 13, left: 17),
+                child: Text(
+                  text,
                   style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
                 ),
               ),

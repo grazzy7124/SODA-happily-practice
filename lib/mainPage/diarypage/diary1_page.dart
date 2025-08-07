@@ -24,7 +24,7 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   final firstTextController = TextEditingController();
   // 두 번쨰 본문 컨트롤러
   final secondTextController = TextEditingController();
-  // 세 번째 본문 컨트롤러 
+  // 세 번째 본문 컨트롤러
   final thirdTextController = TextEditingController();
 
   late double currentEmotion;
@@ -32,25 +32,25 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   @override
   void initState() {
     super.initState();
-    currentEmotion = widget.emotion; 
+    currentEmotion = widget.emotion;
 
-    _selectedIndex =  getSelectedIndex(currentEmotion);
+    _selectedIndex = getSelectedIndex(currentEmotion);
   }
 
   @override
-  void dispose () {
+  void dispose() {
     titleController.dispose();
     super.dispose();
   }
 
-int getSelectedIndex (double currentEmotion) {
-  if (currentEmotion <= -8) return 0;
-  if (currentEmotion <= -3) return 1;
-  if (currentEmotion <= 2) return 2;
-  if (currentEmotion <= 7) return 3;
-  if (currentEmotion <= 10) return 4;
-  return 0;
-}
+  int getSelectedIndex(double currentEmotion) {
+    if (currentEmotion <= -8) return 0;
+    if (currentEmotion <= -3) return 1;
+    if (currentEmotion <= 2) return 2;
+    if (currentEmotion <= 7) return 3;
+    if (currentEmotion <= 10) return 4;
+    return 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +80,7 @@ int getSelectedIndex (double currentEmotion) {
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
                       side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(
-                          color: Colors.black,
-                          width: 2,
-                        ),
+                        (states) => BorderSide(color: Colors.black, width: 2),
                       ),
                       value: isReleased,
                       onChanged: (bool? value) {
@@ -101,20 +98,20 @@ int getSelectedIndex (double currentEmotion) {
                     TextButton(
                       onPressed: () {
                         Navigator.push(
-                          context, 
+                          context,
                           MaterialPageRoute(
                             builder: (context) {
                               return MydiaryFirstType(
-                                date: formattedDate, 
+                                date: formattedDate,
                                 selectedIndex: _selectedIndex,
                                 title: titleController.text,
                                 firstText: firstTextController.text,
                                 secondText: secondTextController.text,
                                 thirdText: thirdTextController.text,
-                                isReleased: isReleased, 
+                                isReleased: isReleased,
                               );
-                            }
-                          )
+                            },
+                          ),
                         );
                       },
                       child: Text('등록', style: _uploadStyle),
@@ -136,7 +133,7 @@ int getSelectedIndex (double currentEmotion) {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(width: 21,),
+                        SizedBox(width: 21),
                         Text(formattedDate, style: _dateStyle),
                         SizedBox(width: 70),
                         DropdownButton(
