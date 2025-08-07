@@ -204,7 +204,7 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                               _currentDiscreteSliderValue = value;
                               emotion = value;
                               _thumbColor = getThumbColor(value);
-                            });
+                            });       
                           },
                         );
                       },
