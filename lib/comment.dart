@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ver1/profilefriend.dart';
 
 class Comment extends StatelessWidget {
   const Comment({super.key});
@@ -85,25 +86,34 @@ class CommentList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: 15, top: 15),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 30,
-                height: 30,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(90),
-                  child: Image.asset(othermain, fit: BoxFit.cover),
-                ),
-              ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WholeProfile()),
+            );
+          },
 
-              SizedBox(width: 10),
-              Text(
-                othername,
-                style: TextStyle(fontSize: 16, fontFamily: 'gangwon'),
-              ),
-            ],
+          child: Padding(
+            padding: EdgeInsets.only(left: 15, top: 15),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(90),
+                    child: Image.asset(othermain, fit: BoxFit.cover),
+                  ),
+                ),
+
+                SizedBox(width: 10),
+                Text(
+                  othername,
+                  style: TextStyle(fontSize: 16, fontFamily: 'gangwon'),
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
