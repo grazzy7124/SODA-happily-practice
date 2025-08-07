@@ -69,6 +69,12 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                     Checkbox(
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
+                      side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                      ),
                       value: isReleased, 
                       onChanged: (bool? value) {
                         setState(() {
