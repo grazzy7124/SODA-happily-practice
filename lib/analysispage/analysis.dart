@@ -4,7 +4,7 @@ import 'package:ver1/color.dart';
 
 class Analysis extends StatelessWidget {
   final double emotion;
-  List<double> emotions = [];
+  List<double> emotions = [9, 6];
   
   double? pieChartRadius = 80;
   double today = DateTime.now().weekday.toDouble();
@@ -18,9 +18,28 @@ class Analysis extends StatelessWidget {
     return emotion3; // 회색
   }
 
+  // Line 섹션 만들기
+  List<Map<String, dynamic>> emotionRecords = [];
+
+  void addEmotion(double emotion) {
+    emotionRecords.add({
+      'date': DateTime.now(),
+      'emotion': emotion,
+    });
+  }
+
+  List<FlSpot> getEmotionSpots() {
+    return emotionRecords.map((record) {
+      DateTime date = record['date'];
+      double emotion = record['emotion'].toDouble();
+      int weekday = date.weekday; // 1~7
+      return FlSpot(weekday.toDouble(), emotion);
+    }).toList();
+  }
+
   // Pie 섹션 만들기
   List<PieChartSectionData> buildPieSections() {
-    emotions.add(emotion);
+    // emotions.add(emotion);
 
     Map<Color, int> emotionCounts = {
       emotion1: 0,
@@ -45,15 +64,18 @@ class Analysis extends StatelessWidget {
           double percentage = entry.value / total * 100;
           return PieChartSectionData(
             value: percentage,
-            color: getEmotionColor(emotion),
-            // title: '${percentage.toStringAsFixed(1)}%',
+            color: entry.key,
+            title: '${percentage.toStringAsFixed(1)}%',
             radius: pieChartRadius!,
             titleStyle: _pieTitleStyle,
           );
         }).toList();
   }
 
-  Analysis({super.key, required this.emotion, this.pieChartRadius = 80});
+  Analysis({super.key, required this.emotion, this.pieChartRadius = 80}) {
+    addEmotion(emotion);
+    emotions.add(emotion);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +107,12 @@ class Analysis extends StatelessWidget {
                             maxY: 10,
                             lineBarsData: [
                               LineChartBarData(
-                                spots: [
-                                  FlSpot(1, 3),
-                                  FlSpot(today, emotion)
-                                ],
+                                spots: getEmotionSpots(),
+                                // [
+                                //   FlSpot(1, emotions[0]),
+                                //   FlSpot(2, emotions[1]),
+                                //   FlSpot(today, emotion),
+                                // ],
                                 // isCurved: true,
                                 // curveSmoothness: 0.2,
                                 color: Color(0xff9BCFFF),
