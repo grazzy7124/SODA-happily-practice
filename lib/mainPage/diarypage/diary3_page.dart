@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ver1/mainPage/myDiary/mydiaryThirdType.dart';
 
 class ThirdDiaryPage extends StatefulWidget {
   final double emotion;
@@ -82,7 +83,21 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: (){}, 
+                      onPressed: (){
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return MydiaryThirdType(
+                                date: formattedDate, 
+                                selectedIndex: _selectedIndex,
+                                title: titleController.text,
+                                text: textController.text,
+                              );
+                            }
+                          )
+                        );
+                      }, 
                       child: Text('등록', style: _uploadStyle,)
                     ),
                   ],
@@ -103,10 +118,11 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                   child: Card(
                     color: Color(0xffF9EEF3),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(formattedDate, style: _dateStyle,),
-                        SizedBox(width: 30,),
+                        SizedBox(width: 21,),
+                        Text(formattedDate, style: _dateStyle),
+                        SizedBox(width: 70,),
                         DropdownButton(
                           value: _selectedIndex,
                           items: [

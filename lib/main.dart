@@ -78,7 +78,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: false,
         showSelectedLabels: false,
-        selectedItemColor: Colors.black,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
