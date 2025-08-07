@@ -59,52 +59,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  Color? _thumbColor = Color.fromRGBO(217, 217, 217, 1);
-  double _currentDiscreteSliderValue = 0;
-
-  Color? getThumbColor(double value) {
-    if (value == -10) {
-      return Color.fromRGBO(255, 95, 98, 1);
-    } else if (value < -5) {
-      double t = (value + 10) / 5;
-      return Color.lerp(
-        Color.fromRGBO(255, 95, 98, 1),
-        Color.fromRGBO(255, 165, 100, 1),
-        t,
-      );
-    } else if (value == -5) {
-      return Color.fromRGBO(255, 165, 100, 1);
-    } else if (value < 0) {
-      double t = (value + 5) / 5;
-      return Color.lerp(
-        Color.fromRGBO(255, 165, 100, 1),
-        Color.fromRGBO(217, 217, 217, 1),
-        t,
-      );
-    } else if (value == 0) {
-      return Color.fromRGBO(217, 217, 217, 1);
-    } else if (value < 5) {
-      double t = (value) / 5;
-      return Color.lerp(
-        Color.fromRGBO(217, 217, 217, 1),
-        Color.fromRGBO(136, 238, 209, 1),
-        t,
-      );
-    } else if (value == 5) {
-      return Color.fromRGBO(136, 238, 209, 1);
-    } else if (value < 10) {
-      double t = (value - 5) / 5;
-      return Color.lerp(
-        Color.fromRGBO(136, 238, 209, 1),
-        Color.fromRGBO(148, 198, 255, 1),
-        t,
-      );
-    } else if (value == 10) {
-      return Color.fromRGBO(148, 198, 255, 1);
-    }
-    return _thumbColor;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

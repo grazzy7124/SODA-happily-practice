@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ThirdDiaryPage extends StatefulWidget {
-  const ThirdDiaryPage({super.key});
+  final double emotion;
+
+  const ThirdDiaryPage({super.key, required this.emotion});
 
   @override
   State<ThirdDiaryPage> createState() => _ThirdDiaryPageState();
@@ -18,6 +20,25 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
   final titleController = TextEditingController();
   // 본문 컨트롤러
   final textController = TextEditingController();
+
+  late double currentEmotion;
+
+  @override
+  void initState() {
+    super.initState();
+    currentEmotion = widget.emotion; 
+
+    _selectedIndex =  getSelectedIndex(currentEmotion);
+  }
+
+  int getSelectedIndex (double currentEmotion) {
+    if (currentEmotion <= -8) return 0;
+    if (currentEmotion <= -3) return 1;
+    if (currentEmotion <= 2) return 2;
+    if (currentEmotion <= 7) return 3;
+    if (currentEmotion <= 10) return 4;
+    return 0;
+  }
 
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ver1/mainPage/mainpage.dart';
+import 'package:ver1/mainPage/myDiary/mydiaryFirstType.dart';
 
 class FirstDiaryPage extends StatefulWidget {
   final double emotion;
@@ -93,7 +94,21 @@ int getSelectedIndex (double currentEmotion) {
                   children: [
                     TextButton(
                       onPressed: () {
-                        print(titleController.text); // 제목 출력
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return MydiaryFirstType(
+                                date: formattedDate, 
+                                selectedIndex: _selectedIndex,
+                                title: titleController.text,
+                                firstText: firstTextController.text,
+                                secondText: secondTextController.text,
+                                thirdText: thirdTextController.text,
+                              );
+                            }
+                          )
+                        );
                       },
                       child: Text('등록', style: _uploadStyle),
                     ),
@@ -112,10 +127,11 @@ int getSelectedIndex (double currentEmotion) {
                   child: Card(
                     color: Color(0xffD9ECFA),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        SizedBox(width: 21,),
                         Text(formattedDate, style: _dateStyle),
-                        SizedBox(width: 30),
+                        SizedBox(width: 70),
                         DropdownButton(
                           value: _selectedIndex,
                           items: [

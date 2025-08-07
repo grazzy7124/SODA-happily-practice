@@ -28,6 +28,7 @@ class _DiaryPageViewState extends State<DiaryPageView> with TickerProviderStateM
     emotion = widget.currentEmotion;
   }
 
+// 위젯 
   @override
   void didUpdateWidget(covariant DiaryPageView oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -58,8 +59,8 @@ class _DiaryPageViewState extends State<DiaryPageView> with TickerProviderStateM
           onPageChanged: _handlePageViewChanged,
           children: <Widget>[
             FirstDiary(currentEmotion: emotion,),
-            SecondDiary(),
-            ThirdDiary(),
+            SecondDiary(currentEmotion: emotion,),
+            ThirdDiary(currentEmotion: emotion,),
           ],
         ),
         PageIndicator(
