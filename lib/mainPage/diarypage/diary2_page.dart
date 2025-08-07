@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ver1/mainPage/myDiary/mydiarySecondType.dart';
 
 class SecondDiaryPage extends StatefulWidget {
-  const SecondDiaryPage({super.key});
+  final double emotion;
+
+  const SecondDiaryPage({super.key, required this.emotion});
 
   @override
   State<SecondDiaryPage> createState() => _SecondDiaryPageState();
 }
 
 class _SecondDiaryPageState extends State<SecondDiaryPage> {
-  bool isChecked = false;
+  bool isReleased = false;
   DateTime todayDate = DateTime.now();
   String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
   int _selectedIndex = 0; // dropdownbuttonItem
@@ -24,7 +27,24 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
   // 세 번째 본문 컨트롤러 
   final thirdTextController = TextEditingController();
 
-  
+  late double currentEmotion;
+
+  @override
+  void initState() {
+    super.initState();
+    currentEmotion = widget.emotion; 
+
+    _selectedIndex =  getSelectedIndex(currentEmotion);
+  }
+
+int getSelectedIndex (double currentEmotion) {
+  if (currentEmotion <= -8) return 0;
+  if (currentEmotion <= -3) return 1;
+  if (currentEmotion <= 2) return 2;
+  if (currentEmotion <= 7) return 3;
+  if (currentEmotion <= 10) return 4;
+  return 0;
+}
 
 
   @override
@@ -56,10 +76,16 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                         Checkbox(
                           checkColor: Colors.black,
                           activeColor: Colors.transparent,
-                          value: isChecked, 
+                          side: MaterialStateBorderSide.resolveWith(
+                            (states) => BorderSide(
+                              color: Colors.black,
+                              width: 2,
+                            ),
+                          ),
+                          value: isReleased, 
                           onChanged: (bool? value) {
                             setState(() {
-                              isChecked = value!;
+                              isReleased = value!;
                             });
                           },
                         ),
@@ -78,8 +104,24 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                               setState(() {
                                 showImage = !showImage;
                               });
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return MydiarySecondType(
+                                      date: formattedDate, 
+                                      selectedIndex: _selectedIndex,
+                                      title: titleController.text,
+                                      firstText: firstTextController.text,
+                                      secondText: secondTextController.text,
+                                      thirdText: thirdTextController.text,
+                                      isReleased: isReleased,
+                                    );
+                                  }
+                                )
+                              );
                             });
-
+                            
                           }, 
                           child: Text('등록', style: _uploadStyle,)
                         ),
@@ -102,10 +144,11 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                         child: Card(
                           color: Color(0xffFBFFD7),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(formattedDate, style: _dateStyle,),
-                              SizedBox(width: 30,),
+                              SizedBox(width: 21,),
+                              Text(formattedDate, style: _dateStyle),
+                              SizedBox(width: 70),
                               DropdownButton(
                                 value: _selectedIndex,
                                 items: [

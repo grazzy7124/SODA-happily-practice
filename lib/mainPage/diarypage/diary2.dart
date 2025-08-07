@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ver1/mainPage/diarypage/diary2_page.dart';
 
 class SecondDiary extends StatelessWidget {
-  const SecondDiary({super.key});
+  final double currentEmotion;
+
+  const SecondDiary({super.key, required this.currentEmotion});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class SecondDiary extends StatelessWidget {
             context, 
             MaterialPageRoute(
               builder: (context) {
-                return SecondDiaryPage();
+                return SecondDiaryPage(emotion: currentEmotion,);
               }
             ),            
           );
