@@ -6,7 +6,10 @@ import 'package:ver1/mainPage/mainpage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ver1/notificationpage/notification.dart';
 
+final TextEditingController globalTitleController = TextEditingController();
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -27,6 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
       ),
+
       home: MyHomePage(),
     );
   }
@@ -65,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Mainpage(),
           Analysispage(),
           MyApp2(),
-          NotificationPage(),
+          NotificationPage(diaryTitle: globalTitleController.text),
           ProfileMain(),
         ],
       ),

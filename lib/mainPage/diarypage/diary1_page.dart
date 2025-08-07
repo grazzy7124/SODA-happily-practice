@@ -111,7 +111,7 @@ int getSelectedIndex (double currentEmotion) {
                                 firstText: firstTextController.text,
                                 secondText: secondTextController.text,
                                 thirdText: thirdTextController.text,
-                                isReleased: isReleased,
+                                isReleased: isReleased, 
                               );
                             }
                           )

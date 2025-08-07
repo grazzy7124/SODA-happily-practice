@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ver1/color.dart';
+import 'package:ver1/notificationpage/notification.dart';
 
 class MydiaryFirstType extends StatefulWidget {
   final int selectedIndex;
@@ -14,12 +15,16 @@ class MydiaryFirstType extends StatefulWidget {
   final bool isReleased;
 
   const MydiaryFirstType({
-        super.key, required this.date, required this.selectedIndex,
-        required this.title, required this.firstText, required this.secondText, required this.thirdText,
-        required this.isReleased,
-        this.image = 'assets/images/defaultImage.png'
-      }
-    );
+    super.key,
+    required this.date,
+    required this.selectedIndex,
+    required this.title,
+    required this.firstText,
+    required this.secondText,
+    required this.thirdText,
+    required this.isReleased,
+    this.image = 'assets/images/defaultImage.png',
+  });
 
   @override
   State<MydiaryFirstType> createState() => _MydiaryFirstTypeState();
@@ -49,7 +54,6 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
     isReleased = widget.isReleased;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,33 +62,27 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
         backgroundColor: Color(0xffFCFAF5),
         leading: Row(
           children: [
-            SizedBox(width: 22,),
+            SizedBox(width: 22),
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
-              child: Image.asset(
-                'assets/Vector.png',
-                width: 9,
-              ),
+              child: Image.asset('assets/Vector.png', width: 9),
             ),
           ],
         ),
-        title: isReleased ? 
-          Text('공개글', style: _titleStyle,) 
-          : Text('비공개글', style: _titleStyle,),
+        title: isReleased
+            ? Text('공개글', style: _titleStyle)
+            : Text('비공개글', style: _titleStyle),
         centerTitle: true,
         actions: [
           Row(
             children: [
-              Image.asset(
-                'assets/images/action.png',
-                height: 16,
-              ),
-              SizedBox(width: 25,)
+              Image.asset('assets/images/action.png', height: 16),
+              SizedBox(width: 25),
             ],
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -100,60 +98,60 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(width: 21,),
+                      SizedBox(width: 21),
                       Text(date, style: _dateStyle),
-                      SizedBox(width: 70,),
+                      SizedBox(width: 70),
                       DropdownButton(
                         value: _selectedIndex,
                         items: [
                           DropdownMenuItem(
-                              value: 0,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion1.png',
-                                width: 28,
-                                height: 23,
-                              ),
+                            value: 0,
+                            child: Image.asset(
+                              'assets/images/emotions/emotion1.png',
+                              width: 28,
+                              height: 23,
                             ),
-                            DropdownMenuItem(
-                              value: 1,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion2.png',
-                                width: 28,
-                                height: 23,
-                              ),
+                          ),
+                          DropdownMenuItem(
+                            value: 1,
+                            child: Image.asset(
+                              'assets/images/emotions/emotion2.png',
+                              width: 28,
+                              height: 23,
                             ),
-                            DropdownMenuItem(
-                              value: 2,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion3.png',
-                                width: 28,
-                                height: 23,
-                              ),
+                          ),
+                          DropdownMenuItem(
+                            value: 2,
+                            child: Image.asset(
+                              'assets/images/emotions/emotion3.png',
+                              width: 28,
+                              height: 23,
                             ),
-                            DropdownMenuItem(
-                              value: 3,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion4.png',
-                                width: 28,
-                                height: 23,
-                              ),
+                          ),
+                          DropdownMenuItem(
+                            value: 3,
+                            child: Image.asset(
+                              'assets/images/emotions/emotion4.png',
+                              width: 28,
+                              height: 23,
                             ),
-                            DropdownMenuItem(
-                              value: 4,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion5.png',
-                                width: 28,
-                                height: 23,
-                              ),
+                          ),
+                          DropdownMenuItem(
+                            value: 4,
+                            child: Image.asset(
+                              'assets/images/emotions/emotion5.png',
+                              width: 28,
+                              height: 23,
                             ),
-                        ], 
+                          ),
+                        ],
                         onChanged: (int? value) {
-                        setState(() {
-                          if (value != null) {
-                            _selectedIndex = value;
-                          }
-                        });
-                      },
+                          setState(() {
+                            if (value != null) {
+                              _selectedIndex = value;
+                            }
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -166,11 +164,7 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
                     height: 180,
                     child: GestureDetector(
                       onTap: () {},
-                      child: Image.asset(
-                        image,
-                        width: 171,
-                        height: 143,
-                      ),
+                      child: Image.asset(image, width: 171, height: 143),
                     ),
                   ),
                 ],
@@ -183,27 +177,26 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
                     children: [
                       SizedBox(width: 30),
                       Text('제목: ', style: _titleStyle),
-                      Text(title, style: _titleStyle,)
+                      Text(title, style: _titleStyle),
                     ],
                   ),
                 ),
               ),
               Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(width: 10),
                   Flexible(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(firstText, style: _textStyle,),
-                        Text(secondText, style: _textStyle,),
-                        Text(thirdText, style: _textStyle,)
+                        Text(firstText, style: _textStyle),
+                        Text(secondText, style: _textStyle),
+                        Text(thirdText, style: _textStyle),
                       ],
                     ),
                   ),
                 ],
-              )
-              
+              ),
             ],
           ),
         ),
