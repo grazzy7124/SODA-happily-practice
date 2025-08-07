@@ -74,12 +74,44 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: false,
         showSelectedLabels: false,
+        currentIndex: _currentPageIndex,
+        onTap: (index) {
+          setState(() {
+            _currentPageIndex = index;
+            _tabController.index = index;
+          });
+        },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(icon: Icon(Icons.analytics), label: '분석'),
-          BottomNavigationBarItem(icon: Icon(Icons.feed), label: '피드'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: '알림'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 0 ?
+              Image.asset('assets/images/navigationBarItems/home_filled.png', width: 21,)
+              : Image.asset('assets/images/navigationBarItems/home.png', width: 21,),
+            label: '홈'
+          ),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 1 ?
+              Image.asset('assets/images/navigationBarItems/analysis_filled.png', width: 21,)
+              : Image.asset('assets/images/navigationBarItems/analysis.png', width: 21,),
+            label: '분석'
+          ),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 2 ?
+              Image.asset('assets/images/navigationBarItems/feed_filled.png', width: 21,)
+              : Image.asset('assets/images/navigationBarItems/feed.png', width: 21,),
+            label: '피드'
+          ),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 3 ?
+              Image.asset('assets/images/navigationBarItems/notification_filled.png', width: 21,)
+              : Image.asset('assets/images/navigationBarItems/notification.png', width: 21,),
+            label: '알림'
+          ),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 4 ?
+              Image.asset('assets/images/navigationBarItems/feed_filled.png', width: 21,)
+              : Image.asset('assets/images/navigationBarItems/feed.png', width: 21,),
+            label: '마이페이지'
+          ),
         ],
       ),
     );
