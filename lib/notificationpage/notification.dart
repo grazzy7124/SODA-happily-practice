@@ -94,12 +94,12 @@ class _CardItemState extends State<CardItem> {
             Image.asset(widget.profilePicture, width: 25),
             SizedBox(width: 17),
             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Write()),
-                );
-              },
+              // onTap: () {
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => Write(diaryTitle1: diaryTitle1, diaryTitle2: diaryTitle2)),
+              //   );
+              // },
               child: Flexible(
                 child: widget.isEmotion
                     ? RichText(

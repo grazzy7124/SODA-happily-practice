@@ -3,7 +3,14 @@ import 'package:ver1/comment.dart';
 import 'package:ver1/read.dart';
 
 class Write extends StatelessWidget {
-  const Write({super.key});
+  const Write({
+    super.key,
+    required this.diaryTitle1,
+    required this.diaryTitle2,
+  });
+
+  final String diaryTitle1;
+  final String diaryTitle2;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +39,8 @@ class Write extends StatelessWidget {
             wholeday: '23',
             wholedate: '토',
             wholephoto: 'assets/list/1.png',
-            wholetitle: '이별한 지 23일',
-            wholetext:
-                '너가 없으니 내 행복도 사라졌ㄷr.. 잘 지내길...ㅜ 사진처럼 우리가 우리의 시간 안에서 최선을 다 한 거길..... 이제 보내주자...',
+            wholetitle: diaryTitle1,
+            wholetext: diaryTitle2,
           ),
         ],
       ),

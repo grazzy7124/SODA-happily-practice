@@ -46,7 +46,10 @@ class ProfileMain extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Write()),
+              MaterialPageRoute(
+                builder: (context) =>
+                    Write(diaryTitle1: diaryTitle1, diaryTitle2: diaryTitle2),
+              ),
             );
           },
         ),
