@@ -52,38 +52,22 @@ class _AnalysispageState extends State<Analysispage>
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
-                icon: Container(
-                  width: 160,
-                  height: 44,
-                  // decoration: BoxDecoration(
-                  //   color: Color(0xffFFFFFF),
-                  //   borderRadius: BorderRadius.circular(11.9)
-                  // ),
-                  child: Center(
-                    child: Text(
-                      '분석',
-                      style: _selectedIndex == 0
-                          ? _selectedTabStyle
-                          : _unselectedTabStyle,
-                    ),
+                icon: Center(
+                  child: Text(
+                    '분석',
+                    style: _selectedIndex == 0
+                        ? _selectedTabStyle
+                        : _unselectedTabStyle,
                   ),
                 ),
               ),
               Tab(
-                icon: Container(
-                  width: 160,
-                  height: 44,
-                  // decoration: BoxDecoration(
-                  //   color: Color(0xffFFFFFF),
-                  //   borderRadius: BorderRadius.circular(11.9)
-                  // ),
-                  child: Center(
-                    child: Text(
-                      '달력',
-                      style: _selectedIndex == 1
-                          ? _selectedTabStyle
-                          : _unselectedTabStyle,
-                    ),
+                icon: Center(
+                  child: Text(
+                    '달력',
+                    style: _selectedIndex == 1
+                        ? _selectedTabStyle
+                        : _unselectedTabStyle,
                   ),
                 ),
               ),
