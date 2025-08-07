@@ -72,7 +72,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xffFCFAF5),
         type: BottomNavigationBarType.fixed,
-        currentIndex: _currentPageIndex,
         showUnselectedLabels: false,
         showSelectedLabels: false,
         currentIndex: _currentPageIndex,
@@ -84,42 +83,66 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         },
         items: [
           BottomNavigationBarItem(
-            icon: _currentPageIndex == 0 ?
-              Image.asset('assets/images/navigationBarItems/home_filled.png', width: 21,)
-              : Image.asset('assets/images/navigationBarItems/home.png', width: 21,),
-            label: '홈'
+            icon: _currentPageIndex == 0
+                ? Image.asset(
+                    'assets/images/navigationBarItems/home_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/home.png',
+                    width: 21,
+                  ),
+            label: '홈',
           ),
           BottomNavigationBarItem(
-            icon: _currentPageIndex == 1 ?
-              Image.asset('assets/images/navigationBarItems/analysis_filled.png', width: 21,)
-              : Image.asset('assets/images/navigationBarItems/analysis.png', width: 21,),
-            label: '분석'
+            icon: _currentPageIndex == 1
+                ? Image.asset(
+                    'assets/images/navigationBarItems/analysis_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/analysis.png',
+                    width: 21,
+                  ),
+            label: '분석',
           ),
           BottomNavigationBarItem(
-            icon: _currentPageIndex == 2 ?
-              Image.asset('assets/images/navigationBarItems/feed_filled.png', width: 21,)
-              : Image.asset('assets/images/navigationBarItems/feed.png', width: 21,),
-            label: '피드'
+            icon: _currentPageIndex == 2
+                ? Image.asset(
+                    'assets/images/navigationBarItems/feed_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/feed.png',
+                    width: 21,
+                  ),
+            label: '피드',
           ),
           BottomNavigationBarItem(
-            icon: _currentPageIndex == 3 ?
-              Image.asset('assets/images/navigationBarItems/notification_filled.png', width: 21,)
-              : Image.asset('assets/images/navigationBarItems/notification.png', width: 21,),
-            label: '알림'
+            icon: _currentPageIndex == 3
+                ? Image.asset(
+                    'assets/images/navigationBarItems/notification_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/notification.png',
+                    width: 21,
+                  ),
+            label: '알림',
           ),
           BottomNavigationBarItem(
-            icon: _currentPageIndex == 4 ?
-              Image.asset('assets/images/navigationBarItems/feed_filled.png', width: 21,)
-              : Image.asset('assets/images/navigationBarItems/feed.png', width: 21,),
-            label: '마이페이지'
+            icon: _currentPageIndex == 4
+                ? Image.asset(
+                    'assets/images/navigationBarItems/feed_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/feed.png',
+                    width: 21,
+                  ),
+            label: '마이페이지',
           ),
         ],
-        onTap: (index) {
-          setState(() {
-            _currentPageIndex = index;
-            _tabController.index = index;
-          });
-        },
       ),
     );
   }
