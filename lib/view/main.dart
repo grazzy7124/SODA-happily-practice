@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/analysispage/analysispage.dart';
-import 'package:ver1/main2.dart';
-import 'package:ver1/main3.dart';
-import 'package:ver1/mainPage/mainpage.dart';
+import 'package:ver1/provider/emotion_provider.dart';
+import 'package:ver1/view/analysispage/analysispage.dart';
+import 'package:ver1/view/main2.dart';
+import 'package:ver1/view/main3.dart';
+import 'package:ver1/view/mainPage/mainpage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:ver1/notificationpage/notification.dart';
+import 'package:ver1/view/notificationpage/notification.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) {
+            return EmotionProvider();
+          }
+        )
+      ],
+      child: const MyApp()
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -33,7 +46,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+
+  const MyHomePage({super.key,});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -42,6 +56,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
+
+  double emotion = 0;
 
   @override
   void initState() {
@@ -62,8 +78,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: [
-          Mainpage(),
-          Analysispage(),
+          Mainpage(
+            emotion: emotion,
+            onEmotionChanged: (value) {
+              setState(() {
+                emotion = value;
+              });
+            },
+          ),
+          Analysispage(emotion: emotion,),
           MyApp2(),
           NotificationPage(),
           ProfileMain(),

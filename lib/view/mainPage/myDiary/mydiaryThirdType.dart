@@ -1,7 +1,7 @@
 // 등록한 내 일기 페이지 - 행복일기
 
 import 'package:flutter/material.dart';
-import 'package:ver1/color.dart';
+import 'package:ver1/view/color.dart';
 
 class MydiaryThirdType extends StatefulWidget {
   final int selectedIndex;

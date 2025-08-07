@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/mainPage/pageview.dart';
+import 'package:ver1/view/mainPage/pageview.dart';
+import 'package:provider/provider.dart';
+import 'package:ver1/provider/emotion_provider.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({super.key});
+  final double emotion;
+  final ValueChanged<double> onEmotionChanged;
+
+  const Mainpage({super.key, required this.emotion, required this.onEmotionChanged});
 
   @override
   State<Mainpage> createState() => _MainpageState();
@@ -164,7 +169,7 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                           min: -10,
                           divisions: 20,
                           onChangeEnd: (value) {
-                            emotion = _currentDiscreteSliderValue;
+                            Provider.of(context, listen: false).setEmotion(value);
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -204,6 +209,10 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                               _currentDiscreteSliderValue = value;
                               emotion = value;
                               _thumbColor = getThumbColor(value);
+                              widget.onEmotionChanged(value);
+
+                              //Provider 반영
+                              Provider.of(context, listen: false).setEmotion(value);
                             });
                           },
                         );

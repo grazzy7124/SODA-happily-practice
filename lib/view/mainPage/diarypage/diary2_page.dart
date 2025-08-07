@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ver1/mainPage/myDiary/mydiarySecondType.dart';
+import 'package:ver1/view/mainPage/myDiary/mydiarySecondType.dart';
 
 class SecondDiaryPage extends StatefulWidget {
   final double emotion;

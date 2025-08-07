@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/comment.dart';
+import 'package:ver1/view/comment.dart';
 
 class Read extends StatelessWidget {
   const Read({super.key});

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/analysispage/analysis.dart';
-import 'package:ver1/analysispage/calendar.dart';
+import 'package:ver1/view/analysispage/analysis.dart';
+import 'package:ver1/view/analysispage/calendar.dart';
 
 class Analysispage extends StatefulWidget {
-  const Analysispage({super.key});
+  final double emotion;
+
+  const Analysispage({super.key, required this.emotion});
 
   @override
   State<Analysispage> createState() => _AnalysispageState();
 }
 
-class _AnalysispageState extends State<Analysispage>
-    with SingleTickerProviderStateMixin {
+class _AnalysispageState extends State<Analysispage> with SingleTickerProviderStateMixin {
+  late double emotion;
   late TabController _tabController;
   int _selectedIndex = 0;
 
@@ -24,6 +26,7 @@ class _AnalysispageState extends State<Analysispage>
         _selectedIndex = _tabController.index;
       });
     });
+    emotion = widget.emotion;
   }
 
   @override
@@ -48,7 +51,7 @@ class _AnalysispageState extends State<Analysispage>
             controller: _tabController,
             indicatorColor: Colors.black,
             indicatorWeight: 2,
-            indicatorPadding: EdgeInsetsGeometry.only(left: 40, right: 40),
+            indicatorPadding: EdgeInsets.only(left: 40, right: 40),
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
@@ -80,7 +83,7 @@ class _AnalysispageState extends State<Analysispage>
             children: [
               Align(
                 alignment: AlignmentGeometry.directional(0, -1),
-                child: Analysis(),
+                child: Analysis(emotion: emotion,),
               ),
               Align(child: Calendar()),
             ],

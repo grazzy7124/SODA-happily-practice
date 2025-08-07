@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/comment.dart';
-import 'package:ver1/read.dart';
+import 'package:ver1/view/comment.dart';
+import 'package:ver1/view/read.dart';
 
 class Write extends StatelessWidget {
   const Write({super.key});

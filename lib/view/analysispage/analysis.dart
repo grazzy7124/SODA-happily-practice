@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class Analysis extends StatelessWidget {
+class Analysis extends StatefulWidget {
+  double emotion;
   double? pieChartRadius;
+  
 
-  Analysis({super.key, this.pieChartRadius = 80});
+  Analysis({super.key, required this.emotion, this.pieChartRadius = 80,});
+
+  @override
+  State<Analysis> createState() => _AnalysisState();
+}
+
+class _AnalysisState extends State<Analysis> {
+  late double emotion;
+  double today = DateTime.now().weekday.toDouble();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    emotion = widget.emotion;
+  }
+
+  void addLineChart(){
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +50,14 @@ class Analysis extends StatelessWidget {
                         padding: EdgeInsets.only(left: 35, right: 25, top: 25, bottom: 37),
                         child: LineChart(
                           LineChartData(
-                            minX: 0,
-                            maxX: 6,
+                            minX: 1,
+                            maxX: 7,
                             minY: -10,
                             maxY: 10,
                             lineBarsData: [
                               LineChartBarData(
                                 spots: [
-                                  FlSpot(0, 0),
-                                  FlSpot(1, -2),
-                                  FlSpot(2, 7),
-                                  FlSpot(3, 4),
-                                  FlSpot(4, 5),
-                                  FlSpot(6, -1)
+                                  FlSpot(today, emotion),
                                 ],
                                 // isCurved: true,
                                 // curveSmoothness: 0.2,
@@ -182,30 +198,30 @@ class Analysis extends StatelessWidget {
                               PieChartSectionData(
                                 value: 14.3,
                                 color: Color(0xffA6F2DD),
-                                radius: pieChartRadius,
+                                radius: widget.pieChartRadius,
                                 titleStyle: _pieTitleStyle
                               ),
                               PieChartSectionData(
                                 value: 28.6,
                                 color: Color(0xffFFBB8B),
-                                radius: pieChartRadius,
+                                radius: widget.pieChartRadius,
                                 titleStyle: _pieTitleStyle
                               ),
                               PieChartSectionData(
                                 value: 28.5,
                                 color: Color(0xffE3E3E3),
-                                radius: pieChartRadius,
+                                radius: widget.pieChartRadius,
                                 titleStyle: _pieTitleStyle
                               ),
                               PieChartSectionData(
                                 value: 14.3,
                                 color: Color(0xffFF8789),
-                                radius: pieChartRadius,
+                                radius: widget.pieChartRadius,
                                 titleStyle: _pieTitleStyle
                               ),
                               PieChartSectionData(
                                 color: Color(0xffAFD4FF),
-                                radius: pieChartRadius,
+                                radius: widget.pieChartRadius,
                                 titleStyle: _pieTitleStyle
                               )
                             ],

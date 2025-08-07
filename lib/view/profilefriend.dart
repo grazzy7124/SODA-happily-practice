@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/request.dart';
+import 'package:ver1/view/request.dart';
 
 class WholeProfile extends StatelessWidget {
   const WholeProfile({super.key});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/mainPage/diarypage/diary1_page.dart';
+import 'package:ver1/view/mainPage/diarypage/diary3_page.dart';
 
-class FirstDiary extends StatelessWidget {
+class ThirdDiary extends StatelessWidget {
   final double currentEmotion;
 
-  const FirstDiary({super.key, required this.currentEmotion});
+  const ThirdDiary({super.key, required this.currentEmotion});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +15,13 @@ class FirstDiary extends StatelessWidget {
             context, 
             MaterialPageRoute(
               builder: (context) {
-                return FirstDiaryPage(emotion: currentEmotion,);
+                return ThirdDiaryPage(emotion: currentEmotion,);
               }
             ),            
           );
         },
         child: Image.asset(
-          'assets/images/diary/diary1.png',
+          'assets/images/diary/diary3.png',
           height: 341,
         ),
       ),

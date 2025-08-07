@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/profilefriend.dart';
-import 'package:ver1/read.dart';
+import 'package:ver1/view/profilefriend.dart';
+import 'package:ver1/view/read.dart';
 
 class MyApp2 extends StatelessWidget {
   const MyApp2({super.key});

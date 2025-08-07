@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/mainPage/diarypage/diary2_page.dart';
+import 'package:ver1/view/mainPage/diarypage/diary2_page.dart';
 
 class SecondDiary extends StatelessWidget {
   final double currentEmotion;

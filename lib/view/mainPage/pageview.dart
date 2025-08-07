@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:ver1/mainPage/diarypage/diary1.dart';
-import 'package:ver1/mainPage/diarypage/diary2.dart';
-import 'package:ver1/mainPage/diarypage/diary3.dart';
+import 'package:ver1/view/mainPage/diarypage/diary1.dart';
+import 'package:ver1/view/mainPage/diarypage/diary2.dart';
+import 'package:ver1/view/mainPage/diarypage/diary3.dart';
 
 class DiaryPageView extends StatefulWidget {
   final double currentEmotion;
