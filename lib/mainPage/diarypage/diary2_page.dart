@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ver1/mainPage/myDiary/mydiarySecondType.dart';
 
 class SecondDiaryPage extends StatefulWidget {
   final double emotion;
@@ -97,8 +98,23 @@ int getSelectedIndex (double currentEmotion) {
                               setState(() {
                                 showImage = !showImage;
                               });
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return MydiarySecondType(
+                                      date: formattedDate, 
+                                      selectedIndex: _selectedIndex,
+                                      title: titleController.text,
+                                      firstText: firstTextController.text,
+                                      secondText: secondTextController.text,
+                                      thirdText: thirdTextController.text,
+                                    );
+                                  }
+                                )
+                              );
                             });
-
+                            
                           }, 
                           child: Text('등록', style: _uploadStyle,)
                         ),

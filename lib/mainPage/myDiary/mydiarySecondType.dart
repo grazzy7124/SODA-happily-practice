@@ -1,9 +1,9 @@
-// 등록한 내 일기 페이지 - 감정일기
+// 등록한 내 일기 페이지 - 행복일기
 
 import 'package:flutter/material.dart';
 import 'package:ver1/color.dart';
 
-class MydiaryFirstType extends StatefulWidget {
+class MydiarySecondType extends StatefulWidget {
   final int selectedIndex;
   final String date;
   final String title;
@@ -12,7 +12,7 @@ class MydiaryFirstType extends StatefulWidget {
   final String thirdText;
   final String image;
 
-  const MydiaryFirstType({
+  const MydiarySecondType({
         super.key, required this.date, required this.selectedIndex,
         required this.title, required this.firstText, required this.secondText, required this.thirdText,
         this.image = 'assets/images/defaultImage.png'
@@ -20,10 +20,10 @@ class MydiaryFirstType extends StatefulWidget {
     );
 
   @override
-  State<MydiaryFirstType> createState() => _MydiaryFirstTypeState();
+  State<MydiarySecondType> createState() => _MydiarySecondTypeState();
 }
 
-class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
+class _MydiarySecondTypeState extends State<MydiarySecondType> {
   late int _selectedIndex;
   late String date;
   late String title;
@@ -88,7 +88,7 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
               SizedBox(
                 height: 45,
                 child: Card(
-                  color: firstDiaryColor,
+                  color: secondDiaryColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -170,7 +170,7 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
               SizedBox(
                 height: 45,
                 child: Card(
-                  color: firstDiaryColor,
+                  color: secondDiaryColor,
                   child: Row(
                     children: [
                       SizedBox(width: 30),

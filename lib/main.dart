@@ -101,8 +101,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
             label: '피드',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: '알림'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications), 
+            label: '알림'
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person), 
+            label: '마이페이지'
+          ),
         ],
         currentIndex: _currentPageIndex,
         onTap: (index) {
