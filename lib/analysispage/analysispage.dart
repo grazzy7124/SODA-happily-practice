@@ -3,14 +3,16 @@ import 'package:ver1/analysispage/analysis.dart';
 import 'package:ver1/analysispage/calendar.dart';
 
 class Analysispage extends StatefulWidget {
-  const Analysispage({super.key});
+  final double emotion;
+
+  const Analysispage({super.key, required this.emotion});
 
   @override
   State<Analysispage> createState() => _AnalysispageState();
 }
 
-class _AnalysispageState extends State<Analysispage>
-    with SingleTickerProviderStateMixin {
+class _AnalysispageState extends State<Analysispage> with SingleTickerProviderStateMixin {
+  late double emotion;
   late TabController _tabController;
   int _selectedIndex = 0;
 
@@ -18,6 +20,7 @@ class _AnalysispageState extends State<Analysispage>
   void initState() {
     // TODO: implement initState
     super.initState();
+    emotion = widget.emotion;
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       setState(() {
@@ -80,7 +83,7 @@ class _AnalysispageState extends State<Analysispage>
             children: [
               Align(
                 alignment: AlignmentGeometry.directional(0, -1),
-                child: Analysis(),
+                child: Analysis(emotion: widget.emotion,),
               ),
               Align(child: Calendar()),
             ],

@@ -1,10 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:ver1/color.dart';
 
 class Analysis extends StatelessWidget {
-  double? pieChartRadius;
+  final double emotion;
+  List<double> emotions = [];
+  
+  double? pieChartRadius = 80;
+  double today = DateTime.now().weekday.toDouble();
 
-  Analysis({super.key, this.pieChartRadius = 80});
+  Color getEmotionColor (double emotion) {
+    if (emotion <= -8) return emotion1;
+    if (emotion <= -3) return emotion2;
+    if (emotion <= 2) return emotion3;
+    if (emotion <= 7) return emotion4;
+    if (emotion <= 10) return emotion5;
+    return emotion3; // 회색
+  }
+
+  // Pie 섹션 만들기
+  List<PieChartSectionData> buildPieSections() {
+    emotions.add(emotion);
+
+    Map<Color, int> emotionCounts = {
+      emotion1: 0,
+      emotion2: 0,
+      emotion3: 0,
+      emotion4: 0,
+      emotion5: 0,
+    };
+
+    for (double e in emotions) {
+      Color key = getEmotionColor(e);
+      if (emotionCounts.containsKey(key)) {
+        emotionCounts[key] = emotionCounts[key]! + 1;
+      }
+    }
+
+    int total = emotions.length;
+
+    return  emotionCounts.entries
+        .where((entry) => entry.value > 0)
+        .map((entry) {
+          double percentage = entry.value / total * 100;
+          return PieChartSectionData(
+            value: percentage,
+            color: getEmotionColor(emotion),
+            // title: '${percentage.toStringAsFixed(1)}%',
+            radius: pieChartRadius!,
+            titleStyle: _pieTitleStyle,
+          );
+        }).toList();
+  }
+
+  Analysis({super.key, required this.emotion, this.pieChartRadius = 80});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +67,7 @@ class Analysis extends StatelessWidget {
                 Text('감정 변화', style: _explanationStyle,),
               ],
             ),
+            // line chart 선그래프 
             SizedBox(
               width: 330, height: 270,
               child: Stack(
@@ -29,19 +79,15 @@ class Analysis extends StatelessWidget {
                         padding: EdgeInsets.only(left: 35, right: 25, top: 25, bottom: 37),
                         child: LineChart(
                           LineChartData(
-                            minX: 0,
-                            maxX: 6,
+                            minX: 1,
+                            maxX: 7,
                             minY: -10,
                             maxY: 10,
                             lineBarsData: [
                               LineChartBarData(
                                 spots: [
-                                  FlSpot(0, 0),
-                                  FlSpot(1, -2),
-                                  FlSpot(2, 7),
-                                  FlSpot(3, 4),
-                                  FlSpot(4, 5),
-                                  FlSpot(6, -1)
+                                  FlSpot(1, 3),
+                                  FlSpot(today, emotion)
                                 ],
                                 // isCurved: true,
                                 // curveSmoothness: 0.2,
@@ -166,6 +212,7 @@ class Analysis extends StatelessWidget {
                 Text('감정 분석', style: _explanationStyle,),
               ],
             ),
+            // pie chart 원그래프 
             SizedBox(
               width: 330, height: 430,
               child: Card(
@@ -178,37 +225,7 @@ class Analysis extends StatelessWidget {
                         padding: EdgeInsets.all(10),
                         child: PieChart(
                           PieChartData(
-                            sections: [
-                              PieChartSectionData(
-                                value: 14.3,
-                                color: Color(0xffA6F2DD),
-                                radius: pieChartRadius,
-                                titleStyle: _pieTitleStyle
-                              ),
-                              PieChartSectionData(
-                                value: 28.6,
-                                color: Color(0xffFFBB8B),
-                                radius: pieChartRadius,
-                                titleStyle: _pieTitleStyle
-                              ),
-                              PieChartSectionData(
-                                value: 28.5,
-                                color: Color(0xffE3E3E3),
-                                radius: pieChartRadius,
-                                titleStyle: _pieTitleStyle
-                              ),
-                              PieChartSectionData(
-                                value: 14.3,
-                                color: Color(0xffFF8789),
-                                radius: pieChartRadius,
-                                titleStyle: _pieTitleStyle
-                              ),
-                              PieChartSectionData(
-                                color: Color(0xffAFD4FF),
-                                radius: pieChartRadius,
-                                titleStyle: _pieTitleStyle
-                              )
-                            ],
+                            sections: buildPieSections(),
                             centerSpaceRadius: 50,
                             sectionsSpace: 0,
                             

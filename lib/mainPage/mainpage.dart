@@ -2,23 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:ver1/mainPage/pageview.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({super.key});
+  final double emotion;
+  final ValueChanged<double> onEmotionChanged;
+
+  const Mainpage({super.key, required this.emotion, required this.onEmotionChanged});
 
   @override
   State<Mainpage> createState() => _MainpageState();
 }
 
 class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
-  double emotion = 0;
+  late double emotion;
 
   @override
   void initState() {
     super.initState();
+    emotion = widget.emotion;
+    _currentDiscreteSliderValue = widget.emotion;
+    _thumbColor = getThumbColor(widget.emotion);
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant Mainpage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.emotion != widget.emotion) {
+      setState(() {
+        _currentDiscreteSliderValue = widget.emotion;
+        _currentDiscreteSliderValue = widget.emotion;
+        _thumbColor = getThumbColor(widget.emotion);
+      });
+    }
   }
 
   Color? _thumbColor = Color.fromRGBO(217, 217, 217, 1);
@@ -203,6 +221,7 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                             setState(() {
                               _currentDiscreteSliderValue = value;
                               emotion = value;
+                              widget.onEmotionChanged(value);
                               _thumbColor = getThumbColor(value);
                             });
                           },

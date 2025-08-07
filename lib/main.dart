@@ -48,6 +48,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
 
+  double emotion = 0;
+
   @override
   void initState() {
     super.initState();
@@ -67,8 +69,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: [
-          Mainpage(),
-          Analysispage(),
+          Mainpage(
+            emotion: emotion,
+            onEmotionChanged: (newEmotion) {
+              setState(() {
+                emotion = newEmotion; // ← 여기서 상태 갱신
+              });
+            },
+          ),
+          Analysispage(emotion: emotion,),
           MyApp2(),
           NotificationPage(diaryTitle1: globalTitleController.text),
           ProfileMain(
