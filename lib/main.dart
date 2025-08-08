@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Mainpage(),
           Analysispage(),
           MyApp2(),
-          NotificationPage(diaryTitle1: globalTitleController.text),
+          NotificationPage(title: globalTitleController.text),
           ProfileMain(
             diaryTitle1: globalTitleController.text,
             diaryTitle2: globalfirstTextController.text,

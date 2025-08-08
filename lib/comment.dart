@@ -93,7 +93,6 @@ class CommentList extends StatelessWidget {
               MaterialPageRoute(builder: (context) => WholeProfile()),
             );
           },
-
           child: Padding(
             padding: EdgeInsets.only(left: 15, top: 15),
             child: Row(
