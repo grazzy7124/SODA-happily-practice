@@ -3,9 +3,9 @@ import 'package:ver1/main.dart';
 import 'package:ver1/write.dart';
 
 class NotificationPage extends StatefulWidget {
-  const NotificationPage({super.key, required this.diaryTitle1});
+  const NotificationPage({super.key, required this.title});
 
-  final String diaryTitle1;
+  final String title;
 
   @override
   State<NotificationPage> createState() => _NotificationPageState();
@@ -25,9 +25,9 @@ class _NotificationPageState extends State<NotificationPage> {
                 Text('알림', style: _notificationStyle),
               ],
             ),
-            CardItem('라이딩 러버', true, diaryTitle1: widget.diaryTitle1),
-            CardItem('예은', true, diaryTitle1: widget.diaryTitle1),
-            CardItem('차은우', false, diaryTitle1: widget.diaryTitle1),
+            CardItem('라이딩 러버', true, diaryTitle1: widget.title),
+            CardItem('예은', true, diaryTitle1: widget.title),
+            CardItem('차은우', false, diaryTitle1: widget.title),
           ],
         ),
       ],

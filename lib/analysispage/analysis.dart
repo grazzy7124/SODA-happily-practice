@@ -4,7 +4,7 @@ import 'package:ver1/color.dart';
 
 class Analysis extends StatelessWidget {
   final double emotion;
-  List<double> emotions = [9, 6];
+  List<double> emotions = [9, 3, 7, 0];
   
   double? pieChartRadius = 80;
   double today = DateTime.now().weekday.toDouble();

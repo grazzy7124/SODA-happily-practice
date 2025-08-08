@@ -223,7 +223,7 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                               emotion = value;
                               widget.onEmotionChanged(value);
                               _thumbColor = getThumbColor(value);
-                            });
+                            });       
                           },
                         );
                       },

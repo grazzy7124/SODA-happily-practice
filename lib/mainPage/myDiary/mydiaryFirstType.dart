@@ -2,14 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:ver1/color.dart';
+import 'package:ver1/main.dart';
 import 'package:ver1/main3.dart';
 import 'package:ver1/notificationpage/notification.dart';
 
 class MydiaryFirstType extends StatefulWidget {
   final int selectedIndex;
   final String date;
-  final String title;
-  final String firstText;
+  // final String title;
+  // final String firstText;
   final String secondText;
   final String thirdText;
   final String image;
@@ -19,8 +20,8 @@ class MydiaryFirstType extends StatefulWidget {
     super.key,
     required this.date,
     required this.selectedIndex,
-    required this.title,
-    required this.firstText,
+    // required this.title,
+    // required this.firstText,
     required this.secondText,
     required this.thirdText,
     required this.isReleased,
@@ -47,8 +48,8 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
     super.initState();
     date = widget.date;
     _selectedIndex = widget.selectedIndex;
-    title = widget.title;
-    firstText = widget.firstText;
+    title = globalTitleController.text;
+    firstText = globalfirstTextController.text;
     secondText = widget.secondText;
     thirdText = widget.thirdText;
     image = widget.image;
