@@ -1,21 +1,71 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ver1/analysispage/analysispage.dart';
 import 'package:ver1/main2.dart';
 import 'package:ver1/main3.dart';
 import 'package:ver1/mainPage/mainpage.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ver1/notificationpage/notification.dart';
+import 'firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final TextEditingController globalTitleController = TextEditingController();
 final TextEditingController globalfirstTextController = TextEditingController();
+final TextEditingController globalsecondTextController =
+    TextEditingController();
+final TextEditingController globalthirdTextController = TextEditingController();
 
-void main() {
+Future<void> globalCreate(
+  String title,
+  String text,
+  String text2,
+  String text3,
+) async {
+  await FirebaseFirestore.instance.collection('HAPPILY').add({
+    'title': title,
+    'text': text,
+    'text2': text2,
+    'text3': text3,
+  });
+}
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String title = '';
+  String text = '';
+  String text2 = '';
+  String text3 = '';
+
+  final createRef = FirebaseFirestore.instance.collection('happily');
+
+  // Future<void> Create() async {
+  //   await createRef.add({'title': title, 'text': text});
+  // }
+
+  Future<void> Read() async {
+    final snapshot = await createRef.where('title', isEqualTo: title).get();
+    if (snapshot.docs.isNotEmpty) {
+      final data = snapshot.docs.first.data();
+      setState(() {
+        globalTitleController.text = data['title'];
+        globalfirstTextController.text = data['text'];
+        globalsecondTextController.text = data['text2'];
+        globalthirdTextController.text = data['text3'];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    
     _tabController = TabController(length: 5, vsync: this);
   }
 
@@ -73,16 +124,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             emotion: emotion,
             onEmotionChanged: (newEmotion) {
               setState(() {
-                emotion = newEmotion; // ← 여기서 상태 갱신
+                emotion = newEmotion;
               });
             },
           ),
-          Analysispage(emotion: emotion,),
+          Analysispage(emotion: emotion),
           MyApp2(),
           NotificationPage(title: globalTitleController.text),
           ProfileMain(
-            diaryTitle1: globalTitleController.text,
-            diaryTitle2: globalfirstTextController.text,
+            diarytitle: globalTitleController.text,
+            diarytext: globalfirstTextController.text,
+            diarytext2: globalsecondTextController.text,
+            diarytext3: globalthirdTextController.text,
           ),
         ],
       ),

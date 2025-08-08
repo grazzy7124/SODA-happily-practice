@@ -5,12 +5,16 @@ import 'package:ver1/write.dart';
 class ProfileMain extends StatelessWidget {
   const ProfileMain({
     super.key,
-    required this.diaryTitle1,
-    required this.diaryTitle2,
+    required this.diarytitle,
+    required this.diarytext,
+    required this.diarytext2,
+    required this.diarytext3,
   });
 
-  final String diaryTitle1;
-  final String diaryTitle2;
+  final String diarytitle;
+  final String diarytext;
+  final String diarytext2;
+  final String diarytext3;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +43,10 @@ class ProfileMain extends StatelessWidget {
           ProfileListLast(
             happliy: 'assets/happily/4.png',
             photo: 'assets/list/1.png',
-            title: diaryTitle1,
-            text: diaryTitle2,
+            title: diarytitle,
+            text: diarytext,
+            text2: diarytext2,
+            text3: diarytext3,
             date: '2025.7.30',
             public: '공개',
             onTap: () {
@@ -48,7 +54,7 @@ class ProfileMain extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      Write(diaryTitle1: diaryTitle1, diaryTitle2: diaryTitle2),
+                      Write(diarytitle: diarytitle, diarytext: diarytext, diarytext2: diarytext2, diarytext3: diarytext3,),
                 ),
               );
             },
@@ -267,6 +273,8 @@ class ProfileListLast extends StatelessWidget {
     required this.title,
     required this.photo,
     required this.text,
+    required this.text2,
+    required this.text3,
     required this.date,
     required this.public,
     this.onTap,
@@ -276,6 +284,8 @@ class ProfileListLast extends StatelessWidget {
   final String title;
   final String photo;
   final String text;
+  final String text2;
+  final String text3;
   final String date;
   final String public;
   final VoidCallback? onTap;
@@ -315,6 +325,20 @@ class ProfileListLast extends StatelessWidget {
                 padding: EdgeInsets.only(top: 13, left: 17),
                 child: Text(
                   text,
+                  style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 13, left: 17),
+                child: Text(
+                  text2,
+                  style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 13, left: 17),
+                child: Text(
+                  text3,
                   style: TextStyle(fontSize: 15, fontFamily: 'gangwon'),
                 ),
               ),

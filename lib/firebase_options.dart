@@ -8,11 +8,11 @@ import 'package:flutter/foundation.dart'
 ///
 /// Example:
 /// ```dart
- import 'firebase_options.dart';
+/// import 'firebase_options.dart';
 /// // ...
-await Firebase.initializeApp  (
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+/// await Firebase.initializeApp(
+///   options: DefaultFirebaseOptions.currentPlatform,
+/// );
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
@@ -41,46 +41,46 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAetka-e3bXgN6--m9PMAzw6gFS7oyGGnU',
-    appId: '1:721037065826:web:2b76561241ca6458929b3b',
-    messagingSenderId: '721037065826',
-    projectId: 'soda-happily-practice',
-    authDomain: 'soda-happily-practice.firebaseapp.com',
-    storageBucket: 'soda-happily-practice.firebasestorage.app',
+    apiKey: 'AIzaSyAUsgHocWX3Uy-alTy_eUfVC9neWGT0284',
+    appId: '1:320869289971:web:705dd9e9c483b3d5b8cc86',
+    messagingSenderId: '320869289971',
+    projectId: 'happily-2d562',
+    authDomain: 'happily-2d562.firebaseapp.com',
+    storageBucket: 'happily-2d562.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDT-2FXAVfNClkfuWbT_nvZdEAyFS3GCjE',
-    appId: '1:721037065826:android:cfd7a547a34306ab929b3b',
-    messagingSenderId: '721037065826',
-    projectId: 'soda-happily-practice',
-    storageBucket: 'soda-happily-practice.firebasestorage.app',
+    apiKey: 'AIzaSyA4hv0UWPUzJyRsQd0yQbg5fO3XheswOpA',
+    appId: '1:320869289971:android:8c22588d52ebdab8b8cc86',
+    messagingSenderId: '320869289971',
+    projectId: 'happily-2d562',
+    storageBucket: 'happily-2d562.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAiCke4QTWRqbffl8L4qDNPmvoRO4B1F6U',
-    appId: '1:721037065826:ios:b4320c34600c9cbf929b3b',
-    messagingSenderId: '721037065826',
-    projectId: 'soda-happily-practice',
-    storageBucket: 'soda-happily-practice.firebasestorage.app',
+    apiKey: 'AIzaSyC5N5mYjq5JGY5w8kKqU6kqYNKJJtW2SbA',
+    appId: '1:320869289971:ios:d3337d34183187cfb8cc86',
+    messagingSenderId: '320869289971',
+    projectId: 'happily-2d562',
+    storageBucket: 'happily-2d562.firebasestorage.app',
     iosBundleId: 'com.example.ver1',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAiCke4QTWRqbffl8L4qDNPmvoRO4B1F6U',
-    appId: '1:721037065826:ios:b4320c34600c9cbf929b3b',
-    messagingSenderId: '721037065826',
-    projectId: 'soda-happily-practice',
-    storageBucket: 'soda-happily-practice.firebasestorage.app',
+    apiKey: 'AIzaSyC5N5mYjq5JGY5w8kKqU6kqYNKJJtW2SbA',
+    appId: '1:320869289971:ios:d3337d34183187cfb8cc86',
+    messagingSenderId: '320869289971',
+    projectId: 'happily-2d562',
+    storageBucket: 'happily-2d562.firebasestorage.app',
     iosBundleId: 'com.example.ver1',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyAetka-e3bXgN6--m9PMAzw6gFS7oyGGnU',
-    appId: '1:721037065826:web:7f8517cf2ac809cd929b3b',
-    messagingSenderId: '721037065826',
-    projectId: 'soda-happily-practice',
-    authDomain: 'soda-happily-practice.firebaseapp.com',
-    storageBucket: 'soda-happily-practice.firebasestorage.app',
+    apiKey: 'AIzaSyAUsgHocWX3Uy-alTy_eUfVC9neWGT0284',
+    appId: '1:320869289971:web:d2cce218000e67dab8cc86',
+    messagingSenderId: '320869289971',
+    projectId: 'happily-2d562',
+    authDomain: 'happily-2d562.firebaseapp.com',
+    storageBucket: 'happily-2d562.firebasestorage.app',
   );
 }

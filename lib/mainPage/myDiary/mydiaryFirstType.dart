@@ -9,23 +9,13 @@ import 'package:ver1/notificationpage/notification.dart';
 class MydiaryFirstType extends StatefulWidget {
   final int selectedIndex;
   final String date;
-  // final String title;
-  // final String firstText;
-  final String secondText;
-  final String thirdText;
-  final String image;
   final bool isReleased;
 
   const MydiaryFirstType({
     super.key,
     required this.date,
     required this.selectedIndex,
-    // required this.title,
-    // required this.firstText,
-    required this.secondText,
-    required this.thirdText,
     required this.isReleased,
-    this.image = 'assets/images/defaultImage.png',
   });
 
   @override
@@ -36,9 +26,9 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
   late int _selectedIndex;
   late String date;
   late String title;
-  late String firstText;
-  late String secondText;
-  late String thirdText;
+  late String text;
+  late String text2;
+  late String text3;
   late String image;
   late bool isReleased;
 
@@ -49,11 +39,11 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
     date = widget.date;
     _selectedIndex = widget.selectedIndex;
     title = globalTitleController.text;
-    firstText = globalfirstTextController.text;
-    secondText = widget.secondText;
-    thirdText = widget.thirdText;
-    image = widget.image;
+    text = globalfirstTextController.text;
+    text2 = globalsecondTextController.text;
+    text3 = globalthirdTextController.text;
     isReleased = widget.isReleased;
+    image = 'assets/images/diary/photo.png';
   }
 
   @override
@@ -173,7 +163,10 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
                     height: 180,
                     child: GestureDetector(
                       onTap: () {},
-                      child: Image.asset(image, width: 171, height: 143),
+                      // child: Image.asset(image, width: 171, height: 143),
+                      child: image == null
+                          ? Placeholder()
+                          : Image.asset(image!, width: 171, height: 143),
                     ),
                   ),
                 ],
@@ -198,9 +191,9 @@ class _MydiaryFirstTypeState extends State<MydiaryFirstType> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(firstText, style: _textStyle),
-                        Text(secondText, style: _textStyle),
-                        Text(thirdText, style: _textStyle),
+                        Text(text, style: _textStyle),
+                        Text(text2, style: _textStyle),
+                        Text(text3, style: _textStyle),
                       ],
                     ),
                   ),

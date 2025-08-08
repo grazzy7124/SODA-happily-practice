@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ver1/comment.dart';
-import 'package:ver1/read.dart';
 
 class Write extends StatelessWidget {
   const Write({
     super.key,
-    required this.diaryTitle1,
-    required this.diaryTitle2,
+    required String diarytitle,
+    required String diarytext,
+    required String diarytext2,
+    required String diarytext3,
   });
 
-  final String diaryTitle1;
-  final String diaryTitle2;
+  final String diarytitle;
+  final String diarytext;
+  final String diarytext2;
+  final String diarytext3;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +42,10 @@ class Write extends StatelessWidget {
             wholeday: '23',
             wholedate: '토',
             wholephoto: 'assets/list/1.png',
-            wholetitle: diaryTitle1,
-            wholetext: diaryTitle2,
+            wholetitle: diarytitle,
+            wholetext: diarytext,
+            wholetext2: diarytext2,
+            wholetext3: diarytext3,
           ),
         ],
       ),
@@ -59,6 +64,8 @@ class ReadMain extends StatelessWidget {
     required this.wholephoto,
     required this.wholetitle,
     required this.wholetext,
+    required this.wholetext2,
+    required this.wholetext3,
   });
 
   final String wholeyear;
@@ -68,6 +75,8 @@ class ReadMain extends StatelessWidget {
   final String wholephoto;
   final String wholetitle;
   final String wholetext;
+  final String wholetext2;
+  final String wholetext3;
 
   @override
   Widget build(BuildContext context) {
@@ -147,16 +156,36 @@ class ReadMain extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 30, right: 30, top: 10),
-                  child: Text(
-                    wholetext,
-                    style: TextStyle(fontSize: 17, fontFamily: 'gangwon'),
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+                      child: Text(
+                        wholetext,
+                        style: TextStyle(fontSize: 17, fontFamily: 'gangwon'),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+                      child: Text(
+                        wholetext2,
+                        style: TextStyle(fontSize: 17, fontFamily: 'gangwon'),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+                      child: Text(
+                        wholetext3,
+                        style: TextStyle(fontSize: 17, fontFamily: 'gangwon'),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
+
           Positioned(
             bottom: 170,
             right: 10,
