@@ -4,10 +4,10 @@ import 'package:ver1/comment.dart';
 class Write extends StatelessWidget {
   const Write({
     super.key,
-    required String diarytitle,
-    required String diarytext,
-    required String diarytext2,
-    required String diarytext3,
+    required this.diarytitle,
+    required this.diarytext,
+    required this.diarytext2,
+    required this.diarytext3,
   });
 
   final String diarytitle;
