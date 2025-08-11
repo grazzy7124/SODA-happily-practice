@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:ver1/color.dart';
 
-class Analysis extends StatelessWidget {
+class Analysis extends StatefulWidget {
   final double emotion;
-  List<double> emotions = [9, 3, 7, 0];
-  
   double? pieChartRadius = 80;
+  Analysis({super.key, required this.emotion, this.pieChartRadius = 80});
+
+  @override
+  State<Analysis> createState() => _AnalysisState();
+}
+
+class _AnalysisState extends State<Analysis> {
+  bool _imageinvisible = false;
+  late double emotion;
+
+  List<double> emotions = [];
+
   double today = DateTime.now().weekday.toDouble();
 
   Color getEmotionColor (double emotion) {
@@ -19,7 +29,12 @@ class Analysis extends StatelessWidget {
   }
 
   // Line 섹션 만들기
-  List<Map<String, dynamic>> emotionRecords = [];
+  List<Map<String, dynamic>> emotionRecords = [
+    {
+      'date' : DateTime.utc(2025,8,7),
+      'emotion' : -3
+    }
+  ];
 
   void addEmotion(double emotion) {
     emotionRecords.add({
@@ -66,203 +81,280 @@ class Analysis extends StatelessWidget {
             value: percentage,
             color: entry.key,
             title: '${percentage.toStringAsFixed(1)}%',
-            radius: pieChartRadius!,
+            radius: widget.pieChartRadius!,
             titleStyle: _pieTitleStyle,
           );
         }).toList();
   }
 
-  Analysis({super.key, required this.emotion, this.pieChartRadius = 80}) {
-    addEmotion(emotion);
-    emotions.add(emotion);
+  Map<String, double> emotionRatios() {
+    int total = emotions.length;
+    int positive = 0;
+    int neutral = 0;
+    int negative = 0;
+
+    for (double e in emotions) {
+      Color c = getEmotionColor(e);
+      if (c == emotion1 || c == emotion2) {
+        negative++;
+      }
+      else if (c == emotion3) {
+        neutral++;
+      }
+      else if (c == emotion4 || c == emotion5) {
+        positive++;
+      }
+    }
+
+    return {
+      'positive' : (positive / total) * 100,
+      'neutral' : (neutral / total) * 100,
+      'negative' : (negative / total) * 100,
+    };
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    emotion = widget.emotion;
+    addEmotion(widget.emotion);
+    emotions.add(widget.emotion);
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Column(
+        Stack(
           children: [
-            Row(
+            Column(
               children: [
-                SizedBox(width: 20,),
-                Text('감정 변화', style: _explanationStyle,),
-              ],
-            ),
-            // line chart 선그래프 
-            SizedBox(
-              width: 330, height: 270,
-              child: Stack(
-                children: [
-                  Card(
-                    color: Colors.white,
-                    child: SizedBox(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 35, right: 25, top: 25, bottom: 37),
-                        child: LineChart(
-                          LineChartData(
-                            minX: 1,
-                            maxX: 7,
-                            minY: -10,
-                            maxY: 10,
-                            lineBarsData: [
-                              LineChartBarData(
-                                spots: getEmotionSpots(),
-                                // [
-                                //   FlSpot(1, emotions[0]),
-                                //   FlSpot(2, emotions[1]),
-                                //   FlSpot(today, emotion),
-                                // ],
-                                // isCurved: true,
-                                // curveSmoothness: 0.2,
-                                color: Color(0xff9BCFFF),
-                                barWidth: 2,
-                                // gradient: LinearGradient(colors: [Colors.red, Colors.amber, Colors.blue]),
-                                dotData: FlDotData(
-                                  
-                                )
+                Row(
+                  children: [
+                    SizedBox(width: 20,),
+                    Text('감정 변화', style: _explanationStyle,),
+                  ],
+                ),
+                // line chart 선그래프 
+                SizedBox(
+                  width: 330, height: 270,
+                  child: Stack(
+                    children: [
+                      Card(
+                        color: Colors.white,
+                        child: SizedBox(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 35, right: 25, top: 25, bottom: 37),
+                            child: LineChart(
+                              LineChartData(
+                                minX: 1,
+                                maxX: 7,
+                                minY: -10,
+                                maxY: 10,
+                                lineBarsData: [
+                                  LineChartBarData(
+                                    spots: getEmotionSpots(),
+                                    // [
+                                    //   FlSpot(1, emotions[0]),
+                                    //   FlSpot(2, emotions[1]),
+                                    //   FlSpot(today, emotion),
+                                    // ],
+                                    // isCurved: true,
+                                    // curveSmoothness: 0.2,
+                                    color: Color(0xff9BCFFF),
+                                    barWidth: 2,
+                                    // gradient: LinearGradient(colors: [Colors.red, Colors.amber, Colors.blue]),
+                                    dotData: FlDotData(
+                                      
+                                    )
+                                  ),
+                                ],
+                                clipData: FlClipData.all(),
+                                titlesData: FlTitlesData(
+                                  show: true,
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: false,
+                                      reservedSize: 40,
+                                      interval: 1,
+                                      // getTitlesWidget: (value, meta) => ,
+                                    )
+                                  ),
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: false,
+                                      reservedSize: 30,
+                                      // getTitlesWidget: (value, meta) {
+                                      //   return SideTitleWidget(
+                                      //     meta: TitleMeta(min: min, max: max, parentAxisSize: parentAxisSize, axisPosition: axisPosition, appliedInterval: appliedInterval, sideTitles: sideTitles, formattedValue: formattedValue, axisSide: axisSide, rotationQuarterTurns: rotationQuarterTurns),
+                                      //     child: Image.asset('assets/images/emotions/emotion1.png'),
+                                      //   )
+                                      // },
+                                    )
+                                  ),
+                                  topTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: false
+                                    )
+                                  ),
+                                  rightTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false)
+                                  )
+                                ),
+                                gridData: FlGridData(show: true),
+                                borderData: FlBorderData(
+                                  show: true,
+                                  border: Border.all(
+                                    color: Color(0xffDDDDDD)
+                                  )
+                                ),
                               ),
-                            ],
-                            clipData: FlClipData.all(),
-                            titlesData: FlTitlesData(
-                              show: true,
-                              bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: false,
-                                  reservedSize: 40,
-                                  interval: 1,
-                                  // getTitlesWidget: (value, meta) => ,
-                                )
-                              ),
-                              leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: false,
-                                  reservedSize: 30,
-                                  // getTitlesWidget: (value, meta) {
-                                  //   return SideTitleWidget(
-                                  //     meta: TitleMeta(min: min, max: max, parentAxisSize: parentAxisSize, axisPosition: axisPosition, appliedInterval: appliedInterval, sideTitles: sideTitles, formattedValue: formattedValue, axisSide: axisSide, rotationQuarterTurns: rotationQuarterTurns),
-                                  //     child: Image.asset('assets/images/emotions/emotion1.png'),
-                                  //   )
-                                  // },
-                                )
-                              ),
-                              topTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: false
-                                )
-                              ),
-                              rightTitles: AxisTitles(
-                                sideTitles: SideTitles(showTitles: false)
-                              )
-                            ),
-                            gridData: FlGridData(show: true),
-                            borderData: FlBorderData(
-                              show: true,
-                              border: Border.all(
-                                color: Color(0xffDDDDDD)
-                              )
+                              duration: const Duration(milliseconds: 150),
+                              curve: Curves.linear,
                             ),
                           ),
-                          duration: const Duration(milliseconds: 150),
-                          curve: Curves.linear,
                         ),
                       ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(width: 10,),
-                      Column(
+                      Row(
                         children: [
-                          SizedBox(height: 20,),
-                          Image.asset(
-                            'assets/images/emotions/emotion5.png',
-                            width: 23.27, height: 19.2,
-                          ),
-                          SizedBox(height: 30,),
-                          Image.asset(
-                            'assets/images/emotions/emotion4.png',
-                            width: 23.27, height: 19.2,
-                          ),
-                          SizedBox(height: 30,),
-                          Image.asset(
-                            'assets/images/emotions/emotion3.png',
-                            width: 23.27, height: 19.2,
-                          ),
-                          SizedBox(height: 30,),
-                          Image.asset(
-                            'assets/images/emotions/emotion2.png',
-                            width: 23.27, height: 19.2,
-                          ),
-                          SizedBox(height: 30,),
-                          Image.asset(
-                            'assets/images/emotions/emotion1.png',
-                            width: 23.27, height: 19.2,
+                          SizedBox(width: 10,),
+                          Column(
+                            children: [
+                              SizedBox(height: 20,),
+                              Image.asset(
+                                'assets/images/emotions/emotion5.png',
+                                width: 23.27, height: 19.2,
+                              ),
+                              SizedBox(height: 30,),
+                              Image.asset(
+                                'assets/images/emotions/emotion4.png',
+                                width: 23.27, height: 19.2,
+                              ),
+                              SizedBox(height: 30,),
+                              Image.asset(
+                                'assets/images/emotions/emotion3.png',
+                                width: 23.27, height: 19.2,
+                              ),
+                              SizedBox(height: 30,),
+                              Image.asset(
+                                'assets/images/emotions/emotion2.png',
+                                width: 23.27, height: 19.2,
+                              ),
+                              SizedBox(height: 30,),
+                              Image.asset(
+                                'assets/images/emotions/emotion1.png',
+                                width: 23.27, height: 19.2,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(height: 230,),
-                      Row(
+                      Column(
                         children: [
-                          SizedBox(width: 34,),
-                          Text('월', style: _dateStsyle,),
-                          SizedBox(width: 33,),
-                          Text('화', style: _dateStsyle,),
-                          SizedBox(width: 33,),
-                          Text('수', style: _dateStsyle,),
-                          SizedBox(width: 33,),
-                          Text('목', style: _dateStsyle,),
-                          SizedBox(width: 33,),
-                          Text('금', style: _dateStsyle,),
-                          SizedBox(width: 33,),
-                          Text('토', style: _dateStsyle,),
-                          SizedBox(width: 33,),
-                          Text('일', style: _dateStsyle,),
+                          SizedBox(height: 230,),
+                          Row(
+                            children: [
+                              SizedBox(width: 34,),
+                              Text('월', style: _dateStsyle,),
+                              SizedBox(width: 33,),
+                              Text('화', style: _dateStsyle,),
+                              SizedBox(width: 33,),
+                              Text('수', style: _dateStsyle,),
+                              SizedBox(width: 33,),
+                              Text('목', style: _dateStsyle,),
+                              SizedBox(width: 33,),
+                              Text('금', style: _dateStsyle,),
+                              SizedBox(width: 33,),
+                              Text('토', style: _dateStsyle,),
+                              SizedBox(width: 33,),
+                              Text('일', style: _dateStsyle,),
+                            ],
+                          )
                         ],
                       )
                     ],
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 59,),
-            Row(
-              children: [
-                SizedBox(width: 20,),
-                Text('감정 분석', style: _explanationStyle,),
-              ],
-            ),
-            // pie chart 원그래프 
-            SizedBox(
-              width: 330, height: 430,
-              child: Card(
-                color: Colors.white,
-                child: Column(
+                  ),
+                ),
+                SizedBox(height: 59,),
+                Row(
                   children: [
-                    AspectRatio(
-                      aspectRatio: 1.0,
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: PieChart(
-                          PieChartData(
-                            sections: buildPieSections(),
-                            centerSpaceRadius: 50,
-                            sectionsSpace: 0,
-                            
-                          )
-                        ),
-                      ),
-                    ),
-                    Text('긍정 감정 비율: ', style: _analysisStyle,),
-                    Text('중립 감정 비율: ', style: _analysisStyle,),
-                    Text('부정 감정 비율: ', style: _analysisStyle,),
+                    SizedBox(width: 20,),
+                    Text('감정 분석', style: _explanationStyle,),
                   ],
                 ),
-              ),
+                // pie chart 원그래프 
+                SizedBox(
+                  width: 330, height: 430,
+                  child: Card(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1.0,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: PieChart(
+                              PieChartData(
+                                sections: buildPieSections(),
+                                centerSpaceRadius: 50,
+                                sectionsSpace: 0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(text: '긍정 감정 비율: ', style: _analysisStyle,),
+                              TextSpan(text: '${emotionRatios()['positive']!.toStringAsFixed(1)}%', style: _analysisStyle),
+                            ]
+                          )
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(text: '중립 감정 비율: ', style: _analysisStyle,),
+                              TextSpan(text: '${emotionRatios()['neutral']!.toStringAsFixed(1)}%', style: _analysisStyle),
+                            ]
+                          )
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(text: '부정 감정 비율: ', style: _analysisStyle,),
+                              TextSpan(text: '${emotionRatios()['negative']!.toStringAsFixed(1)}%', style: _analysisStyle),
+                            ]
+                          )
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 60,)
+              ],
+            ),
+            Positioned(
+              bottom: 27.6, left: 32,
+              child: _imageinvisible ?              
+              Image.asset(
+                'assets/images/bubble.png',
+                width: 256, height: 83.4,
+              ) : SizedBox.shrink()
+            ),
+            Positioned(
+              bottom: 13.22, left: 24,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _imageinvisible = !_imageinvisible;
+                  });
+                },
+                child: Image.asset(
+                  'assets/images/analysisIcon.png',
+                  width: 30, height: 25,
+                ),
+              )
             )
           ],
         ),

@@ -51,7 +51,7 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
             controller: _tabController,
             indicatorColor: Colors.black,
             indicatorWeight: 2,
-            indicatorPadding: EdgeInsetsGeometry.only(left: 40, right: 40),
+            indicatorPadding: EdgeInsets.only(left: 40, right: 40),
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
@@ -85,7 +85,7 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
                 alignment: AlignmentGeometry.directional(0, -1),
                 child: Analysis(emotion: widget.emotion,),
               ),
-              Align(child: Calendar()),
+              Align(child: Calendar(emotion: emotion,)),
             ],
           ),
         ),

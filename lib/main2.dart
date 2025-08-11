@@ -14,15 +14,19 @@ class MyApp2 extends StatelessWidget {
         body: Column(
           children: [
             Container(
+              height: 55,
               color: Color(0xffFCFAF5),
               child: const TabBar(
+                indicatorColor: Colors.black,
+                indicatorWeight: 2,
+                indicatorPadding: EdgeInsetsGeometry.only(left: 40, right: 40),
+                indicatorSize: TabBarIndicatorSize.tab,
                 tabs: [
                   Tab(text: '전체 일기'),
                   Tab(text: '친구 일기'),
                 ],
                 labelColor: Colors.black,
                 unselectedLabelColor: Color(0xff878787),
-                indicatorColor: Colors.black,
               ),
             ),
             Expanded(child: TabBarView(children: [WholePage(), FriendPage()])),
