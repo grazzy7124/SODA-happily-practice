@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
 
   // Future<void> Create() async {
   //   await createRef.add({'title': title, 'text': text});
-  // }
+  // }      
 
   Future<void> Read() async {
     final snapshot = await createRef.where('title', isEqualTo: title).get();
