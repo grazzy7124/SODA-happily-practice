@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ver1/main.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,24 +16,39 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
       ),
-      home: const MyHomePage(title: 'Happily'),
+      home: const LoginPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-
-  final String title;
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final _textEditingController1 = TextEditingController(); // 아이디
-  final _textEditingController2 = TextEditingController(); // 비밀번호  
+class _LoginPageState extends State<LoginPage> {
+  final _idController = TextEditingController(); // 아이디
+  final _pwController = TextEditingController(); // 비밀번호  
+
+  void _login() {
+    String id = _idController.text.trim();
+    String pw = _pwController.text.trim();
+
+    
+    if (id.isNotEmpty && pw.isNotEmpty) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const MyApp()), // 바로 메인 진입
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('아이디와 비밀번호를 입력하세요.')),
+      );
+    }
+  }
+
   late bool focused = false;
 
   final FocusNode _focusNode1 = FocusNode();
@@ -84,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             width: 273,
             child: TextFormField(
-              controller: _textEditingController1,
+              controller: _idController,
               decoration: InputDecoration(
                 fillColor: fillColor,
                 filled: true,
@@ -108,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             width: 273,
             child: TextFormField(
+              controller: _pwController,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
@@ -136,7 +153,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(5))
               )
             ),
-            onPressed: (){}, 
+            onPressed: (){
+              _login();
+            }, 
             child: Text('로그인', style: TextStyle(color: Colors.white),)
           ),
           SizedBox(height: 40,),

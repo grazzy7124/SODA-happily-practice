@@ -39,6 +39,7 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 20,),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
@@ -51,27 +52,35 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
             controller: _tabController,
             indicatorColor: Colors.black,
             indicatorWeight: 2,
-            indicatorPadding: EdgeInsets.only(left: 40, right: 40),
+            indicatorPadding: EdgeInsets.only(left: 35, right: 35),
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
-                icon: Center(
-                  child: Text(
-                    '분석',
-                    style: _selectedIndex == 0
-                        ? _selectedTabStyle
-                        : _unselectedTabStyle,
-                  ),
+                icon: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      '분석',
+                      style: _selectedIndex == 0
+                          ? _selectedTabStyle
+                          : _unselectedTabStyle,
+                    ),
+                    SizedBox(height: 8,),
+                  ],
                 ),
               ),
               Tab(
-                icon: Center(
-                  child: Text(
-                    '달력',
-                    style: _selectedIndex == 1
-                        ? _selectedTabStyle
-                        : _unselectedTabStyle,
-                  ),
+                icon: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      '달력',
+                      style: _selectedIndex == 1
+                          ? _selectedTabStyle
+                          : _unselectedTabStyle,
+                    ),
+                    SizedBox(height: 8,),
+                  ],
                 ),
               ),
             ],

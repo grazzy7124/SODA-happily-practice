@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ver1/analysispage/analysispage.dart';
+import 'package:ver1/login.dart';
 import 'package:ver1/main2.dart';
 import 'package:ver1/main3.dart';
 import 'package:ver1/mainPage/mainpage.dart';
@@ -11,8 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final TextEditingController globalTitleController = TextEditingController();
 final TextEditingController globalfirstTextController = TextEditingController();
-final TextEditingController globalsecondTextController =
-    TextEditingController();
+final TextEditingController globalsecondTextController = TextEditingController();
 final TextEditingController globalthirdTextController = TextEditingController();
 
 Future<void> globalCreate(
@@ -21,7 +21,7 @@ Future<void> globalCreate(
   String text2,
   String text3,
 ) async {
-  await FirebaseFirestore.instance.collection('HAPPILY').add({
+  await FirebaseFirestore.instance.collection('users').add({
     'title': title,
     'text': text,
     'text2': text2,
@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
 
   // Future<void> Create() async {
   //   await createRef.add({'title': title, 'text': text});
-  // }      
+  // }
 
   Future<void> Read() async {
     final snapshot = await createRef.where('title', isEqualTo: title).get();
@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    
+
     _tabController = TabController(length: 5, vsync: this);
   }
 
