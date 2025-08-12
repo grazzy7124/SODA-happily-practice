@@ -10,11 +10,6 @@ import 'package:ver1/notificationpage/notification.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final TextEditingController globalTitleController = TextEditingController();
-final TextEditingController globalfirstTextController = TextEditingController();
-final TextEditingController globalsecondTextController = TextEditingController();
-final TextEditingController globalthirdTextController = TextEditingController();
-
 Future<void> globalCreate(
   String title,
   String text,
@@ -49,23 +44,6 @@ class _MyAppState extends State<MyApp> {
   String text3 = '';
 
   final createRef = FirebaseFirestore.instance.collection('happily');
-
-  // Future<void> Create() async {
-  //   await createRef.add({'title': title, 'text': text});
-  // }
-
-  Future<void> Read() async {
-    final snapshot = await createRef.where('title', isEqualTo: title).get();
-    if (snapshot.docs.isNotEmpty) {
-      final data = snapshot.docs.first.data();
-      setState(() {
-        globalTitleController.text = data['title'];
-        globalfirstTextController.text = data['text'];
-        globalsecondTextController.text = data['text2'];
-        globalthirdTextController.text = data['text3'];
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,13 +81,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
   late String userID; // login page에서 받아올 id
+
   double emotion = 0;
   bool hasEmotion = false;
 
   @override
   void initState() {
     super.initState();
-
     _tabController = TabController(length: 5, vsync: this);
   }
 
@@ -146,13 +124,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           Analysispage(userID: userID, emotion: emotion, hasEmotion: hasEmotion),
           MyApp2(),
-          NotificationPage(title: globalTitleController.text),
+       //   NotificationPage(title: TitleController.text),
           ProfileMain(
-            diarytitle: globalTitleController.text,
-            diarytext: globalfirstTextController.text,
-            diarytext2: globalsecondTextController.text,
-            diarytext3: globalthirdTextController.text,
-          ),
+          //   diarytitle: TitleController.text,
+          //   diarytext: FirstTextController.text,
+          //   diarytext2: SecondTextController.text,
+          //   diarytext3: ThirdTextController.text,
+         ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

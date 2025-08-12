@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ver1/mainPage/myDiary/mydiaryThirdType.dart';
@@ -13,26 +14,18 @@ class ThirdDiaryPage extends StatefulWidget {
 
 class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
   bool isReleased = false;
-  DateTime todayDate = DateTime.now();
-  String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
-  int _selectedIndex = 0; // dropdownbuttonItem
+  final String formattedDate = DateFormat(
+    'yyyy년 MM월 dd일',
+  ).format(DateTime.now());
+  int _selectedIndex = 0;
+  late bool showImage;
 
-    // 제목 받아오는 컨트롤러
   final titleController = TextEditingController();
-  // 본문 컨트롤러
-  final textController = TextEditingController();
+  final firstTextController = TextEditingController();
+  final secondTextController = TextEditingController();
+  final thirdTextController = TextEditingController();
 
-  late double currentEmotion;
-
-  @override
-  void initState() {
-    super.initState();
-    currentEmotion = widget.emotion; 
-
-    _selectedIndex =  getSelectedIndex(currentEmotion);
-  }
-
-  int getSelectedIndex (double currentEmotion) {
+  int getSelectedIndex(double currentEmotion) {
     if (currentEmotion <= -8) return 0;
     if (currentEmotion <= -3) return 1;
     if (currentEmotion <= 2) return 2;
@@ -41,6 +34,40 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
     return 0;
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = getSelectedIndex(widget.emotion);
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    firstTextController.dispose();
+    secondTextController.dispose();
+    thirdTextController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveAndOpenDetail() async {
+    final feedsRef = FirebaseFirestore.instance.collection('feeds');
+    final docRef = await feedsRef.add({
+      'title': titleController.text.trim(),
+      'text1': firstTextController.text.trim(),
+      'text2': secondTextController.text.trim(),
+      'text3': thirdTextController.text.trim(),
+      'date': formattedDate,
+      'emotionIndex': _selectedIndex,
+      'isReleased': isReleased,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => MydiaryThirdType(docId: docRef.id)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +75,7 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
       backgroundColor: Color(0xffFCFAF5),
       body: Column(
         children: [
-          SizedBox(height: 30,),
+          SizedBox(height: 30),
           Container(
             height: 43,
             child: Stack(
@@ -56,10 +83,8 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                 Row(
                   children: [
                     TextButton(
-                      onPressed: (){
-                        Navigator.pop(context);
-                      }, 
-                      child: Text('취소', style: _cancleStyle,)
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('취소', style: _cancleStyle),
                     ),
                   ],
                 ),
@@ -70,52 +95,30 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
                       side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(
-                          color: Colors.black,
-                          width: 2,
-                        ),
+                        (states) =>
+                            const BorderSide(color: Colors.black, width: 2),
                       ),
-                      value: isReleased, 
+                      value: isReleased,
                       onChanged: (bool? value) {
-                        setState(() {
-                          isReleased = value!;
-                        });
+                        setState(() => isReleased = value ?? false);
                       },
                     ),
-                    Text('공개', style: _dateStyle,),
+                    Text('공개', style: _dateStyle),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: (){
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return MydiaryThirdType(
-                                date: formattedDate, 
-                                selectedIndex: _selectedIndex,
-                                title: titleController.text,
-                                text: textController.text,
-                                isReleased: isReleased,
-                              );
-                            }
-                          )
-                        );
-                      }, 
-                      child: Text('등록', style: _uploadStyle,)
+                      onPressed: _saveAndOpenDetail,
+                      child: Text('등록', style: _uploadStyle),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
-          Container(
-            height: 1, width: double.infinity,
-            color: Colors.black,
-          ),
+          Container(height: 1, width: double.infinity, color: Colors.black),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
@@ -123,73 +126,41 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                 SizedBox(
                   height: 45,
                   child: Card(
-                    color: Color(0xffF9EEF3),
+                    color: const Color(0xffF9EEF3),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(width: 21,),
+                        const SizedBox(width: 21),
                         Text(formattedDate, style: _dateStyle),
-                        SizedBox(width: 70,),
-                        DropdownButton(
+                        const SizedBox(width: 70),
+                        DropdownButton<int>(
                           value: _selectedIndex,
-                          items: [
-                            DropdownMenuItem(
-                              value: 0,
+                          onChanged: (value) {
+                            if (value == null) return;
+                            setState(() => _selectedIndex = value);
+                          },
+                          items: List.generate(5, (i) {
+                            return DropdownMenuItem(
+                              value: i,
                               child: Image.asset(
-                                'assets/images/emotions/emotion1.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                            DropdownMenuItem(
-                              value: 1,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion2.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                            DropdownMenuItem(
-                              value: 2,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion3.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                            DropdownMenuItem(
-                              value: 3,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion4.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                            DropdownMenuItem(
-                              value: 4,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion5.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                          ], 
-                        onChanged: (int? value) {
-                          setState(() {
-                            if (value != null) {
-                              _selectedIndex = value;
-                            }
-                          });
-                        },
-                        )
+                                'assets/images/emotions/emotion${i + 1}.png',
+                                width: 28,
+                                height: 23,
+                              ),
+                            );
+                          }),
+                        ),
                       ],
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 180,
                   child: GestureDetector(
-                    onTap: () {
-                      
-                    },
+                    onTap: () {},
                     child: Image.asset(
                       'assets/images/diary/photo.png',
-                      width: 80, height: 80,
+                      width: 80,
+                      height: 80,
                     ),
                   ),
                 ),
@@ -199,17 +170,17 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                     color: Color(0xffF9EEF3),
                     child: Row(
                       children: [
-                        SizedBox(width: 30,),
-                        Text('제목: ', style: _titleStyle,),
+                        SizedBox(width: 30),
+                        Text('제목: ', style: _titleStyle),
                         Expanded(
                           child: TextField(
                             controller: titleController,
                             style: _titleStyle,
                             decoration: InputDecoration(
-                              border: InputBorder.none
+                              border: InputBorder.none,
                             ),
-                          )
-                        )
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -218,17 +189,16 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: textController,
+                      controller: firstTextController,
                       style: _textStyle,
                       decoration: InputDecoration(
-                        hint: Text('자유롭게 하루 일기를 남겨 주세요.', style: _hintStyle,),
-                        border: InputBorder.none,
-                        // enabledBorder: UnderlineInputBorder(
-                        //   borderSide: BorderSide(
-                        //     color: Color(0xffEAEAEA),
-                        //     width: 2
-                        //   )
-                        // )
+                        hint: Text('자유롭게 하루 일기를 남겨 주세요.', style: _hintStyle),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xffEAEAEA),
+                            width: 2,
+                          ),
+                        ),
                       ),
                       maxLines: 15,
                     ),
@@ -236,9 +206,9 @@ class _ThirdDiaryPageState extends State<ThirdDiaryPage> {
                 ),
               ],
             ),
-          )
+          ),
         ],
-      )
+      ),
     );
   }
 }
@@ -290,4 +260,3 @@ TextStyle _uploadStyle = TextStyle(
   letterSpacing: 0.6,
   color: Color(0xff80C2FF),
 );
-

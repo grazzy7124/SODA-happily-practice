@@ -12,18 +12,15 @@ class SecondDiary extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.push(
-            context, 
+            context,
             MaterialPageRoute(
               builder: (context) {
-                return SecondDiaryPage(emotion: currentEmotion,);
-              }
-            ),            
+                return SecondDiaryPage(emotion: currentEmotion);
+              },
+            ),
           );
         },
-        child: Image.asset(
-          'assets/images/diary/diary2.png',
-          height: 341,
-        ),
+        child: Image.asset('assets/images/diary/diary2.png', height: 341),
       ),
     );
   }

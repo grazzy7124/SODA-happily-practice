@@ -55,9 +55,15 @@ class _DiaryPageViewState extends State<DiaryPageView>
           controller: _pageViewController,
           onPageChanged: _handlePageViewChanged,
           children: <Widget>[
+<<<<<<< HEAD
             FirstDiary(currentEmotion: emotion),
             SecondDiary(currentEmotion: emotion),
             ThirdDiary(currentEmotion: emotion),
+=======
+            FirstDiary(currentEmotion: emotion,),
+           SecondDiary(currentEmotion: emotion,),
+            ThirdDiary(currentEmotion: emotion,),
+>>>>>>> 65e4f35fd0ac6b28261cef13d86dafe2fd3424bc
           ],
         ),
         PageIndicator(
