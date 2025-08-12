@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:ver1/color.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ver1/services/feed_service.dart';  // FeedService/FeedEntry
+import 'package:ver1/services/feed_service.dart'; // FeedService/FeedEntry
 
 class Analysis extends StatefulWidget {
-  final String userID; 
-  final double emotion;      // 오늘 값 (있다면)
-  final bool hasEmotion;     // 오늘 슬라이더 조작 여부
+  final String userID;
+  final double emotion; // 오늘 값 (있다면)
+  final bool hasEmotion; // 오늘 슬라이더 조작 여부
   double? pieChartRadius = 80;
 
   Analysis({
@@ -28,8 +27,8 @@ class _AnalysisState extends State<Analysis> {
   Color getEmotionColor(double emotion) {
     if (emotion <= -8) return emotion1;
     if (emotion <= -3) return emotion2;
-    if (emotion <=  2) return emotion3;
-    if (emotion <=  7) return emotion4;
+    if (emotion <= 2) return emotion3;
+    if (emotion <= 7) return emotion4;
     if (emotion <= 10) return emotion5;
     return emotion3;
   }
@@ -60,19 +59,16 @@ class _AnalysisState extends State<Analysis> {
     final total = entries.length;
     if (total == 0) return [];
 
-    return counts.entries
-        .where((kv) => kv.value > 0)
-        .map((kv) {
-          final pct = kv.value / total * 100;
-          return PieChartSectionData(
-            value: pct,
-            color: kv.key,
-            title: '${pct.toStringAsFixed(1)}%',
-            radius: widget.pieChartRadius!,
-            titleStyle: _pieTitleStyle,
-          );
-        })
-        .toList();
+    return counts.entries.where((kv) => kv.value > 0).map((kv) {
+      final pct = kv.value / total * 100;
+      return PieChartSectionData(
+        value: pct,
+        color: kv.key,
+        title: '${pct.toStringAsFixed(1)}%',
+        radius: widget.pieChartRadius!,
+        titleStyle: _pieTitleStyle,
+      );
+    }).toList();
   }
 
   // ✅ entries → 비율(긍/중/부)
@@ -83,28 +79,37 @@ class _AnalysisState extends State<Analysis> {
     int positive = 0, neutral = 0, negative = 0;
     for (final e in entries) {
       final c = getEmotionColor(e.emotionIndex);
-      if (c == emotion1 || c == emotion2) negative++;
-      else if (c == emotion3) neutral++;
-      else if (c == emotion4 || c == emotion5) positive++;
+      if (c == emotion1 || c == emotion2)
+        negative++;
+      else if (c == emotion3)
+        neutral++;
+      else if (c == emotion4 || c == emotion5)
+        positive++;
     }
     return {
       'positive': positive / total * 100,
-      'neutral' : neutral  / total * 100,
+      'neutral': neutral / total * 100,
       'negative': negative / total * 100,
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final userID = widget.userID;
 
     return StreamBuilder<List<FeedEntry>>(
-      stream: FeedService().streamRecent7(userID: widget.userID), // 🔴 최근 7일
+      stream: FeedService().streamRecent7(userID: userID), // 🔴 최근 7일
       builder: (context, snap) {
-        if (!snap.hasData) {
+        if (snap.hasError) {
+          // 🔴 인덱스 부족 / 퍼미션 에러면 여기로 옴. 메시지에 콘솔 링크가 뜨는 경우가 많음.
+          return Center(
+            child: Text('오류: ${snap.error}', textAlign: TextAlign.center),
+          );
+        }
+        if (snap.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-
+        
         final entries = snap.data!;
         if (entries.isEmpty) {
           // 🔸 오늘 슬라이더 안 움직였더라도, 과거 데이터가 있으면 그려짐.
@@ -118,8 +123,8 @@ class _AnalysisState extends State<Analysis> {
         }
 
         // 🔹 차트/파이 계산을 전부 entries 기준으로
-        final spots   = _spotsFromEntries(entries);
-        final ratios  = _ratiosFrom(entries);
+        final spots = _spotsFromEntries(entries);
+        final ratios = _ratiosFrom(entries);
         final sections = _pieSectionsFrom(entries);
 
         return Stack(
@@ -145,14 +150,20 @@ class _AnalysisState extends State<Analysis> {
                             color: Colors.white,
                             child: Padding(
                               padding: const EdgeInsets.only(
-                                left: 35, right: 25, top: 25, bottom: 37,
+                                left: 35,
+                                right: 25,
+                                top: 25,
+                                bottom: 37,
                               ),
                               child: LineChart(
                                 LineChartData(
-                                  minX: 1, maxX: 7, minY: -10, maxY: 10,
+                                  minX: 1,
+                                  maxX: 7,
+                                  minY: -10,
+                                  maxY: 10,
                                   lineBarsData: [
                                     LineChartBarData(
-                                      spots: spots,                // ✅ Firestore 기반
+                                      spots: spots, // ✅ Firestore 기반
                                       isCurved: false,
                                       color: const Color(0xff9BCFFF),
                                       barWidth: 2,
@@ -165,12 +176,14 @@ class _AnalysisState extends State<Analysis> {
                                     bottomTitles: AxisTitles(
                                       sideTitles: SideTitles(
                                         showTitles: false,
-                                        reservedSize: 40, interval: 1,
+                                        reservedSize: 40,
+                                        interval: 1,
                                       ),
                                     ),
                                     leftTitles: AxisTitles(
                                       sideTitles: SideTitles(
-                                        showTitles: false, reservedSize: 30,
+                                        showTitles: false,
+                                        reservedSize: 30,
                                       ),
                                     ),
                                     topTitles: AxisTitles(
@@ -183,7 +196,9 @@ class _AnalysisState extends State<Analysis> {
                                   gridData: FlGridData(show: true),
                                   borderData: FlBorderData(
                                     show: true,
-                                    border: Border.all(color: const Color(0xffDDDDDD)),
+                                    border: Border.all(
+                                      color: const Color(0xffDDDDDD),
+                                    ),
                                   ),
                                 ),
                                 duration: const Duration(milliseconds: 150),
@@ -197,15 +212,35 @@ class _AnalysisState extends State<Analysis> {
                               Column(
                                 children: [
                                   const SizedBox(height: 20),
-                                  Image.asset('assets/images/emotions/emotion5.png', width: 23.27, height: 19.2),
+                                  Image.asset(
+                                    'assets/images/emotions/emotion5.png',
+                                    width: 23.27,
+                                    height: 19.2,
+                                  ),
                                   const SizedBox(height: 30),
-                                  Image.asset('assets/images/emotions/emotion4.png', width: 23.27, height: 19.2),
+                                  Image.asset(
+                                    'assets/images/emotions/emotion4.png',
+                                    width: 23.27,
+                                    height: 19.2,
+                                  ),
                                   const SizedBox(height: 30),
-                                  Image.asset('assets/images/emotions/emotion3.png', width: 23.27, height: 19.2),
+                                  Image.asset(
+                                    'assets/images/emotions/emotion3.png',
+                                    width: 23.27,
+                                    height: 19.2,
+                                  ),
                                   const SizedBox(height: 30),
-                                  Image.asset('assets/images/emotions/emotion2.png', width: 23.27, height: 19.2),
+                                  Image.asset(
+                                    'assets/images/emotions/emotion2.png',
+                                    width: 23.27,
+                                    height: 19.2,
+                                  ),
                                   const SizedBox(height: 30),
-                                  Image.asset('assets/images/emotions/emotion1.png', width: 23.27, height: 19.2),
+                                  Image.asset(
+                                    'assets/images/emotions/emotion1.png',
+                                    width: 23.27,
+                                    height: 19.2,
+                                  ),
                                 ],
                               ),
                             ],
@@ -260,7 +295,7 @@ class _AnalysisState extends State<Analysis> {
                                 padding: const EdgeInsets.all(10),
                                 child: PieChart(
                                   PieChartData(
-                                    sections: sections,            // ✅ Firestore 기반
+                                    sections: sections, // ✅ Firestore 기반
                                     centerSpaceRadius: 50,
                                     sectionsSpace: 0,
                                   ),
@@ -270,24 +305,45 @@ class _AnalysisState extends State<Analysis> {
                             RichText(
                               text: TextSpan(
                                 children: [
-                                  const TextSpan(text: '긍정 감정 비율: ', style: _analysisStyle),
-                                  TextSpan(text: '${ratios['positive']!.toStringAsFixed(1)}%', style: _analysisStyle),
+                                  const TextSpan(
+                                    text: '긍정 감정 비율: ',
+                                    style: _analysisStyle,
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${ratios['positive']!.toStringAsFixed(1)}%',
+                                    style: _analysisStyle,
+                                  ),
                                 ],
                               ),
                             ),
                             RichText(
                               text: TextSpan(
                                 children: [
-                                  const TextSpan(text: '중립 감정 비율: ', style: _analysisStyle),
-                                  TextSpan(text: '${ratios['neutral']!.toStringAsFixed(1)}%', style: _analysisStyle),
+                                  const TextSpan(
+                                    text: '중립 감정 비율: ',
+                                    style: _analysisStyle,
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${ratios['neutral']!.toStringAsFixed(1)}%',
+                                    style: _analysisStyle,
+                                  ),
                                 ],
                               ),
                             ),
                             RichText(
                               text: TextSpan(
                                 children: [
-                                  const TextSpan(text: '부정 감정 비율: ', style: _analysisStyle),
-                                  TextSpan(text: '${ratios['negative']!.toStringAsFixed(1)}%', style: _analysisStyle),
+                                  const TextSpan(
+                                    text: '부정 감정 비율: ',
+                                    style: _analysisStyle,
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${ratios['negative']!.toStringAsFixed(1)}%',
+                                    style: _analysisStyle,
+                                  ),
                                 ],
                               ),
                             ),
@@ -304,16 +360,26 @@ class _AnalysisState extends State<Analysis> {
 
             // 말풍선/아이콘
             Positioned(
-              bottom: 27.6, left: 32,
+              bottom: 27.6,
+              left: 32,
               child: _imageinvisible
-                  ? Image.asset('assets/images/bubble.png', width: 256, height: 83.4)
+                  ? Image.asset(
+                      'assets/images/bubble.png',
+                      width: 256,
+                      height: 83.4,
+                    )
                   : const SizedBox.shrink(),
             ),
             Positioned(
-              bottom: 13.22, left: 24,
+              bottom: 13.22,
+              left: 24,
               child: GestureDetector(
                 onTap: () => setState(() => _imageinvisible = !_imageinvisible),
-                child: Image.asset('assets/images/analysisIcon.png', width: 30, height: 25),
+                child: Image.asset(
+                  'assets/images/analysisIcon.png',
+                  width: 30,
+                  height: 25,
+                ),
               ),
             ),
           ],
@@ -325,21 +391,33 @@ class _AnalysisState extends State<Analysis> {
 
 // ===== Styles =====
 const TextStyle _explanationStyle = TextStyle(
-  fontFamily: 'gangwon', fontWeight: FontWeight.bold, fontSize: 22,
-  letterSpacing: 0.6, color: Color(0xff000000),
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.bold,
+  fontSize: 22,
+  letterSpacing: 0.6,
+  color: Color(0xff000000),
 );
 
 const TextStyle _dateStsyle = TextStyle(
-  fontFamily: 'gangwon', fontWeight: FontWeight.w300, fontSize: 13,
-  letterSpacing: 0, color: Color(0xff000000),
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.w300,
+  fontSize: 13,
+  letterSpacing: 0,
+  color: Color(0xff000000),
 );
 
 const TextStyle _pieTitleStyle = TextStyle(
-  fontFamily: 'gangwon', fontWeight: FontWeight.bold, fontSize: 16,
-  letterSpacing: 0, color: Color(0xff767676),
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+  letterSpacing: 0,
+  color: Color(0xff767676),
 );
 
 const TextStyle _analysisStyle = TextStyle(
-  fontFamily: 'gangwon', fontWeight: FontWeight.w300, fontSize: 22,
-  letterSpacing: 0.6, color: Color(0xff000000),
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.w300,
+  fontSize: 22,
+  letterSpacing: 0.6,
+  color: Color(0xff000000),
 );

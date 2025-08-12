@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -11,7 +10,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _idController = TextEditingController(); // 아이디
-  final _pwController = TextEditingController(); // 비밀번호  
+  final _pwController = TextEditingController(); // 비밀번호
   bool isEnabled = true;
 
   late bool focused = false;
@@ -25,11 +24,11 @@ class _LoginPageState extends State<LoginPage> {
     _pwController.addListener(_onTextChanged);
   }
 
-  void _onTextChanged () {
-    setState(() { });
+  void _onTextChanged() {
+    setState(() {});
   }
 
-  @override 
+  @override
   void dispose() {
     _idController.removeListener(_onTextChanged);
     _pwController.removeListener(_onTextChanged);
@@ -42,26 +41,43 @@ class _LoginPageState extends State<LoginPage> {
     String id = _idController.text.trim();
     String pw = _pwController.text.trim();
 
-    
-    if (id.isNotEmpty && pw.isNotEmpty) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('아이디와 비밀번호를 입력하세요.')),
-      );
+    if (id.isEmpty || pw.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('아이디와 비밀번호를 입력하세요.')));
       return;
     }
 
-    await FirebaseFirestore.instance.collection('users').doc(id).set({
-      'userID': id,
-      'nickname': '고먐미',
-    }, SetOptions(merge: true));
+    try {
+      // 키보드 내리기(선택)
+      FocusScope.of(context).unfocus();
 
-    Navigator.pushReplacementNamed(
-      context,
-      '/home',
-      arguments: id, // ← 이 값이 MyHomePage에서 받게 될 userID
-    );
+      final users = FirebaseFirestore.instance.collection('users');
+      final ref = users.doc(id);
+      final snap = await ref.get();
+
+      if (!snap.exists) {
+        // ✅ 첫 로그인(문서 없음): createdAt/updatedAt 모두 기록
+        await ref.set({
+          'userID': id,
+          'nickname': '고먐미',
+          'createdAt': FieldValue.serverTimestamp(),
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+      } else {
+        // ✅ 재로그인(문서 있음): updatedAt만 갱신
+        await ref.set({
+          'updatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
+
+      // ✅ 반드시 한 번만, 그리고 arguments로 id 전달
+      Navigator.pushReplacementNamed(context, '/home', arguments: id);
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('로그인 중 오류: $e')));
+    }
   }
 
   @override
@@ -70,27 +86,25 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          SizedBox(height: 133,),
+          SizedBox(height: 133),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center ,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/icon.png',
-                width: 148.72, height: 122.6,
+                width: 148.72,
+                height: 122.6,
               ),
             ],
           ),
-          SizedBox(height: 16.4,),
+          SizedBox(height: 16.4),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center ,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/HAPPI-LY.png',
-                width: 116, height: 39,
-              ),
+              Image.asset('assets/images/HAPPI-LY.png', width: 116, height: 39),
             ],
           ),
-          SizedBox(height: 51,),
+          SizedBox(height: 51),
           SizedBox(
             width: 273,
             child: TextFormField(
@@ -101,21 +115,17 @@ class _LoginPageState extends State<LoginPage> {
                 filled: _idController.text.isNotEmpty && isEnabled,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.black
-                  )
+                  borderSide: BorderSide(color: Colors.black),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Color(0xff999999)
-                  )
+                  borderSide: BorderSide(color: Color(0xff999999)),
                 ),
-                hint: Text('아이디', style: TextStyle(color: Color(0xff999999)),),
+                hint: Text('아이디', style: TextStyle(color: Color(0xff999999))),
               ),
             ),
           ),
-          SizedBox(height: 12,),
+          SizedBox(height: 12),
           SizedBox(
             width: 273,
             child: TextFormField(
@@ -126,39 +136,36 @@ class _LoginPageState extends State<LoginPage> {
                 filled: _pwController.text.isNotEmpty && isEnabled,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.black
-                  )
+                  borderSide: BorderSide(color: Colors.black),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-
-                    color: Color(0xff999999)
-                  )
+                  borderSide: BorderSide(color: Color(0xff999999)),
                 ),
-                hint: Text('비밀번호', style: TextStyle(color: Color(0xff999999)),),
+                hint: Text('비밀번호', style: TextStyle(color: Color(0xff999999))),
               ),
             ),
-            
           ),
-          SizedBox(height: 22,),
+          SizedBox(height: 22),
           TextButton(
             style: ButtonStyle(
               fixedSize: WidgetStatePropertyAll(Size(273, 54)),
               backgroundColor: WidgetStateProperty.all(Color(0xff444444)),
               shape: WidgetStatePropertyAll(
-                RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(5))
-              )
+                RoundedSuperellipseBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
             ),
-            onPressed: (){
+            onPressed: () {
               _login();
-            }, 
-            child: Text('로그인', style: TextStyle(color: Colors.white),)
+            },
+            child: Text('로그인', style: TextStyle(color: Colors.white)),
           ),
-          SizedBox(height: 40,),
+          SizedBox(height: 40),
           SizedBox(
-            height: 40, width: 400,
+            height: 40,
+            width: 400,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -166,15 +173,24 @@ class _LoginPageState extends State<LoginPage> {
                   width: 120,
                   child: TextButton(
                     style: ButtonStyle(
-                      overlayColor: WidgetStatePropertyAll(Color.fromARGB(9, 0, 0, 0)),
+                      overlayColor: WidgetStatePropertyAll(
+                        Color.fromARGB(9, 0, 0, 0),
+                      ),
                       fixedSize: WidgetStatePropertyAll(Size(80, 18)),
-                      backgroundColor: WidgetStateProperty.all(Colors.transparent),
+                      backgroundColor: WidgetStateProperty.all(
+                        Colors.transparent,
+                      ),
                       shape: WidgetStatePropertyAll(
-                        RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(5))
-                      )
+                        RoundedSuperellipseBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
                     ),
-                    onPressed: (){}, 
-                    child: Text('ID/PW 찾기', style: TextStyle(color: Color(0xffADADAD), fontSize: 16),)
+                    onPressed: () {},
+                    child: Text(
+                      'ID/PW 찾기',
+                      style: TextStyle(color: Color(0xffADADAD), fontSize: 16),
+                    ),
                   ),
                 ),
                 VerticalDivider(
@@ -186,21 +202,30 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 TextButton(
                   style: ButtonStyle(
-                    overlayColor: WidgetStatePropertyAll(Color.fromARGB(9, 0, 0, 0)),
+                    overlayColor: WidgetStatePropertyAll(
+                      Color.fromARGB(9, 0, 0, 0),
+                    ),
                     // fixedSize: WidgetStatePropertyAll(Size(80, 18)),
-                    backgroundColor: WidgetStateProperty.all(Colors.transparent),
+                    backgroundColor: WidgetStateProperty.all(
+                      Colors.transparent,
+                    ),
                     shape: WidgetStatePropertyAll(
-                      RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(5))
-                    )
+                      RoundedSuperellipseBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
                   ),
-                  onPressed: (){}, 
-                  child: Text('회원가입', style: TextStyle(color: Color(0xffADADAD), fontSize: 16),)
+                  onPressed: () {},
+                  child: Text(
+                    '회원가입',
+                    style: TextStyle(color: Color(0xffADADAD), fontSize: 16),
+                  ),
                 ),
               ],
             ),
-          )
+          ),
         ],
-      )
+      ),
     );
   }
 }
