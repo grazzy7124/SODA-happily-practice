@@ -5,7 +5,7 @@ class FeedEntry {
   final String id;
   final String userID;
   final String date; // "YYYY년 MM월 DD일"
-  final double emotionIndex;
+  final double emotion;
   final bool isReleased;
   final String title;
   final String text1;
@@ -17,7 +17,7 @@ class FeedEntry {
     required this.id,
     required this.userID,
     required this.date,
-    required this.emotionIndex,
+    required this.emotion,
     required this.isReleased,
     required this.title,
     required this.text1,
@@ -32,13 +32,13 @@ class FeedEntry {
       id: doc.id,
       userID: d['userID'] as String,
       date: d['date'] as String,
-      emotionIndex: (d['emotionIndex'] as num?)?.toDouble() ?? 0.0,
+      emotion: (d['emotion'] as num?)?.toDouble() ?? 0.0,
       isReleased: (d['isReleased'] as bool?) ?? false,
       title: (d['title'] as String?) ?? '',
       text1: (d['text1'] as String?) ?? '',
       text2: (d['text2'] as String?) ?? '',
       text3: (d['text3'] as String?) ?? '',
-      createdAt: (d['createdAt'] as Timestamp?) ?? Timestamp(0,0),
+      createdAt: (d['createdAt'] as Timestamp?) ?? Timestamp(0, 0),
     );
   }
 }
@@ -46,10 +46,10 @@ class FeedEntry {
 class FeedService {
   final _feeds = FirebaseFirestore.instance.collection('feeds');
 
-  /// 오늘의 감정값 업서트 (있으면 update, 없으면 add)
+  // 오늘의 감정값 업서트 (있으면 update, 없으면 add)
   Future<void> upsertTodayEmotion({
     required String userID,
-    required double emotionIndex,
+    required double emotion,
   }) async {
     // KST 오늘 날짜 문자열
     final nowUtc = DateTime.now().toUtc();
@@ -70,7 +70,7 @@ class FeedService {
     if (qs.docs.isNotEmpty) {
       // 이미 오늘 문서가 있으면 감정만 덮어쓰기
       await _feeds.doc(qs.docs.first.id).update({
-        'emotionIndex': emotionIndex,
+        'emotion': emotion,
         'updatedAt': FieldValue.serverTimestamp(),
       });
     } else {
@@ -79,11 +79,11 @@ class FeedService {
         'userID': userID,
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
-        'date': dateStr,            // "YYYY년 MM월 dd일" (표시용)
-        'year': y,                  // 쿼리용
-        'month': m,                 // 쿼리용
-        'day': d,                   // 쿼리용
-        'emotionIndex': emotionIndex,
+        'date': dateStr, // "YYYY년 MM월 dd일" (표시용)
+        'year': y, // 쿼리용
+        'month': m, // 쿼리용
+        'day': d, // 쿼리용
+        'emotion': emotion,
         'isReleased': false,
         'title': '',
         'text1': '',
@@ -96,12 +96,13 @@ class FeedService {
   /// 해당 날짜(표시 문자열)로 일기 내용 업서트 (감정은 유지)
   Future<void> upsertDiaryForDate({
     required String userID,
-    required String dateStr,   // "YYYY년 MM월 DD일"
+    required String dateStr, // "YYYY년 MM월 DD일"
     required String title,
     required String text1,
     required String text2,
     required String text3,
     required bool isReleased,
+    required double emotionIndex,
   }) async {
     final qs = await _feeds
         .where('userID', isEqualTo: userID)
@@ -116,6 +117,7 @@ class FeedService {
         'text2': text2,
         'text3': text3,
         'isReleased': isReleased,
+        'emotionIndex': emotionIndex, // ✅ 여기만 갱신
         'updatedAt': FieldValue.serverTimestamp(),
       });
     } else {
@@ -130,7 +132,7 @@ class FeedService {
         'year': y,
         'month': m,
         'day': d,
-        'emotionIndex': 0.0,  // 나중에 슬라이더 저장 시 업데이트됨
+        'emotionIndex': emotionIndex,
         'isReleased': isReleased,
         'title': title,
         'text1': text1,
@@ -142,13 +144,23 @@ class FeedService {
 
   /// 최근 7일(UTC 기준 7일) 스트림 – 분석 탭 그래프에 사용
   Stream<List<FeedEntry>> streamRecent7({required String userID}) {
-    final sevenDaysAgoUtc = DateTime.now().toUtc().subtract(const Duration(days: 7));
+    final sevenDaysAgoUtc = DateTime.now().toUtc().subtract(
+      const Duration(days: 7),
+    );
     return _feeds
         .where('userID', isEqualTo: userID)
-        .where('createdAt', isGreaterThanOrEqualTo: Timestamp.fromDate(sevenDaysAgoUtc))
+        .where(
+          'createdAt',
+          isGreaterThanOrEqualTo: Timestamp.fromDate(sevenDaysAgoUtc),
+        )
         .orderBy('createdAt', descending: false)
         .snapshots()
-        .map((snap) => snap.docs.map((d) => FeedEntry.fromDoc(d)).toList());
+        .map(
+          (snap) => snap.docs
+              .where((d) => d.data().containsKey('emotion')) // ✅ 감정 있는 문서만
+              .map((d) => FeedEntry.fromDoc(d))
+              .toList(),
+        );
   }
 
   /// 달력용: 특정 연/월의 감정 맵 가져오기 (date 문자열 -> emotionIndex)
@@ -167,7 +179,7 @@ class FeedService {
     for (final doc in qs.docs) {
       final data = doc.data();
       final ds = data['date'] as String?;
-      final val = (data['emotionIndex'] as num?)?.toDouble();
+      final val = (data['emotion'] as num?)?.toDouble();
       if (ds != null && val != null) map[ds] = val;
     }
     return map;

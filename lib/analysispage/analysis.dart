@@ -7,7 +7,7 @@ class Analysis extends StatefulWidget {
   final String userID;
   final double emotion; // 오늘 값 (있다면)
   final bool hasEmotion; // 오늘 슬라이더 조작 여부
-  double? pieChartRadius = 80;
+  double pieChartRadius;
 
   Analysis({
     super.key,
@@ -37,7 +37,7 @@ class _AnalysisState extends State<Analysis> {
   List<FlSpot> _spotsFromEntries(List<FeedEntry> entries) {
     return entries.map((e) {
       final dt = e.createdAt.toDate().toLocal(); // Timestamp -> DateTime(로컬)
-      return FlSpot(dt.weekday.toDouble(), e.emotionIndex);
+      return FlSpot(dt.weekday.toDouble(), e.emotion);
     }).toList();
   }
 
@@ -52,8 +52,8 @@ class _AnalysisState extends State<Analysis> {
     };
 
     for (final e in entries) {
-      counts[getEmotionColor(e.emotionIndex)] =
-          (counts[getEmotionColor(e.emotionIndex)] ?? 0) + 1;
+      counts[getEmotionColor(e.emotion)] =
+          (counts[getEmotionColor(e.emotion)] ?? 0) + 1;
     }
 
     final total = entries.length;
@@ -65,7 +65,7 @@ class _AnalysisState extends State<Analysis> {
         value: pct,
         color: kv.key,
         title: '${pct.toStringAsFixed(1)}%',
-        radius: widget.pieChartRadius!,
+        radius: widget.pieChartRadius,
         titleStyle: _pieTitleStyle,
       );
     }).toList();
@@ -78,7 +78,7 @@ class _AnalysisState extends State<Analysis> {
 
     int positive = 0, neutral = 0, negative = 0;
     for (final e in entries) {
-      final c = getEmotionColor(e.emotionIndex);
+      final c = getEmotionColor(e.emotion);
       if (c == emotion1 || c == emotion2)
         negative++;
       else if (c == emotion3)

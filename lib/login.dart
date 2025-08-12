@@ -61,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
         await ref.set({
           'userID': id,
           'nickname': '고먐미',
+          'emotion': 0.0,
           'createdAt': FieldValue.serverTimestamp(),
           'updatedAt': FieldValue.serverTimestamp(),
         });
@@ -83,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffFCFAF5),
       body: Column(
         children: [
           SizedBox(height: 133),

@@ -190,11 +190,9 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                           min: -10,
                           divisions: 20,
                           onChangeEnd: (value) async {
-                            final uid = FirebaseAuth.instance.currentUser!.uid;
-
                             await FeedService().upsertTodayEmotion(
-                              userID: uid,
-                              emotionIndex: value,
+                              userID: widget.userID,
+                              emotion: value,
                             );
 
                             ScaffoldMessenger.of(context).showSnackBar(
