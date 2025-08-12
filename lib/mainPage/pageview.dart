@@ -6,7 +6,10 @@ import 'package:ver1/mainPage/diarypage/diary3.dart';
 class DiaryPageView extends StatefulWidget {
   final double currentEmotion;
 
-  const DiaryPageView({super.key, required this.currentEmotion});
+  const DiaryPageView({
+    super.key,
+    required this.currentEmotion,
+  });
 
   @override
   State<DiaryPageView> createState() => _DiaryPageViewState();
@@ -55,15 +58,9 @@ class _DiaryPageViewState extends State<DiaryPageView>
           controller: _pageViewController,
           onPageChanged: _handlePageViewChanged,
           children: <Widget>[
-<<<<<<< HEAD
             FirstDiary(currentEmotion: emotion),
             SecondDiary(currentEmotion: emotion),
             ThirdDiary(currentEmotion: emotion),
-=======
-            FirstDiary(currentEmotion: emotion,),
-           SecondDiary(currentEmotion: emotion,),
-            ThirdDiary(currentEmotion: emotion,),
->>>>>>> 65e4f35fd0ac6b28261cef13d86dafe2fd3424bc
           ],
         ),
         PageIndicator(
@@ -130,7 +127,8 @@ class PageIndicator extends StatelessWidget {
                         },
                         icon: Image.asset(
                           'assets/main/pageindicator_left.png',
-                          width: 10.51, height: 20.01,
+                          width: 10.51,
+                          height: 20.01,
                         ),
                       ),
                     ],
@@ -149,11 +147,12 @@ class PageIndicator extends StatelessWidget {
                         },
                         icon: Image.asset(
                           'assets/main/pageindicator_right.png',
-                          width: 10.51, height: 20.01,
+                          width: 10.51,
+                          height: 20.01,
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ],
@@ -161,7 +160,6 @@ class PageIndicator extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -174,7 +172,7 @@ class PageIndicator extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 30.5,)
+              SizedBox(height: 30.5),
             ],
           ),
         ],

@@ -4,13 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ver1/services/feed_service.dart';
 
 class Mainpage extends StatefulWidget {
-  final String userID;
   final double emotion;
   final ValueChanged<double> onEmotionChanged;
 
   const Mainpage({
     super.key,
-    required this.userID,
     required this.emotion,
     required this.onEmotionChanged,
   });

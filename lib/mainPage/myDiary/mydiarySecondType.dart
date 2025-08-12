@@ -143,14 +143,6 @@ class MydiarySecondType extends StatelessWidget {
   }
 }
 
-TextStyle _hintStyle = TextStyle(
-  fontFamily: 'gangwon',
-  fontWeight: FontWeight.w300,
-  fontSize: 16,
-  letterSpacing: 0.6,
-  color: Color(0xffC3C3C3),
-);
-
 TextStyle _textStyle = TextStyle(
   fontFamily: 'gangwon',
   fontWeight: FontWeight.w300,
@@ -173,20 +165,4 @@ TextStyle _dateStyle = TextStyle(
   fontSize: 18,
   letterSpacing: 0.6,
   color: Color(0xff000000),
-);
-
-TextStyle _cancleStyle = TextStyle(
-  fontFamily: 'gangwon',
-  fontWeight: FontWeight.bold,
-  fontSize: 20,
-  letterSpacing: 0.6,
-  color: Color(0xffD70004),
-);
-
-TextStyle _uploadStyle = TextStyle(
-  fontFamily: 'gangwon',
-  fontWeight: FontWeight.bold,
-  fontSize: 20,
-  letterSpacing: 0.6,
-  color: Color(0xff80C2FF),
 );

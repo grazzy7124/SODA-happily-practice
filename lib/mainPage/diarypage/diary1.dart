@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ver1/mainPage/diarypage/diary1_page.dart';
 
 class FirstDiary extends StatelessWidget {
-  final double currentEmotion;
+final double currentEmotion;
 
-  const FirstDiary({super.key, required this.currentEmotion});
+  const FirstDiary({
+    super.key,
+required this.currentEmotion,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,18 +15,15 @@ class FirstDiary extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.push(
-            context, 
+            context,
             MaterialPageRoute(
               builder: (context) {
                 return FirstDiaryPage(emotion: currentEmotion,);
-              }
-            ),            
+              },
+            ),
           );
         },
-        child: Image.asset(
-          'assets/images/diary/diary1.png',
-          height: 341,
-        ),
+        child: Image.asset('assets/images/diary/diary1.png', height: 341),
       ),
     );
   }

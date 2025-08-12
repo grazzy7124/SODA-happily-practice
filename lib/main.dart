@@ -113,7 +113,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         controller: _tabController,
         children: [
           Mainpage(
-            userID: userID,
             emotion: emotion,
             onEmotionChanged: (newEmotion) {
               setState(() {

@@ -3,11 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ver1/mainPage/myDiary/mydiaryFirstType.dart';
 
-
 class FirstDiaryPage extends StatefulWidget {
-  final double emotion;
+  const FirstDiaryPage({
+    super.key,
+   required this.emotion,
+  });
 
-  const FirstDiaryPage({super.key, required this.emotion});
+ final double emotion;
 
   @override
   State<FirstDiaryPage> createState() => _FirstDiaryPageState();
@@ -15,8 +17,10 @@ class FirstDiaryPage extends StatefulWidget {
 
 class _FirstDiaryPageState extends State<FirstDiaryPage> {
   bool isReleased = false;
-  final String formattedDate = DateFormat('yyyy년 MM월 dd일').format(DateTime.now());
-  int _selectedIndex = 0; 
+  final String formattedDate = DateFormat(
+    'yyyy년 MM월 dd일',
+  ).format(DateTime.now());
+  int _selectedIndex = 0;
 
   final titleController = TextEditingController();
   final firstTextController = TextEditingController();
@@ -35,7 +39,9 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = getSelectedIndex(widget.emotion);
+  _selectedIndex = getSelectedIndex(
+      widget.emotion
+      );
   }
 
   @override
@@ -58,9 +64,10 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
     'emotionIndex': _selectedIndex,
     'isReleased': isReleased,
     'createdAt': FieldValue.serverTimestamp(),
-  });
+    'updatedAt': FieldValue.serverTimestamp(),});
 
-  if (!mounted) return;
+
+    if (!mounted) return;
   Navigator.push(
     context,
     MaterialPageRoute(builder: (_) => MydiaryFirstType(docId: docRef.id)),
@@ -92,8 +99,9 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     Checkbox(
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
-                      side: MaterialStateBorderSide.resolveWith(
-                        (states) => const BorderSide(color: Colors.black, width: 2),
+                      side: WidgetStateBorderSide.resolveWith(
+                        (states) =>
+                            const BorderSide(color: Colors.black, width: 2),
                       ),
                       value: isReleased,
                       onChanged: (bool? value) {
@@ -193,7 +201,10 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                           hintText: '오늘은 어떤 일이 있었나요?',
                           hintStyle: _hintStyle,
                           enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffEAEAEA), width: 2),
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2,
+                            ),
                           ),
                         ),
                         maxLines: 5,
@@ -205,7 +216,10 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                           hintText: '어떤 생각이 들었나요?',
                           hintStyle: _hintStyle,
                           enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffEAEAEA), width: 2),
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2,
+                            ),
                           ),
                         ),
                         maxLines: 5,
@@ -217,7 +231,10 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                           hintText: '어떤 감정을 느꼈나요?',
                           hintStyle: _hintStyle,
                           enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffEAEAEA), width: 2),
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2,
+                            ),
                           ),
                         ),
                         maxLines: 5,
@@ -281,4 +298,3 @@ TextStyle _uploadStyle = const TextStyle(
   letterSpacing: 0.6,
   color: Color(0xff80C2FF),
 );
-
