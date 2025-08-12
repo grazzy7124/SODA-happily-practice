@@ -1,213 +1,144 @@
-// 등록한 내 일기 페이지 - 행복일기
-
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ver1/color.dart';
 
-class MydiarySecondType extends StatefulWidget {
-  final int selectedIndex;
-  final String date;
-  final String title;
-  final String firstText;
-  final String secondText;
-  final String thirdText;
-  final String image;
-  final bool isReleased;
+class MydiarySecondType extends StatelessWidget {
+  final String docId;
 
-  const MydiarySecondType({
-        super.key, required this.date, required this.selectedIndex,
-        required this.title, required this.firstText, required this.secondText, required this.thirdText,
-        required this.isReleased,
-        this.image = 'assets/images/defaultImage.png'
-      }
-    );
-
-  @override
-  State<MydiarySecondType> createState() => _MydiarySecondTypeState();
-}
-
-class _MydiarySecondTypeState extends State<MydiarySecondType> {
-  late int _selectedIndex;
-  late String date;
-  late String title;
-  late String firstText;
-  late String secondText;
-  late String thirdText;
-  late String image;
-  late bool isReleased;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    date = widget.date;
-    _selectedIndex = widget.selectedIndex;
-    title = widget.title;
-    firstText = widget.firstText;
-    secondText = widget.secondText;
-    thirdText = widget.thirdText;
-    image = widget.image;
-    isReleased = widget.isReleased;
-  }
-
+  const MydiarySecondType({super.key, required this.docId});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffFCFAF5),
-      appBar: AppBar(
-        backgroundColor: Color(0xffFCFAF5),
-        leading: Row(
-          children: [
-            SizedBox(width: 22,),
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: Image.asset(
-                'assets/Vector.png',
-                width: 9,
-              ),
+    final docRef = FirebaseFirestore.instance.collection('feeds').doc(docId);
+
+    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      future: docRef.get(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return const Scaffold(
+            backgroundColor: Color(0xffFCFAF5),
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final data = snapshot.data!.data()!;
+        final String date = data['date'] ?? '';
+        final int selectedIndex = (data['emotionIndex'] ?? 0) as int;
+        final bool isReleased = (data['isReleased'] ?? false) as bool;
+        final String title = data['title'] ?? '';
+        final String text1 = data['text1'] ?? '';
+        final String text2 = data['text2'] ?? '';
+        final String text3 = data['text3'] ?? '';
+
+        return Scaffold(
+          backgroundColor: const Color(0xffFCFAF5),
+          appBar: AppBar(
+            backgroundColor: const Color(0xffFCFAF5),
+            leading: Row(
+              children: [
+                const SizedBox(width: 22),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: Image.asset('assets/Vector.png', width: 9),
+                ),
+              ],
             ),
-          ],
-        ),
-        title: isReleased ? 
-          Text('공개글', style: _titleStyle,) 
-          : Text('비공개글', style: _titleStyle,),
-        centerTitle: true,
-        actions: [
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/action.png',
-                height: 16,
-              ),
-              SizedBox(width: 25,)
-            ],
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 45,
-                child: Card(
-                  color: secondDiaryColor,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 21,),
-                      Text(date, style: _dateStyle),
-                      SizedBox(width: 70,),
-                      DropdownButton(
-                        value: _selectedIndex,
-                        items: [
-                          DropdownMenuItem(
-                              value: 0,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion1.png',
-                                width: 28,
-                                height: 23,
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 1,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion2.png',
-                                width: 28,
-                                height: 23,
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 2,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion3.png',
-                                width: 28,
-                                height: 23,
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 3,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion4.png',
-                                width: 28,
-                                height: 23,
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 4,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion5.png',
-                                width: 28,
-                                height: 23,
-                              ),
-                            ),
-                        ], 
-                        onChanged: (int? value) {
-                        setState(() {
-                          if (value != null) {
-                            _selectedIndex = value;
-                          }
-                        });
-                      },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 180,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        image,
-                        width: 171,
-                        height: 143,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 45,
-                child: Card(
-                  color: secondDiaryColor,
-                  child: Row(
-                    children: [
-                      SizedBox(width: 30),
-                      Text('제목: ', style: _titleStyle),
-                      Text(title, style: _titleStyle,)
-                    ],
-                  ),
-                ),
-              ),
+            title: Text(isReleased ? '공개글' : '비공개글', style: _titleStyle),
+            centerTitle: true,
+            actions: [
               Row(
                 children: [
-                  SizedBox(width: 10,),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(firstText, style: _textStyle,),
-                        Text(secondText, style: _textStyle,),
-                        Text(thirdText, style: _textStyle,)
-                      ],
-                    ),
-                  ),
+                  Image.asset('assets/images/action.png', height: 16),
+                  const SizedBox(width: 25),
                 ],
-              )
-              
+              ),
             ],
           ),
-        ),
-      ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 45,
+                    child: Card(
+                      color: secondDiaryColor,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 21),
+                          Text(date, style: _dateStyle),
+                          const Spacer(),
+                          DropdownButton<int>(
+                            value: selectedIndex,
+                            onChanged: null, // 읽기 전용
+                            items: List.generate(5, (i) {
+                              return DropdownMenuItem(
+                                value: i,
+                                child: Image.asset(
+                                  'assets/images/emotions/emotion${i + 1}.png',
+                                  width: 28,
+                                  height: 23,
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 180,
+                        child: Image.asset(
+                          'assets/images/diary/photo.png',
+                          width: 171,
+                          height: 143,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 45,
+                    child: Card(
+                      color: secondDiaryColor,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 30),
+                          Text('제목: ', style: _titleStyle),
+                          const SizedBox(width: 6),
+                          Flexible(child: Text(title, style: _titleStyle)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const SizedBox(width: 10),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(text1, style: _textStyle),
+                            Text(text2, style: _textStyle),
+                            Text(text3, style: _textStyle),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

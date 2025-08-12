@@ -33,23 +33,49 @@ class Write extends StatelessWidget {
         ),
         backgroundColor: Color(0xffFCFAF5),
       ),
-      body: ListView(
+      body: Stack(
         children: [
-          Divider(),
-          ReadMain(
-            wholeyear: '2025',
-            wholemonth: '7',
-            wholeday: '23',
-            wholedate: '토',
-            wholephoto: 'assets/list/1.png',
-            wholetitle: diarytitle,
-            wholetext: diarytext,
-            wholetext2: diarytext2,
-            wholetext3: diarytext3,
+          Container(color: Color(0xffFCFAF5)),
+          ListView(
+            children: [
+              Divider(),
+              ReadMain(
+                wholeyear: '2025',
+                wholemonth: '7',
+                wholeday: '23',
+                wholedate: '토',
+                wholephoto: 'assets/list/1.png',
+                wholetitle: diarytitle,
+                wholetext: diarytext,
+                wholetext2: diarytext2,
+                wholetext3: diarytext3,
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 80,
+            right: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset('assets/c.png', width: 89, height: 34),
+                SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Comment()),
+                    );
+                  },
+                  child: Image.asset('assets/cc.png', width: 30, height: 30),
+                ),
+                SizedBox(width: 17),
+              ],
+            ),
           ),
         ],
       ),
-      backgroundColor: Color(0xffFCFAF5),
     );
   }
 }
@@ -87,6 +113,7 @@ class ReadMain extends StatelessWidget {
         children: [
           SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 15, right: 15),
@@ -156,7 +183,7 @@ class ReadMain extends StatelessWidget {
                     ),
                   ),
                 ),
-                Row(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
@@ -182,29 +209,6 @@ class ReadMain extends StatelessWidget {
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-
-          Positioned(
-            bottom: 170,
-            right: 10,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset('assets/c.png', width: 89, height: 34),
-                SizedBox(width: 8),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Comment()),
-                    );
-                  },
-                  child: Image.asset('assets/cc.png', width: 30, height: 30),
-                ),
-                SizedBox(width: 17),
               ],
             ),
           ),

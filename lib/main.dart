@@ -9,11 +9,11 @@ import 'package:ver1/notificationpage/notification.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final TextEditingController globalTitleController = TextEditingController();
-final TextEditingController globalfirstTextController = TextEditingController();
-final TextEditingController globalsecondTextController =
-    TextEditingController();
-final TextEditingController globalthirdTextController = TextEditingController();
+// final TextEditingController globalTitleController = TextEditingController();
+// final TextEditingController globalfirstTextController = TextEditingController();
+// final TextEditingController globalsecondTextController =
+//     TextEditingController();
+// final TextEditingController globalthirdTextController = TextEditingController();
 
 Future<void> globalCreate(
   String title,
@@ -54,18 +54,18 @@ class _MyAppState extends State<MyApp> {
   //   await createRef.add({'title': title, 'text': text});
   // }      
 
-  Future<void> Read() async {
-    final snapshot = await createRef.where('title', isEqualTo: title).get();
-    if (snapshot.docs.isNotEmpty) {
-      final data = snapshot.docs.first.data();
-      setState(() {
-        globalTitleController.text = data['title'];
-        globalfirstTextController.text = data['text'];
-        globalsecondTextController.text = data['text2'];
-        globalthirdTextController.text = data['text3'];
-      });
-    }
-  }
+  // Future<void> Read() async {
+  //   final snapshot = await createRef.where('title', isEqualTo: title).get();
+  //   if (snapshot.docs.isNotEmpty) {
+  //     final data = snapshot.docs.first.data();
+  //     setState(() {
+  //       TitleController.text = data['title'];
+  //       FirstTextController.text = data['text'];
+  //       SecondTextController.text = data['text2'];
+  //       ThirdTextController.text = data['text3'];
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -97,13 +97,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
+  // final TitleController = TextEditingController();
+  // final FirstTextController = TextEditingController();
+  // final SecondTextController = TextEditingController();
+  // final ThirdTextController = TextEditingController();
 
   double emotion = 0;
 
   @override
   void initState() {
     super.initState();
-    
     _tabController = TabController(length: 5, vsync: this);
   }
 
@@ -130,13 +133,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           Analysispage(emotion: emotion),
           MyApp2(),
-          NotificationPage(title: globalTitleController.text),
+       //   NotificationPage(title: TitleController.text),
           ProfileMain(
-            diarytitle: globalTitleController.text,
-            diarytext: globalfirstTextController.text,
-            diarytext2: globalsecondTextController.text,
-            diarytext3: globalthirdTextController.text,
-          ),
+          //   diarytitle: TitleController.text,
+          //   diarytext: FirstTextController.text,
+          //   diarytext2: SecondTextController.text,
+          //   diarytext3: ThirdTextController.text,
+         ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
