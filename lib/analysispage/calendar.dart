@@ -6,7 +6,8 @@ import 'package:ver1/mainPage/myDiary/mydiaryFirstType.dart';
 
 class Calendar extends StatefulWidget {
   final double emotion;
-  const Calendar({super.key, required this.emotion});
+  final bool hasEmotion;
+  const Calendar({super.key, required this.emotion, required this.hasEmotion});
 
   @override
   State<Calendar> createState() => _CalendarState();
@@ -38,17 +39,20 @@ class _CalendarState extends State<Calendar> {
     // TODO: implement initState
     super.initState();
     emotion = widget.emotion;
-    getEmotionLocation(emotion);
+    if (widget.hasEmotion) {
+      getEmotionLocation(emotion);
+    } else {
+      emotionLocation = ''; // ✅ 값이 없으면 표시 안 함
+    }
   }
 
   @override
   void didUpdateWidget(covariant Calendar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    getEmotionLocation(emotion);
-    print(
-      'didUpdateWidget 호출: old=${oldWidget.emotion}, new=${widget.emotion}',
-    ); // 로그 추가
-    if (oldWidget.emotion != widget.emotion) {
+    if (widget.hasEmotion) {
+      getEmotionLocation(widget.emotion);
+    }
+    if (widget.hasEmotion && oldWidget.emotion != widget.emotion) {
       setState(() {
         emotion = widget.emotion;
       });
@@ -137,7 +141,8 @@ class _CalendarState extends State<Calendar> {
                         ),
                       ),
                       SizedBox(height: 4),
-                      Image.asset(emotionLocation, width: 30),
+                      if (widget.hasEmotion && emotionLocation.isNotEmpty)
+                        Image.asset(emotionLocation, width: 30),
                     ],
                   ),
                 );

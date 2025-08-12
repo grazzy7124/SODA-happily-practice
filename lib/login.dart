@@ -1,25 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ver1/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  runApp(const App());
-}
-
-class App extends StatelessWidget {
-  const App({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
-      ),
-      home: const LoginPage(),
-    );
-  }
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -31,43 +12,56 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _idController = TextEditingController(); // 아이디
   final _pwController = TextEditingController(); // 비밀번호  
-
-  void _login() {
-    String id = _idController.text.trim();
-    String pw = _pwController.text.trim();
-
-    
-    if (id.isNotEmpty && pw.isNotEmpty) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const MyApp()), // 바로 메인 진입
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('아이디와 비밀번호를 입력하세요.')),
-      );
-    }
-  }
+  bool isEnabled = true;
 
   late bool focused = false;
 
-  final FocusNode _focusNode1 = FocusNode();
   Color fillColor = Color(0xffDBECFF);
 
   @override
   void initState() {
     super.initState();
-    _focusNode1.addListener(() {
-      setState(() {
-        fillColor = _focusNode1.hasFocus ? Color(0xffDBECFF) : Colors.white;
-      });
-    });
+    _idController.addListener(_onTextChanged);
+    _pwController.addListener(_onTextChanged);
+  }
+
+  void _onTextChanged () {
+    setState(() { });
   }
 
   @override 
   void dispose() {
-    _focusNode1.dispose();
+    _idController.removeListener(_onTextChanged);
+    _pwController.removeListener(_onTextChanged);
+    _idController.dispose();
+    _pwController.dispose();
     super.dispose();
+  }
+
+  Future<void> _login() async {
+    String id = _idController.text.trim();
+    String pw = _pwController.text.trim();
+
+    
+    if (id.isNotEmpty && pw.isNotEmpty) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('아이디와 비밀번호를 입력하세요.')),
+      );
+      return;
+    }
+
+    await FirebaseFirestore.instance.collection('users').doc(id).set({
+      'userID': id,
+      'nickname': '고먐미',
+    }, SetOptions(merge: true));
+
+    Navigator.pushReplacementNamed(
+      context,
+      '/home',
+      arguments: id, // ← 이 값이 MyHomePage에서 받게 될 userID
+    );
   }
 
   @override
@@ -101,9 +95,10 @@ class _LoginPageState extends State<LoginPage> {
             width: 273,
             child: TextFormField(
               controller: _idController,
+              enabled: isEnabled,
               decoration: InputDecoration(
                 fillColor: fillColor,
-                filled: true,
+                filled: _idController.text.isNotEmpty && isEnabled,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
@@ -125,7 +120,10 @@ class _LoginPageState extends State<LoginPage> {
             width: 273,
             child: TextFormField(
               controller: _pwController,
+              enabled: isEnabled,
               decoration: InputDecoration(
+                fillColor: fillColor,
+                filled: _pwController.text.isNotEmpty && isEnabled,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(

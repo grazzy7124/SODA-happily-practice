@@ -3,15 +3,22 @@ import 'package:ver1/analysispage/analysis.dart';
 import 'package:ver1/analysispage/calendar.dart';
 
 class Analysispage extends StatefulWidget {
+  final String userID; 
   final double emotion;
+  final bool hasEmotion;
 
-  const Analysispage({super.key, required this.emotion});
+  const Analysispage({super.key, 
+    required this.userID,
+    required this.emotion, 
+    required this.hasEmotion
+  });
 
   @override
   State<Analysispage> createState() => _AnalysispageState();
 }
 
 class _AnalysispageState extends State<Analysispage> with SingleTickerProviderStateMixin {
+
   late double emotion;
   late TabController _tabController;
   int _selectedIndex = 0;
@@ -37,6 +44,8 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    final analysis = Analysis(userID: widget.userID,emotion: emotion, hasEmotion: widget.hasEmotion);
+    final calendar = Calendar(emotion: emotion, hasEmotion: widget.hasEmotion);
     return Column(
       children: [
         SizedBox(height: 20,),
@@ -92,9 +101,9 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
             children: [
               Align(
                 alignment: AlignmentGeometry.directional(0, -1),
-                child: Analysis(emotion: widget.emotion,),
+                child: analysis,
               ),
-              Align(child: Calendar(emotion: emotion,)),
+              Align(child: calendar),
             ],
           ),
         ),

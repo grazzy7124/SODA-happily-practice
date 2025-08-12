@@ -82,8 +82,13 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
       ),
 
-      home: MyHomePage(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (_) => const LoginPage(),
+        '/home':  (_) => const MyHomePage(), // 기존 홈 위젯
+      },
     );
+    
   }
 }
 
@@ -97,8 +102,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
-
+  late String userID; // login page에서 받아올 id
   double emotion = 0;
+  bool hasEmotion = false;
 
   @override
   void initState() {
@@ -114,6 +120,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // ✅ /home 라우트 진입 시 전달된 arguments에서 userID 읽기
+    final args = ModalRoute.of(context)!.settings.arguments;
+    userID = (args ?? '') as String;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffFCFAF5),
@@ -121,14 +135,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         controller: _tabController,
         children: [
           Mainpage(
+            userID: userID,
             emotion: emotion,
             onEmotionChanged: (newEmotion) {
               setState(() {
                 emotion = newEmotion;
+                hasEmotion = true;
               });
             },
           ),
-          Analysispage(emotion: emotion),
+          Analysispage(userID: userID, emotion: emotion, hasEmotion: hasEmotion),
           MyApp2(),
           NotificationPage(title: globalTitleController.text),
           ProfileMain(

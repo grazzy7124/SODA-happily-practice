@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ver1/mainPage/pageview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ver1/services/feed_service.dart';
 
 class Mainpage extends StatefulWidget {
+  final String userID;
   final double emotion;
   final ValueChanged<double> onEmotionChanged;
 
-  const Mainpage({super.key, required this.emotion, required this.onEmotionChanged});
+  const Mainpage({
+    super.key,
+    required this.userID,
+    required this.emotion,
+    required this.onEmotionChanged,
+  });
 
   @override
   State<Mainpage> createState() => _MainpageState();
@@ -181,14 +189,19 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                           max: 10,
                           min: -10,
                           divisions: 20,
-                          onChangeEnd: (value) {
-                            emotion = _currentDiscreteSliderValue;
+                          onChangeEnd: (value) async {
+                            final uid = FirebaseAuth.instance.currentUser!.uid;
+
+                            await FeedService().upsertTodayEmotion(
+                              userID: uid,
+                              emotionIndex: value,
+                            );
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 elevation: 5,
                                 content: Text(
-                                  '   분석 탭에 저장!',
+                                  '분석 탭에 저장!',
                                   style: TextStyle(
                                     fontFamily: 'gangwon',
                                     fontSize: 17,
@@ -223,7 +236,7 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                               emotion = value;
                               widget.onEmotionChanged(value);
                               _thumbColor = getThumbColor(value);
-                            });       
+                            });
                           },
                         );
                       },
