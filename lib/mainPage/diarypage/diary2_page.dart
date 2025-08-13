@@ -176,11 +176,14 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
                         const SizedBox(width: 30),
                         Text('제목: ', style: _titleStyle),
                         Expanded(
-                          child: TextFormField(
-                            controller: titleController,
-                            style: _titleStyle,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: TextFormField(
+                              controller: titleController,
+                              style: _titleStyle,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                              ),
                             ),
                           ),
                         ),
