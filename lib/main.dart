@@ -7,6 +7,7 @@ import 'package:ver1/main2.dart';
 import 'package:ver1/main3.dart';
 import 'package:ver1/mainPage/mainpage.dart';
 import 'package:ver1/notificationpage/notification.dart';
+import 'package:ver1/onboarding.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -60,8 +61,9 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
       ),
 
-      initialRoute: '/login',
+      initialRoute: '/onboarding',
       routes: {
+        '/onboarding': (_) => const Onboarding(),
         '/login': (_) => const LoginPage(),
         '/home':  (_) => const MyHomePage(), // 기존 홈 위젯
       },
@@ -89,6 +91,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
+    _tabController.addListener(() {
+    if (_tabController.indexIsChanging) return; // 애니메이션 중 이벤트 필터링(선택)
+    setState(() => _currentPageIndex = _tabController.index);
+  });
   }
 
   @override
@@ -123,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           Analysispage(userID: userID, emotion: emotion, hasEmotion: hasEmotion),
           MyApp2(),
-       //   NotificationPage(title: TitleController.text),
+          NotificationPage(title: 'string'),
           ProfileMain(
           //   diarytitle: TitleController.text,
           //   diarytext: FirstTextController.text,

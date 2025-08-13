@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ver1/mainPage/diarypage/diary1.dart';
-import 'package:ver1/mainPage/diarypage/diary1_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -43,42 +41,50 @@ class _LoginPageState extends State<LoginPage> {
     String id = _idController.text.trim();
     String pw = _pwController.text.trim();
 
-    if (id.isNotEmpty && pw.isNotEmpty) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
+    if (id.isEmpty || pw.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('아이디와 비밀번호를 입력하세요.')));
       return;
     }
 
-    await FirebaseFirestore.instance.collection('users').doc(id).set({
-      'userID': id,
-      'nickname': '고먐미',
-    }, SetOptions(merge: true));
+    try {
+      // 키보드 내리기(선택)
+      FocusScope.of(context).unfocus();
 
-      Navigator.pushReplacementNamed(
+      final users = FirebaseFirestore.instance.collection('users');
+      final ref = users.doc(id);
+      final snap = await ref.get();
+
+      if (!snap.exists) {
+        // ✅ 첫 로그인(문서 없음): createdAt/updatedAt 모두 기록
+        await ref.set({
+          'userID': id,
+          'nickname': '고먐미',
+          'emotion': 0.0,
+          'createdAt': FieldValue.serverTimestamp(),
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+      } else {
+        // ✅ 재로그인(문서 있음): updatedAt만 갱신
+        await ref.set({
+          'updatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
+
+      // ✅ 반드시 한 번만, 그리고 arguments로 id 전달
+      Navigator.pushReplacementNamed(context, '/home', arguments: id);
+    } catch (e) {
+      ScaffoldMessenger.of(
         context,
-        '/home',
-        arguments: id, // ← 이 값이 MyHomePage에서 받게 될 userID
-      );
+      ).showSnackBar(SnackBar(content: Text('로그인 중 오류: $e')));
     }
-
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (_) => FirstDiary(
-  //         emotion: 0.0,
-  //         userID: _idController.text.trim(), 
-  //       ),
-  //     ),
-  //   );
-  // }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffFCFAF5),
       body: Column(
         children: [
           SizedBox(height: 133),
