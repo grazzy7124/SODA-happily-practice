@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ver1/color.dart';
-import 'package:ver1/mainPage/myDiary/mydiaryFirstType.dart';
 
 class Calendar extends StatefulWidget {
-  final double emotion;
-  final bool hasEmotion;
-  const Calendar({super.key, required this.emotion, required this.hasEmotion});
+  final String userID;
+  const Calendar({super.key, required this.userID});
 
   @override
   State<Calendar> createState() => _CalendarState();
@@ -17,46 +16,83 @@ class _CalendarState extends State<Calendar> {
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
-  late double emotion;
-  String emotionLocation = '';
-
-  void getEmotionLocation(double emotion) {
-    if (emotion <= -8) {
-      emotionLocation = 'assets/images/emotions/emotion1.png';
-    } else if (emotion <= -3) {
-      emotionLocation = 'assets/images/emotions/emotion2.png';
-    } else if (emotion <= 2) {
-      emotionLocation = 'assets/images/emotions/emotion3.png';
-    } else if (emotion <= 7) {
-      emotionLocation = 'assets/images/emotions/emotion4.png';
-    } else {
-      emotionLocation = 'assets/images/emotions/emotion5.png';
-    }
-  }
+  /// 날짜별 감정 아이콘 경로 저장
+  Map<DateTime, String> _emotionsMap = {};
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    emotion = widget.emotion;
-    if (widget.hasEmotion) {
-      getEmotionLocation(emotion);
+    _loadMonthEmotions(_focusedDay);
+  }
+
+  /// emotion 값에 따라 이미지 경로 반환
+  String _getEmotionAsset(double emotion) {
+    if (emotion <= -8) {
+      return 'assets/images/emotions/emotion1.png';
+    } else if (emotion <= -3) {
+      return 'assets/images/emotions/emotion2.png';
+    } else if (emotion <= 2) {
+      return 'assets/images/emotions/emotion3.png';
+    } else if (emotion <= 7) {
+      return 'assets/images/emotions/emotion4.png';
     } else {
-      emotionLocation = ''; // ✅ 값이 없으면 표시 안 함
+      return 'assets/images/emotions/emotion5.png';
     }
   }
 
-  @override
-  void didUpdateWidget(covariant Calendar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.hasEmotion) {
-      getEmotionLocation(widget.emotion);
+  /// 해당 달의 emotions 데이터 불러오기
+  Future<void> _loadMonthEmotions(DateTime month) async {
+    final firstDayOfMonth = DateTime(month.year, month.month, 1);
+    final lastDayOfMonth = DateTime(month.year, month.month + 1, 0, 23, 59, 59);
+
+    final snap = await FirebaseFirestore.instance
+        .collection('emotions')
+        .where('userID', isEqualTo: widget.userID)
+        .where(
+          'createdAt',
+          isGreaterThanOrEqualTo: Timestamp.fromDate(firstDayOfMonth),
+        )
+        .where(
+          'createdAt',
+          isLessThanOrEqualTo: Timestamp.fromDate(lastDayOfMonth),
+        )
+        .get();
+
+    final map = <DateTime, String>{};
+    for (final doc in snap.docs) {
+      final data = doc.data();
+      final emotionValue = (data['emotion'] as num).toDouble();
+      final createdAt = (data['createdAt'] as Timestamp).toDate();
+      final dateKey = DateTime(createdAt.year, createdAt.month, createdAt.day);
+
+      map[dateKey] = _getEmotionAsset(emotionValue);
     }
-    if (widget.hasEmotion && oldWidget.emotion != widget.emotion) {
-      setState(() {
-        emotion = widget.emotion;
-      });
-    }
+
+    setState(() {
+      _emotionsMap = map;
+    });
+  }
+
+  Widget _buildDayCell(DateTime day) {
+    final asset = _emotionsMap[DateTime(day.year, day.month, day.day)];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 5.9),
+        const SizedBox(width: 4),
+        Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: Text(
+            '${day.day}',
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+          ),
+        ),
+        if (asset != null) ...[
+          const SizedBox(height: 4),
+          Image.asset(asset, width: 30),
+        ],
+      ],
+    );
   }
 
   @override
@@ -66,7 +102,6 @@ class _CalendarState extends State<Calendar> {
       height: 600,
       child: Card(
         color: Colors.white,
-        // borderRadius: BorderRadius.circular(20),
         child: TableCalendar(
           locale: 'ko_KR',
           focusedDay: _focusedDay,
@@ -82,113 +117,40 @@ class _CalendarState extends State<Calendar> {
             formatButtonVisible: false,
           ),
           calendarFormat: CalendarFormat.month,
-          calendarStyle: CalendarStyle(
+          calendarStyle: const CalendarStyle(
             tablePadding: EdgeInsets.only(left: 20, right: 20),
-            cellAlignment: AlignmentGeometry.xy(-1, -1),
-            selectedTextStyle: TextStyle(color: Colors.blueAccent),
+            cellAlignment: Alignment.topLeft,
+            // 선택했을 때 시각적 변화 없애기
             selectedDecoration: BoxDecoration(color: Colors.transparent),
-            isTodayHighlighted: true,
+            selectedTextStyle: TextStyle(color: Colors.black), // 기본과 동일
+            isTodayHighlighted:
+                false, // today도 별도 하이라이트 끔(원하면 true로 두고 todayBuilder에서 동일 UI)
             tableBorder: TableBorder(),
           ),
-
-          selectedDayPredicate: (day) {
-            return isSameDay(_selectedDay, day);
-          },
+          selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           onDaySelected: (selectedDay, focusedDay) {
             setState(() {
               _selectedDay = selectedDay;
-              _focusedDay = focusedDay; // update `_focusedDay` here as well
-
-              // Navigator push 해야 됨!!!!!!!!!!!!!!!!!
-              // Navigator.push(
-              //   context, 
-              //   MaterialPageRoute(
-              //     builder: (context) {
-              //       return MydiaryFirstType(
-              //         date: date, 
-              //         selectedIndex: selectedIndex, 
-              //         secondText: secondText, 
-              //         thirdText: thirdText, 
-              //         isReleased: 
-              //       )
-              //     },
-              //   )
-              // )
+              _focusedDay = focusedDay;
             });
           },
           onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
+            _loadMonthEmotions(focusedDay);
           },
           calendarBuilders: CalendarBuilders(
-            selectedBuilder: (context, day, focusedDay) {
-              final isToday = isSameDay(day, DateTime.now());
-              if (isToday) {
-                // 오늘 날짜이면서 선택됨: todayBuilder처럼 표시
-                return Container(
-                  // color: Colors.amber,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 5.9),
-                      Align(
-                        alignment: AlignmentGeometry.xy(-0.62, -1),
-                        child: Text(
-                          '${day.day}',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      if (widget.hasEmotion && emotionLocation.isNotEmpty)
-                        Image.asset(emotionLocation, width: 30),
-                    ],
-                  ),
-                );
-              } else {
-                // 일반 선택된 날짜
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(0.2),
-                    shape: BoxShape.circle,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '${day.day}',
-                    style: TextStyle(
-                      color: Colors.blueAccent,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                );
-              }
-            },
+            defaultBuilder: (context, day, _) => _buildDayCell(day),
 
-            // ✅ 오늘 날짜이지만 선택되지 않은 경우
-            todayBuilder: (context, day, focusedDay) {
-              return Container(
-                // color: Colors.amber,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 5.9),
-                    Align(
-                      alignment: AlignmentGeometry.xy(-0.62, -1),
-                      child: Text(
-                        '${day.day}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Image.asset(emotionLocation, width: 30),
-                  ],
-                ),
-              );
-            },
+            todayBuilder: (context, day, _) => _buildDayCell(day),
+
+            // 선택된 날도 "완전히 동일"하게 그림 → 탭해도 아무 변화 없음
+            selectedBuilder: (context, day, _) => _buildDayCell(day),
+
+            // (선택) outsideBuilder도 동일하게 그리면, 이전/다음 달 날짜에도 이모지가 있으면 보이게 할 수 있음
+            outsideBuilder: (context, day, _) => Opacity(
+              opacity: 0.5, // 달 바깥 날짜는 반투명으로만
+              child: _buildDayCell(day),
+            ),
           ),
         ),
       ),

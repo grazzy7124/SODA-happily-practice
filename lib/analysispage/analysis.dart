@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:ver1/color.dart';
-import 'package:ver1/services/feed_service.dart'; // FeedService/FeedEntry
+import 'package:ver1/services/emotion_service.dart'; // FeedService/FeedEntry
 
 class Analysis extends StatefulWidget {
   final String userID;
@@ -34,7 +34,7 @@ class _AnalysisState extends State<Analysis> {
   }
 
   // ✅ entries → LineChart spots (요일 축: 1~7)
-  List<FlSpot> _spotsFromEntries(List<FeedEntry> entries) {
+  List<FlSpot> _spotsFromEntries(List<EmotionEntry> entries) {
     return entries.map((e) {
       final dt = e.createdAt.toDate().toLocal(); // Timestamp -> DateTime(로컬)
       return FlSpot(dt.weekday.toDouble(), e.emotion);
@@ -42,7 +42,7 @@ class _AnalysisState extends State<Analysis> {
   }
 
   // ✅ entries → Pie 섹션
-  List<PieChartSectionData> _pieSectionsFrom(List<FeedEntry> entries) {
+  List<PieChartSectionData> _pieSectionsFrom(List<EmotionEntry> entries) {
     final counts = <Color, int>{
       emotion1: 0,
       emotion2: 0,
@@ -72,7 +72,7 @@ class _AnalysisState extends State<Analysis> {
   }
 
   // ✅ entries → 비율(긍/중/부)
-  Map<String, double> _ratiosFrom(List<FeedEntry> entries) {
+  Map<String, double> _ratiosFrom(List<EmotionEntry> entries) {
     final total = entries.length;
     if (total == 0) return {'positive': 0, 'neutral': 0, 'negative': 0};
 
@@ -97,8 +97,8 @@ class _AnalysisState extends State<Analysis> {
   Widget build(BuildContext context) {
     final userID = widget.userID;
 
-    return StreamBuilder<List<FeedEntry>>(
-      stream: FeedService().streamRecent7(userID: userID), // 🔴 최근 7일
+    return StreamBuilder<List<EmotionEntry>>(
+      stream: EmotionService().streamRecent7(userID: userID), // 🔴 최근 7일
       builder: (context, snap) {
         if (snap.hasError) {
           // 🔴 인덱스 부족 / 퍼미션 에러면 여기로 옴. 메시지에 콘솔 링크가 뜨는 경우가 많음.
