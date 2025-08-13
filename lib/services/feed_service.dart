@@ -32,7 +32,9 @@ class FeedEntry {
       id: doc.id,
       userID: d['userID'] as String,
       date: d['date'] as String,
-      emotion: (d['emotion'] as num?)?.toDouble() ?? 0.0,
+      emotion: (d['emotion'] as num?)?.toDouble()
+          ?? (d['emotionIndex'] as num?)?.toDouble()  // ← 과거 호환
+          ?? 0.0,
       isReleased: (d['isReleased'] as bool?) ?? false,
       title: (d['title'] as String?) ?? '',
       text1: (d['text1'] as String?) ?? '',
@@ -45,6 +47,13 @@ class FeedEntry {
 
 class FeedService {
   final _feeds = FirebaseFirestore.instance.collection('feeds');
+
+// 유틸: 오늘(KST) 날짜 문자열
+  String _todayKstStr() {
+    final nowUtc = DateTime.now().toUtc();
+    final nowKst = nowUtc.add(const Duration(hours: 9)); // KST = UTC+9
+    return DateFormat('yyyy년 MM월 dd일', 'ko_KR').format(nowKst);
+  }
 
   // 오늘의 감정값 업서트 (있으면 update, 없으면 add)
   Future<void> upsertTodayEmotion({
@@ -91,6 +100,25 @@ class FeedService {
         'text3': '',
       });
     }
+  }
+
+// 오늘(KST)의 감정값 가져오기 (없으면 null)
+  Future<double?> getTodayEmotion({required String userID}) async {
+    final dateStr = _todayKstStr();
+
+    final qs = await _feeds
+        .where('userID', isEqualTo: userID)
+        .where('date', isEqualTo: dateStr)
+        .orderBy('updatedAt', descending: true) // 최신 우선
+        .limit(1)
+        .get();
+
+    if (qs.docs.isEmpty) return null;
+
+    final data = qs.docs.first.data();
+    // emotion 우선, 없으면 emotionIndex 사용
+    final emo = (data['emotion'] as num?) ?? (data['emotionIndex'] as num?);
+    return emo?.toDouble();
   }
 
   /// 해당 날짜(표시 문자열)로 일기 내용 업서트 (감정은 유지)

@@ -28,7 +28,21 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
     emotion = widget.emotion;
     _currentDiscreteSliderValue = widget.emotion;
     _thumbColor = getThumbColor(widget.emotion);
+
+    _loadTodayEmotion();
   }
+
+  Future<void> _loadTodayEmotion() async {
+  final saved = await FeedService().getTodayEmotion(userID: widget.userID);
+  if (!mounted) return;
+  if (saved != null) {
+    setState(() {
+      emotion = saved;
+      _currentDiscreteSliderValue = saved;
+      _thumbColor = getThumbColor(saved);
+    });
+  }
+}
 
   @override
   void dispose() {
