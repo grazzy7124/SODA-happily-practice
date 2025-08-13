@@ -22,7 +22,7 @@ class Analysis extends StatefulWidget {
 }
 
 class _AnalysisState extends State<Analysis> {
-  bool _imageinvisible = false;
+  final ValueNotifier<bool> _bubbleVisible = ValueNotifier<bool>(false);
 
   Color getEmotionColor(double emotion) {
     if (emotion <= -8) return emotion1;
@@ -109,7 +109,7 @@ class _AnalysisState extends State<Analysis> {
         if (snap.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        
+
         final entries = snap.data!;
         if (entries.isEmpty) {
           // 🔸 오늘 슬라이더 안 움직였더라도, 과거 데이터가 있으면 그려짐.
@@ -126,6 +126,18 @@ class _AnalysisState extends State<Analysis> {
         final spots = _spotsFromEntries(entries);
         final ratios = _ratiosFrom(entries);
         final sections = _pieSectionsFrom(entries);
+
+        // 🔹 여기서 ratios 비교
+        String message;
+        if (ratios['positive']! > ratios['neutral']! &&
+            ratios['positive']! > ratios['negative']!) {
+          message = '이번 주는 긍정적인 한 주였네요!\n다음 주도 매일 행복하시길 바라요:)';
+        } else if (ratios['negative']! > ratios['positive']! &&
+            ratios['negative']! > ratios['neutral']!) {
+          message = '이번 주는 조금 힘들었네요.\n잘 버텨주셨어요!';
+        } else {
+          message = '이번 주는 차분한 한 주였네요.\n다음 주도 화이팅이에요:)';
+        }
 
         return Stack(
           children: [
@@ -362,19 +374,33 @@ class _AnalysisState extends State<Analysis> {
             Positioned(
               bottom: 27.6,
               left: 32,
-              child: _imageinvisible
-                  ? Image.asset(
-                      'assets/images/bubble.png',
-                      width: 256,
-                      height: 83.4,
-                    )
-                  : const SizedBox.shrink(),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: _bubbleVisible,
+                builder: (_, visible, __) {
+                  if (!visible) return const SizedBox.shrink();
+                  return Stack(
+                    children: [
+                      Image.asset(
+                        'assets/images/bubble.png',
+                        width: 256,
+                        height: 83.4,
+                      ),
+                      Positioned(
+                        left: 40,
+                        top: 12,
+                        child: Text(message, style: _bubbleStyle),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
             Positioned(
               bottom: 13.22,
               left: 24,
               child: GestureDetector(
-                onTap: () => setState(() => _imageinvisible = !_imageinvisible),
+                onTap: () => _bubbleVisible.value =
+                    !_bubbleVisible.value, // ← setState 제거
                 child: Image.asset(
                   'assets/images/analysisIcon.png',
                   width: 30,
@@ -418,6 +444,14 @@ const TextStyle _analysisStyle = TextStyle(
   fontFamily: 'gangwon',
   fontWeight: FontWeight.w300,
   fontSize: 22,
+  letterSpacing: 0.6,
+  color: Color(0xff000000),
+);
+
+const TextStyle _bubbleStyle = TextStyle(
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.w300,
+  fontSize: 14,
   letterSpacing: 0.6,
   color: Color(0xff000000),
 );
