@@ -37,7 +37,7 @@ class ProfileMain extends StatelessWidget {
           ),
         );
 
-        items.add(
+        items.add(                
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
