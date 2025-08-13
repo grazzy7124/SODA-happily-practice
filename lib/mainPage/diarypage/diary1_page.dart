@@ -1,38 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ver1/mainPage/myDiary/mydiaryFirstType.dart';
 
 class FirstDiaryPage extends StatefulWidget {
-  const FirstDiaryPage({super.key});
+  final double emotion;
+  final String userID;
+
+  const FirstDiaryPage({
+    super.key,
+    required this.emotion,
+    required this.userID,
+  });
 
   @override
   State<FirstDiaryPage> createState() => _FirstDiaryPageState();
 }
 
 class _FirstDiaryPageState extends State<FirstDiaryPage> {
-  bool isChecked = false;
-  DateTime todayDate = DateTime.now();
-  String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
-  int _selectedIndex = 0; // dropdownbuttonItem
+  bool isReleased = false;
+  final String formattedDate = DateFormat(
+    'yyyy년 MM월 dd일',
+  ).format(DateTime.now());
+  int _selectedIndex = 0;
 
+  final titleController = TextEditingController();
+  final firstTextController = TextEditingController();
+  final secondTextController = TextEditingController();
+  final thirdTextController = TextEditingController();
+
+  int getSelectedIndex(double currentEmotion) {
+    if (currentEmotion <= -8) return 0;
+    if (currentEmotion <= -3) return 1;
+    if (currentEmotion <= 2) return 2;
+    if (currentEmotion <= 7) return 3;
+    if (currentEmotion <= 10) return 4;
+    return 0;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  _selectedIndex = getSelectedIndex(
+      widget.emotion
+      );
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    firstTextController.dispose();
+    secondTextController.dispose();
+    thirdTextController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveAndOpenDetail() async {
+    final feedsRef = FirebaseFirestore.instance.collection('feeds');
+    final docRef = await feedsRef.add({
+      'diaryID' : 'diary.emotion',
+      'userID': widget.userID,
+      'title': titleController.text.trim(),
+      'text1': firstTextController.text.trim(),
+      'text2': secondTextController.text.trim(),
+      'text3': thirdTextController.text.trim(),
+      'date': formattedDate,
+      'emotionIndex': _selectedIndex,
+      'isReleased': isReleased,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => MydiaryFirstType(docId: docRef.id)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFCFAF5),
+      backgroundColor: const Color(0xffFCFAF5),
       body: Column(
         children: [
-          SizedBox(height: 30,),
-          Container(
+          const SizedBox(height: 30),
+          SizedBox(
             height: 43,
             child: Stack(
               children: [
                 Row(
                   children: [
                     TextButton(
-                      onPressed: (){
-                        Navigator.pop(context);
-                      }, 
-                      child: Text('취소', style: _cancleStyle,)
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('취소', style: _cancleStyle),
                     ),
                   ],
                 ),
@@ -42,32 +102,31 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     Checkbox(
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
-                      value: isChecked, 
+                      side: MaterialStateBorderSide.resolveWith(
+                        (states) =>
+                            const BorderSide(color: Colors.black, width: 2),
+                      ),
+                      value: isReleased,
                       onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value!;
-                        });
+                        setState(() => isReleased = value ?? false);
                       },
                     ),
-                    Text('공개', style: _dateStyle,),
+                    Text('공개', style: _dateStyle),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: (){}, 
-                      child: Text('등록', style: _uploadStyle,)
+                      onPressed: _saveAndOpenDetail,
+                      child: Text('등록', style: _uploadStyle),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
-          Container(
-            height: 1, width: double.infinity,
-            color: Colors.black,
-          ),
+          Container(height: 1, width: double.infinity, color: Colors.black),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
@@ -75,92 +134,61 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                 SizedBox(
                   height: 45,
                   child: Card(
-                    color: Color(0xffD9ECFA),
+                    color: const Color(0xffD9ECFA),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(formattedDate, style: _dateStyle,),
-                        SizedBox(width: 30,),
-                        DropdownButton(
+                        const SizedBox(width: 21),
+                        Text(formattedDate, style: _dateStyle),
+                        const SizedBox(width: 70),
+                        DropdownButton<int>(
                           value: _selectedIndex,
-                          items: [
-                            DropdownMenuItem(
-                              value: 0,
+                          onChanged: (value) {
+                            if (value == null) return;
+                            setState(() => _selectedIndex = value);
+                          },
+                          items: List.generate(5, (i) {
+                            return DropdownMenuItem(
+                              value: i,
                               child: Image.asset(
-                                'assets/images/emotions/emotion1.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                            DropdownMenuItem(
-                              value: 1,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion2.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                            DropdownMenuItem(
-                              value: 2,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion3.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                            DropdownMenuItem(
-                              value: 3,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion4.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                            DropdownMenuItem(
-                              value: 4,
-                              child: Image.asset(
-                                'assets/images/emotions/emotion5.png',
-                                width: 28, height: 23,
-                              )
-                            ),
-                          ], 
-                        onChanged: (int? value) {
-                          setState(() {
-                            if (value != null) {
-                              _selectedIndex = value;
-                            }
-                          });
-                        },
-                        )
+                                'assets/images/emotions/emotion${i + 1}.png',
+                                width: 28,
+                                height: 23,
+                              ),
+                            );
+                          }),
+                        ),
                       ],
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 180,
                   child: GestureDetector(
-                    onTap: () {
-                      
-                    },
+                    onTap: () {},
                     child: Image.asset(
                       'assets/images/diary/photo.png',
-                      width: 80, height: 80,
+                      width: 80,
+                      height: 80,
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 45,
                   child: Card(
-                    color: Color(0xffD9ECFA),
+                    color: const Color(0xffD9ECFA),
                     child: Row(
                       children: [
-                        SizedBox(width: 30,),
-                        Text('제목: ', style: _titleStyle,),
+                        const SizedBox(width: 30),
+                        Text('제목: ', style: _titleStyle),
                         Expanded(
-                          child: TextField(
+                          child: TextFormField(
+                            controller: titleController,
                             style: _titleStyle,
-                            // cursorHeight: 20,
-                            decoration: InputDecoration(
-                              border: InputBorder.none
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
                             ),
-                          )
-                        )
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -169,58 +197,64 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      TextField(
+                      TextFormField(
+                        controller: firstTextController,
                         style: _textStyle,
                         decoration: InputDecoration(
-                          hint: Text('오늘은 어떤 일이 있었나요?', style: _hintStyle,),
-                          enabledBorder: UnderlineInputBorder(
+                          hintText: '오늘은 어떤 일이 있었나요?',
+                          hintStyle: _hintStyle,
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xffEAEAEA),
-                              width: 2
-                            )
-                          )
+                              width: 2,
+                            ),
+                          ),
                         ),
-                        maxLines: 5,            
+                        maxLines: 5,
                       ),
-                      TextField(
+                      TextFormField(
+                        controller: secondTextController,
                         style: _textStyle,
                         decoration: InputDecoration(
-                          hint: Text('어떤 생각이 들었나요?', style: _hintStyle,),
-                          enabledBorder: UnderlineInputBorder(
+                          hintText: '어떤 생각이 들었나요?',
+                          hintStyle: _hintStyle,
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xffEAEAEA),
-                              width: 2
-                            )
-                          )
+                              width: 2,
+                            ),
+                          ),
                         ),
-                        maxLines: 5,            
+                        maxLines: 5,
                       ),
-                      TextField(
+                      TextFormField(
+                        controller: thirdTextController,
                         style: _textStyle,
                         decoration: InputDecoration(
-                          hint: Text('어떤 감정을 느꼈나요?', style: _hintStyle,),
-                          enabledBorder: UnderlineInputBorder(
+                          hintText: '어떤 감정을 느꼈나요?',
+                          hintStyle: _hintStyle,
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xffEAEAEA),
-                              width: 2
-                            )
-                          )
+                              width: 2,
+                            ),
+                          ),
                         ),
-                        maxLines: 5,            
+                        maxLines: 5,
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
-      )
+      ),
     );
   }
 }
 
-TextStyle _hintStyle = TextStyle(
+TextStyle _hintStyle = const TextStyle(
   fontFamily: 'gangwon',
   fontWeight: FontWeight.w300,
   fontSize: 16,
@@ -228,7 +262,7 @@ TextStyle _hintStyle = TextStyle(
   color: Color(0xffC3C3C3),
 );
 
-TextStyle _textStyle = TextStyle(
+TextStyle _textStyle = const TextStyle(
   fontFamily: 'gangwon',
   fontWeight: FontWeight.w300,
   fontSize: 16,
@@ -236,7 +270,7 @@ TextStyle _textStyle = TextStyle(
   color: Color(0xff000000),
 );
 
-TextStyle _titleStyle = TextStyle(
+TextStyle _titleStyle = const TextStyle(
   fontFamily: 'gangwon',
   fontWeight: FontWeight.bold,
   fontSize: 16,
@@ -244,7 +278,7 @@ TextStyle _titleStyle = TextStyle(
   color: Color(0xff000000),
 );
 
-TextStyle _dateStyle = TextStyle(
+TextStyle _dateStyle = const TextStyle(
   fontFamily: 'gangwon',
   fontWeight: FontWeight.bold,
   fontSize: 18,
@@ -252,7 +286,7 @@ TextStyle _dateStyle = TextStyle(
   color: Color(0xff000000),
 );
 
-TextStyle _cancleStyle = TextStyle(
+TextStyle _cancleStyle = const TextStyle(
   fontFamily: 'gangwon',
   fontWeight: FontWeight.bold,
   fontSize: 20,
@@ -260,11 +294,10 @@ TextStyle _cancleStyle = TextStyle(
   color: Color(0xffD70004),
 );
 
-TextStyle _uploadStyle = TextStyle(
+TextStyle _uploadStyle = const TextStyle(
   fontFamily: 'gangwon',
   fontWeight: FontWeight.bold,
   fontSize: 20,
   letterSpacing: 0.6,
   color: Color(0xff80C2FF),
 );
-

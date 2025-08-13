@@ -3,13 +3,23 @@ import 'package:ver1/analysispage/analysis.dart';
 import 'package:ver1/analysispage/calendar.dart';
 
 class Analysispage extends StatefulWidget {
-  const Analysispage({super.key});
+  final String userID; 
+  final double emotion;
+  final bool hasEmotion;
+
+  const Analysispage({super.key, 
+    required this.userID,
+    required this.emotion, 
+    required this.hasEmotion
+  });
 
   @override
   State<Analysispage> createState() => _AnalysispageState();
 }
 
 class _AnalysispageState extends State<Analysispage> with SingleTickerProviderStateMixin {
+
+  late double emotion;
   late TabController _tabController;
   int _selectedIndex = 0;
 
@@ -17,6 +27,7 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
   void initState() {
     // TODO: implement initState
     super.initState();
+    emotion = widget.emotion;
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       setState(() {
@@ -30,46 +41,57 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
     _tabController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
+    final analysis = Analysis(userID: widget.userID,emotion: emotion, hasEmotion: widget.hasEmotion);
+    final calendar = Calendar(emotion: emotion, hasEmotion: widget.hasEmotion);
     return Column(
       children: [
-        SizedBox(height: 70,),
+        SizedBox(height: 20,),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             // color: Color(0xffF2F3F5),
           ),
-          
-          width: 320, height: 55,
+
+          width: 320,
+          height: 55,
           child: TabBar(
             controller: _tabController,
             indicatorColor: Colors.black,
             indicatorWeight: 2,
-            indicatorPadding: EdgeInsetsGeometry.only(left: 40, right: 40),
+            indicatorPadding: EdgeInsets.only(left: 35, right: 35),
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
-                icon: Container(
-                  width: 160, height: 44,
-                  // decoration: BoxDecoration(
-                  //   color: Color(0xffFFFFFF),
-                  //   borderRadius: BorderRadius.circular(11.9)
-                  // ),
-                  child: Center(child: Text('분석', style: _selectedIndex == 0 ? _selectedTabStyle : _unselectedTabStyle,)),
-                )
+                icon: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      '분석',
+                      style: _selectedIndex == 0
+                          ? _selectedTabStyle
+                          : _unselectedTabStyle,
+                    ),
+                    SizedBox(height: 8,),
+                  ],
+                ),
               ),
               Tab(
-                icon: Container(
-                  width: 160, height: 44,
-                  // decoration: BoxDecoration(
-                  //   color: Color(0xffFFFFFF),
-                  //   borderRadius: BorderRadius.circular(11.9)
-                  // ),
-                  child: Center(child: Text('달력', style:  _selectedIndex == 1 ? _selectedTabStyle : _unselectedTabStyle,)),
-                )
-              )
+                icon: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      '달력',
+                      style: _selectedIndex == 1
+                          ? _selectedTabStyle
+                          : _unselectedTabStyle,
+                    ),
+                    SizedBox(height: 8,),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -79,14 +101,12 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
             children: [
               Align(
                 alignment: AlignmentGeometry.directional(0, -1),
-                child: Analysis()
+                child: analysis,
               ),
-              Align(
-                child: Calendar()
-              )
-            ]
+              Align(child: calendar),
+            ],
           ),
-        )
+        ),
       ],
     );
   }
