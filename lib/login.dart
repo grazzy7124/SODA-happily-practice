@@ -1,147 +1,172 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
-      ),
-      home: const MyHomePage(title: 'Happily'),
-    );
-  }
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class _LoginPageState extends State<LoginPage> {
+  final _idController = TextEditingController(); // 아이디
+  final _pwController = TextEditingController(); // 비밀번호
+  bool isEnabled = true;
 
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final _textEditingController1 = TextEditingController(); // 아이디
-  final _textEditingController2 = TextEditingController(); // 비밀번호  
   late bool focused = false;
 
-  final FocusNode _focusNode1 = FocusNode();
   Color fillColor = Color(0xffDBECFF);
 
   @override
   void initState() {
     super.initState();
-    _focusNode1.addListener(() {
-      setState(() {
-        fillColor = _focusNode1.hasFocus ? Color(0xffDBECFF) : Colors.white;
-      });
-    });
+    _idController.addListener(_onTextChanged);
+    _pwController.addListener(_onTextChanged);
   }
 
-  @override 
+  void _onTextChanged() {
+    setState(() {});
+  }
+
+  @override
   void dispose() {
-    _focusNode1.dispose();
+    _idController.removeListener(_onTextChanged);
+    _pwController.removeListener(_onTextChanged);
+    _idController.dispose();
+    _pwController.dispose();
     super.dispose();
+  }
+
+  Future<void> _login() async {
+    String id = _idController.text.trim();
+    String pw = _pwController.text.trim();
+
+    if (id.isEmpty || pw.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('아이디와 비밀번호를 입력하세요.')));
+      return;
+    }
+
+    try {
+      // 키보드 내리기(선택)
+      FocusScope.of(context).unfocus();
+
+      final users = FirebaseFirestore.instance.collection('users');
+      final ref = users.doc(id);
+      final snap = await ref.get();
+
+      if (!snap.exists) {
+        // ✅ 첫 로그인(문서 없음): createdAt/updatedAt 모두 기록
+        await ref.set({
+          'userID': id,
+          'nickname': '고먐미',
+          'emotion': 0.0,
+          'createdAt': FieldValue.serverTimestamp(),
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+      } else {
+        // ✅ 재로그인(문서 있음): updatedAt만 갱신
+        await ref.set({
+          'updatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
+
+      // ✅ 반드시 한 번만, 그리고 arguments로 id 전달
+      Navigator.pushReplacementNamed(context, '/home', arguments: id);
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('로그인 중 오류: $e')));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffFCFAF5),
       body: Column(
         children: [
-          SizedBox(height: 133,),
+          SizedBox(height: 133),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center ,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/icon.png',
-                width: 148.72, height: 122.6,
+                width: 148.72,
+                height: 122.6,
               ),
             ],
           ),
-          SizedBox(height: 16.4,),
+          SizedBox(height: 16.4),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center ,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/HAPPI-LY.png',
-                width: 116, height: 39,
-              ),
+              Image.asset('assets/images/HAPPI-LY.png', width: 116, height: 39),
             ],
           ),
-          SizedBox(height: 51,),
+          SizedBox(height: 51),
           SizedBox(
             width: 273,
             child: TextFormField(
-              controller: _textEditingController1,
+              controller: _idController,
+              enabled: isEnabled,
               decoration: InputDecoration(
                 fillColor: fillColor,
-                filled: true,
+                filled: _idController.text.isNotEmpty && isEnabled,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.black
-                  )
+                  borderSide: BorderSide(color: Colors.black),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Color(0xff999999)
-                  )
+                  borderSide: BorderSide(color: Color(0xff999999)),
                 ),
-                hint: Text('아이디', style: TextStyle(color: Color(0xff999999)),),
+                hint: Text('아이디', style: TextStyle(color: Color(0xff999999))),
               ),
             ),
           ),
-          SizedBox(height: 12,),
+          SizedBox(height: 12),
           SizedBox(
             width: 273,
             child: TextFormField(
+              controller: _pwController,
+              enabled: isEnabled,
               decoration: InputDecoration(
+                fillColor: fillColor,
+                filled: _pwController.text.isNotEmpty && isEnabled,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.black
-                  )
+                  borderSide: BorderSide(color: Colors.black),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-
-                    color: Color(0xff999999)
-                  )
+                  borderSide: BorderSide(color: Color(0xff999999)),
                 ),
-                hint: Text('비밀번호', style: TextStyle(color: Color(0xff999999)),),
+                hint: Text('비밀번호', style: TextStyle(color: Color(0xff999999))),
               ),
             ),
-            
           ),
-          SizedBox(height: 22,),
+          SizedBox(height: 22),
           TextButton(
             style: ButtonStyle(
               fixedSize: WidgetStatePropertyAll(Size(273, 54)),
               backgroundColor: WidgetStateProperty.all(Color(0xff444444)),
               shape: WidgetStatePropertyAll(
-                RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(5))
-              )
+                RoundedSuperellipseBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
             ),
-            onPressed: (){}, 
-            child: Text('로그인', style: TextStyle(color: Colors.white),)
+            onPressed: () {
+              _login();
+            },
+            child: Text('로그인', style: TextStyle(color: Colors.white)),
           ),
-          SizedBox(height: 40,),
+          SizedBox(height: 40),
           SizedBox(
-            height: 40, width: 400,
+            height: 40,
+            width: 400,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -149,15 +174,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 120,
                   child: TextButton(
                     style: ButtonStyle(
-                      overlayColor: WidgetStatePropertyAll(Color.fromARGB(9, 0, 0, 0)),
+                      overlayColor: WidgetStatePropertyAll(
+                        Color.fromARGB(9, 0, 0, 0),
+                      ),
                       fixedSize: WidgetStatePropertyAll(Size(80, 18)),
-                      backgroundColor: WidgetStateProperty.all(Colors.transparent),
+                      backgroundColor: WidgetStateProperty.all(
+                        Colors.transparent,
+                      ),
                       shape: WidgetStatePropertyAll(
-                        RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(5))
-                      )
+                        RoundedSuperellipseBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
                     ),
-                    onPressed: (){}, 
-                    child: Text('ID/PW 찾기', style: TextStyle(color: Color(0xffADADAD), fontSize: 16),)
+                    onPressed: () {},
+                    child: Text(
+                      'ID/PW 찾기',
+                      style: TextStyle(color: Color(0xffADADAD), fontSize: 16),
+                    ),
                   ),
                 ),
                 VerticalDivider(
@@ -169,21 +203,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextButton(
                   style: ButtonStyle(
-                    overlayColor: WidgetStatePropertyAll(Color.fromARGB(9, 0, 0, 0)),
+                    overlayColor: WidgetStatePropertyAll(
+                      Color.fromARGB(9, 0, 0, 0),
+                    ),
                     // fixedSize: WidgetStatePropertyAll(Size(80, 18)),
-                    backgroundColor: WidgetStateProperty.all(Colors.transparent),
+                    backgroundColor: WidgetStateProperty.all(
+                      Colors.transparent,
+                    ),
                     shape: WidgetStatePropertyAll(
-                      RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(5))
-                    )
+                      RoundedSuperellipseBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
                   ),
-                  onPressed: (){}, 
-                  child: Text('회원가입', style: TextStyle(color: Color(0xffADADAD), fontSize: 16),)
+                  onPressed: () {},
+                  child: Text(
+                    '회원가입',
+                    style: TextStyle(color: Color(0xffADADAD), fontSize: 16),
+                  ),
                 ),
               ],
             ),
-          )
+          ),
         ],
-      )
+      ),
     );
   }
 }

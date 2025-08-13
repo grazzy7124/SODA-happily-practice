@@ -1,253 +1,253 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ver1/mainPage/myDiary/mydiarySecondType.dart';
 
 class SecondDiaryPage extends StatefulWidget {
-  const SecondDiaryPage({super.key});
+  final double emotion;
+  final String userID;
+
+  const SecondDiaryPage({super.key, required this.emotion, required this.userID});
 
   @override
   State<SecondDiaryPage> createState() => _SecondDiaryPageState();
 }
 
 class _SecondDiaryPageState extends State<SecondDiaryPage> {
-  bool isChecked = false;
-  DateTime todayDate = DateTime.now();
-  String formattedDate = DateFormat(' yyyy년  MM월  dd일 ').format(DateTime.now());
-  int _selectedIndex = 0; // dropdownbuttonItem
-  bool showImage = false;
+  bool isReleased = false;
+  final String formattedDate = DateFormat(
+    'yyyy년 MM월 dd일',
+  ).format(DateTime.now());
+  int _selectedIndex = 0;
+  late bool showImage;
 
-  
+  final titleController = TextEditingController();
+  final firstTextController = TextEditingController();
+  final secondTextController = TextEditingController();
+  final thirdTextController = TextEditingController();
 
+  int getSelectedIndex(double currentEmotion) {
+    if (currentEmotion <= -8) return 0;
+    if (currentEmotion <= -3) return 1;
+    if (currentEmotion <= 2) return 2;
+    if (currentEmotion <= 7) return 3;
+    if (currentEmotion <= 10) return 4;
+    return 0;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = getSelectedIndex(widget.emotion);
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    firstTextController.dispose();
+    secondTextController.dispose();
+    thirdTextController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveAndOpenDetail() async {
+    final feedsRef = FirebaseFirestore.instance.collection('feeds');
+    final docRef = await feedsRef.add({
+      'diaryID' : 'diary.happy',
+      'userID': widget.userID,
+      'title': titleController.text.trim(),
+      'text1': firstTextController.text.trim(),
+      'text2': secondTextController.text.trim(),
+      'text3': thirdTextController.text.trim(),
+      'date': formattedDate,
+      'emotionIndex': _selectedIndex,
+      'isReleased': isReleased,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => MydiarySecondType(docId: docRef.id)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFCFAF5),
-      body: Stack(
+      backgroundColor: const Color(0xffFCFAF5),
+      body: Column(
         children: [
-          Column(
-            children: [
-              SizedBox(height: 30,),
-              Container(
-                height: 43,
-                child: Stack(
+          const SizedBox(height: 30),
+          SizedBox(
+            height: 43,
+            child: Stack(
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        TextButton(
-                          onPressed: (){
-                            Navigator.pop(context);
-                          }, 
-                          child: Text('취소', style: _cancleStyle,)
-                        ),
-                      ],
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('취소', style: _cancleStyle),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          checkColor: Colors.black,
-                          activeColor: Colors.transparent,
-                          value: isChecked, 
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isChecked = value!;
-                            });
-                          },
-                        ),
-                        Text('공개', style: _dateStyle,),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: (){
-                            setState(() {
-                              showImage = true;
-                            });
-                            Future.delayed(Duration(milliseconds: 1500), () {
-                              setState(() {
-                                showImage = !showImage;
-                              });
-                            });
-
-                          }, 
-                          child: Text('등록', style: _uploadStyle,)
-                        ),
-                      ],
-                    )
                   ],
                 ),
-              ),
-              Container(
-                height: 1, width: double.infinity,
-                color: Colors.black,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: SingleChildScrollView(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      checkColor: Colors.black,
+                      activeColor: Colors.transparent,
+                      side: MaterialStateBorderSide.resolveWith(
+                        (states) =>
+                            const BorderSide(color: Colors.black, width: 2),
+                      ),
+                      value: isReleased,
+                      onChanged: (bool? value) {
+                        setState(() => isReleased = value ?? false);
+                      },
+                    ),
+                    Text('공개', style: _dateStyle),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: _saveAndOpenDetail,
+                      child: Text('등록', style: _uploadStyle),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(height: 1, width: double.infinity, color: Colors.black),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 45,
+                  child: Card(
+                    color: const Color(0xffFBFFD7),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 21),
+                        Text(formattedDate, style: _dateStyle),
+                        const SizedBox(width: 70),
+                        DropdownButton<int>(
+                          value: _selectedIndex,
+                          onChanged: (value) {
+                            if (value == null) return;
+                            setState(() => _selectedIndex = value);
+                          },
+                          items: List.generate(5, (i) {
+                            return DropdownMenuItem(
+                              value: i,
+                              child: Image.asset(
+                                'assets/images/emotions/emotion${i + 1}.png',
+                                width: 28,
+                                height: 23,
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 180,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Image.asset(
+                      'assets/images/diary/photo.png',
+                      width: 80,
+                      height: 80,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 45,
+                  child: Card(
+                    color: const Color(0xffFBFFD7),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 30),
+                        Text('제목: ', style: _titleStyle),
+                        Expanded(
+                          child: TextFormField(
+                            controller: titleController,
+                            style: _titleStyle,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 45,
-                        child: Card(
-                          color: Color(0xffFBFFD7),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(formattedDate, style: _dateStyle,),
-                              SizedBox(width: 30,),
-                              DropdownButton(
-                                value: _selectedIndex,
-                                items: [
-                                  DropdownMenuItem(
-                                    value: 0,
-                                    child: Image.asset(
-                                      'assets/images/emotions/emotion1.png',
-                                      width: 28, height: 23,
-                                    )
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 1,
-                                    child: Image.asset(
-                                      'assets/images/emotions/emotion2.png',
-                                      width: 28, height: 23,
-                                    )
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 2,
-                                    child: Image.asset(
-                                      'assets/images/emotions/emotion3.png',
-                                      width: 28, height: 23,
-                                    )
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 3,
-                                    child: Image.asset(
-                                      'assets/images/emotions/emotion4.png',
-                                      width: 28, height: 23,
-                                    )
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 4,
-                                    child: Image.asset(
-                                      'assets/images/emotions/emotion5.png',
-                                      width: 28, height: 23,
-                                    )
-                                  ),
-                                ], 
-                              onChanged: (int? value) {
-                                setState(() {
-                                  if (value != null) {
-                                    _selectedIndex = value;
-                                  }
-                                });
-                              },
-                              )
-                            ],
+                      TextField(
+                        controller: firstTextController,
+                        style: _textStyle,
+                        decoration: InputDecoration(
+                          hint: Text('오늘 하루 동안 감사했던 일은?', style: _hintStyle),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2,
+                            ),
                           ),
                         ),
+                        maxLines: 5,
                       ),
-                      Container(
-                        height: 180,
-                        child: GestureDetector(
-                          onTap: () {
-                            
-                          },
-                          child: Image.asset(
-                            'assets/images/diary/photo.png',
-                            width: 80, height: 80,
+                      TextField(
+                        controller: secondTextController,
+                        style: _textStyle,
+                        decoration: InputDecoration(
+                          hint: Text(
+                            '오늘 하루 동안 나에게 칭찬하고 싶은 일은?',
+                            style: _hintStyle,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2,
+                            ),
                           ),
                         ),
+                        maxLines: 5,
                       ),
-                      SizedBox(
-                        height: 45,
-                        child: Card(
-                          color: Color(0xffFBFFD7),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 30,),
-                              Text('제목: ', style: _titleStyle,),
-                              Expanded(
-                                child: TextField(
-                                  style: _titleStyle,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none
-                                  ),
-                                )
-                              )
-                            ],
+                      TextField(
+                        controller: thirdTextController,
+                        style: _textStyle,
+                        decoration: InputDecoration(
+                          hint: Text(
+                            '어떤 행동을 했을 때 행복한 감정이 드나요?\n예시) 나는 걸으면서 노래를 들으면 행복해, ~하는 걸 좋아해',
+                            style: _hintStyle,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffEAEAEA),
+                              width: 2,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            TextField(
-                              style: _textStyle,
-                              decoration: InputDecoration(
-                                hint: Text('오늘 하루 동안 감사했던 일은?', style: _hintStyle,),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xffEAEAEA),
-                                    width: 2
-                                  )
-                                )
-                              ),
-                              maxLines: 5,            
-                            ),
-                            TextField(
-                              style: _textStyle,
-                              decoration: InputDecoration(
-                                hint: Text('오늘 하루 동안 나에게 칭찬하고 싶은 일은?', style: _hintStyle,),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xffEAEAEA),
-                                    width: 2
-                                  )
-                                )
-                              ),
-                              maxLines: 5,            
-                            ),
-                            TextField(
-                              style: _textStyle,
-                              decoration: InputDecoration(
-                                hint: Text('어떤 행동을 했을 때 행복한 감정이 드나요?\n예시) 나는 걸으면서 노래를 들으면 행복해, ~하는 걸 좋아해', style: _hintStyle,),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xffEAEAEA),
-                                    width: 2
-                                  )
-                                )
-                              ),
-                              maxLines: 5,            
-                            ),
-                          ],
-                        ),
+                        maxLines: 5,
                       ),
                     ],
                   ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
-          Center(
-            child:
-            IgnorePointer(
-              ignoring: !showImage,
-              child: AnimatedOpacity(
-                opacity: showImage? 1.0 : 0.0,
-                duration: Duration(milliseconds: 300),
-                child: Image.asset(
-                  'assets/images/diary/compliment.png', 
-                  width: 320,
-                )
-              ),
-            ) 
-          )
         ],
-      )
+      ),
     );
   }
 }
@@ -299,4 +299,3 @@ TextStyle _uploadStyle = TextStyle(
   letterSpacing: 0.6,
   color: Color(0xff80C2FF),
 );
-

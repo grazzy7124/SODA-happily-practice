@@ -1,12 +1,33 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:ver1/analysispage/analysispage.dart';
-import 'package:ver1/mainPage/mainpage.dart';
-import 'package:ver1/mainPage/pageview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ver1/analysispage/analysispage.dart';
+import 'package:ver1/login.dart';
+import 'package:ver1/main2.dart';
+import 'package:ver1/main3.dart';
+import 'package:ver1/mainPage/mainpage.dart';
 import 'package:ver1/notificationpage/notification.dart';
+import 'package:ver1/onboarding.dart';
+import 'firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+Future<void> globalCreate(
+  String title,
+  String text,
+  String text2,
+  String text3,
+) async {
+  await FirebaseFirestore.instance.collection('users').add({
+    'title': title,
+    'text': text,
+    'text2': text2,
+    'text3': text3,
+  });
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -16,9 +37,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      supportedLocales: [
-        Locale('ko', 'KR')
-      ],
+      supportedLocales: [Locale('ko', 'KR')],
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -29,16 +48,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
       ),
-      home: const MyHomePage(title: 'Happily'),
+
+      initialRoute: '/onboarding',
+      routes: {
+        '/onboarding': (_) => const Onboarding(),
+        '/login': (_) => const LoginPage(),
+        '/home': (_) => const MyHomePage(), // 기존 홈 위젯
+      },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -47,11 +69,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
+  late String userID; // login page에서 받아올 id
 
-  @override 
+  double emotion = 0;
+  bool hasEmotion = false;
+
+  @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) return; // 애니메이션 중 이벤트 필터링(선택)
+      setState(() => _currentPageIndex = _tabController.index);
+    });
   }
 
   @override
@@ -60,43 +90,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-
-  Color? _thumbColor = Color.fromRGBO(217, 217, 217, 1);
-  double _currentDiscreteSliderValue = 0;
-
-  Color? getThumbColor (double value) {
-    if (value == -10) {
-      return Color.fromRGBO(255, 95, 98, 1);
-    }
-    else if (value < -5) {
-      double t = (value + 10) / 5;
-      return Color.lerp(Color.fromRGBO(255, 95, 98, 1), Color.fromRGBO(255, 165, 100, 1), t);
-    }
-    else if (value == -5) {
-      return Color.fromRGBO(255, 165, 100, 1);
-    }
-    else if (value < 0) {
-      double t = (value + 5) / 5;
-      return Color.lerp(Color.fromRGBO(255, 165, 100, 1), Color.fromRGBO(217, 217, 217, 1), t);
-    }
-    else if (value == 0) {
-      return Color.fromRGBO(217, 217, 217, 1);
-    }
-    else if (value < 5) {
-      double t = (value) / 5;
-      return Color.lerp(Color.fromRGBO(217, 217, 217, 1), Color.fromRGBO(136, 238, 209, 1), t);
-    }
-    else if (value == 5) {
-      return Color.fromRGBO(136, 238, 209, 1);
-    }
-    else if (value < 10) {
-      double t = (value-5) / 5;
-      return Color.lerp(Color.fromRGBO(136, 238, 209, 1), Color.fromRGBO(148, 198, 255, 1), t);
-    }
-    else if (value == 10) {
-      return Color.fromRGBO(148, 198, 255, 1);
-    }
-    return _thumbColor;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // ✅ /home 라우트 진입 시 전달된 arguments에서 userID 읽기
+    final args = ModalRoute.of(context)!.settings.arguments;
+    userID = (args ?? '') as String;
   }
 
   @override
@@ -106,45 +105,37 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: [
-          Mainpage(),
-          Analysispage(),
-          Center(),
-          NotificationPage(),
-          Center(),
-        ]
+          Mainpage(
+            emotion: emotion,
+            onEmotionChanged: (newEmotion) {
+              setState(() {
+                emotion = newEmotion;
+                hasEmotion = true;
+              });
+            },
+            userID: userID,
+          ),
+          Analysispage(
+            userID: userID,
+            emotion: emotion,
+            hasEmotion: hasEmotion,
+          ),
+          MyApp2(),
+          NotificationPage(title: 'string'),
+          ProfileMain(
+            userID: userID,
+            //   diarytitle: TitleController.text,
+            //   diarytext: FirstTextController.text,
+            //   diarytext2: SecondTextController.text,
+            //   diarytext3: ThirdTextController.text,
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xffFCFAF5),
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: false,
         showSelectedLabels: false,
-        selectedItemColor: Colors.black,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: _currentPageIndex == 0 ? Colors.black : Colors.grey,
-            ), 
-            label: '홈'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.analytics,
-              color: _currentPageIndex == 1 ? Colors.black : Colors.grey,
-            ), 
-            label: '분석'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.feed,
-              color: _currentPageIndex == 2 ? Colors.black : Colors.grey,
-            ), 
-            label: '피드'
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: '알림'
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
-        ],
         currentIndex: _currentPageIndex,
         onTap: (index) {
           setState(() {
@@ -152,19 +143,69 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             _tabController.index = index;
           });
         },
+        items: [
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 0
+                ? Image.asset(
+                    'assets/images/navigationBarItems/home_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/home.png',
+                    width: 21,
+                  ),
+            label: '홈',
+          ),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 1
+                ? Image.asset(
+                    'assets/images/navigationBarItems/analysis_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/analysis.png',
+                    width: 21,
+                  ),
+            label: '분석',
+          ),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 2
+                ? Image.asset(
+                    'assets/images/navigationBarItems/feed_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/feed.png',
+                    width: 21,
+                  ),
+            label: '피드',
+          ),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 3
+                ? Image.asset(
+                    'assets/images/navigationBarItems/notification_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/notification.png',
+                    width: 21,
+                  ),
+            label: '알림',
+          ),
+          BottomNavigationBarItem(
+            icon: _currentPageIndex == 4
+                ? Image.asset(
+                    'assets/images/navigationBarItems/feed_filled.png',
+                    width: 21,
+                  )
+                : Image.asset(
+                    'assets/images/navigationBarItems/feed.png',
+                    width: 21,
+                  ),
+            label: '마이페이지',
+          ),
+        ],
       ),
     );
   }
 }
-
-TextStyle _textStyle = TextStyle(
-  fontFamily: 'gangwon',
-  fontSize: 15,
-);
-
-TextStyle _emotion = TextStyle(
-  fontFamily: 'gangwon',
-  fontWeight: FontWeight.bold,
-  fontSize: 11,
-  letterSpacing: 0
-);

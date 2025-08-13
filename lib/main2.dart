@@ -1,0 +1,288 @@
+import 'package:flutter/material.dart';
+import 'package:ver1/profilefriend.dart';
+import 'package:ver1/read.dart';
+
+class MyApp2 extends StatelessWidget {
+  const MyApp2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Color(0xffFCFAF5),
+        body: Column(
+          children: [
+            Container(
+              height: 55,
+              color: Color(0xffFCFAF5),
+              child: const TabBar(
+                indicatorColor: Colors.black,
+                indicatorWeight: 2,
+                indicatorPadding: EdgeInsetsGeometry.only(left: 40, right: 40),
+                indicatorSize: TabBarIndicatorSize.tab,
+                tabs: [
+                  Tab(text: '전체 일기'),
+                  Tab(text: '친구 일기'),
+                ],
+                labelColor: Colors.black,
+                unselectedLabelColor: Color(0xff878787),
+              ),
+            ),
+            Expanded(child: TabBarView(children: [WholePage(), FriendPage()])),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class WholePage extends StatelessWidget {
+  const WholePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        PageList(
+          wholemain: 'assets/main/1.png',
+          wholename: '보들이발닦개',
+          wholeyear: '2025',
+          wholemonth: '7',
+          wholeday: '29',
+          wholephoto: 'assets/mainlist/1.png',
+          wholetitle: '보드리랑 산책',
+          wholetext:
+              '오늘은 하루종일 뒹굴대다가 저녁에 보들이랑 산책을 했다. 산책하는데 보들이가 똥을 3번이나 쌌다. 치우기 힘들었다.',
+          ProfileTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WholeProfile()),
+            );
+          },
+          MainTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Read()),
+            );
+          },
+        ),
+        PageList(
+          wholemain: 'assets/main/2.png',
+          wholename: '예은',
+          wholeyear: '2025',
+          wholemonth: '7',
+          wholeday: '29',
+          wholephoto: 'assets/mainlist/2.png',
+          wholetitle: '친구가 집에 놀러 온 날',
+          wholetext:
+              '오늘은 은지가 집에 놀러 왔다. 날이 더워서 함께 팥빙수를 만들어 먹었다. 수박도 먹었다. 진짜 맛있었다. 앞으로 설빙 ...',
+        ),
+        PageList(
+          wholemain: 'assets/main/3.png',
+          wholename: '방구뽕',
+          wholeyear: '2025',
+          wholemonth: '7',
+          wholeday: '29',
+          wholephoto: 'assets/mainlist/3.png',
+          wholetitle: '포은흥해도서관',
+          wholetext: '포항에 새로 생긴 도서관에 갔다. 새로 생긴 데라 그런지 삐까뻔쩍하고 아주 좋았다...',
+        ),
+      ],
+    );
+  }
+}
+
+class FriendPage extends StatelessWidget {
+  const FriendPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        PageList(
+          wholemain: 'assets/main/4.png',
+          wholename: '김철수',
+          wholeyear: '2025',
+          wholemonth: '7',
+          wholeday: '24',
+          wholephoto: 'assets/mainlist/4.png',
+          wholetitle: '쇼미더머니 오디션 후기',
+          wholetext: '오늘 목걸이 받았다 ㅋㅋ 담에 다 죽었다 ㅋㅋ 연습 드간다 ㅋㅋ',
+        ),
+        PageList(
+          wholemain: 'assets/main/5.png',
+          wholename: '박지수',
+          wholeyear: '2025',
+          wholemonth: '7',
+          wholeday: '24',
+          wholephoto: 'assets/mainlist/5.png',
+          wholetitle: '폰케 바꿈',
+          wholetext: '오랜만에 폰케이스 바꿨다!! 아싸가오리~ ~ ~',
+        ),
+      ],
+    );
+  }
+}
+
+class PageList extends StatelessWidget {
+  const PageList({
+    super.key,
+    required this.wholemain,
+    required this.wholename,
+    required this.wholeyear,
+    required this.wholemonth,
+    required this.wholeday,
+    required this.wholephoto,
+    required this.wholetitle,
+    required this.wholetext,
+    this.ProfileTap,
+    this.MainTap,
+    this.diaryColor = const Color(0xffFFFFF6),
+  });
+
+  final String wholemain;
+  final String wholename;
+  final String wholeyear;
+  final String wholemonth;
+  final String wholeday;
+  final String wholephoto;
+  final String wholetitle;
+  final String wholetext;
+  final VoidCallback? ProfileTap;
+  final VoidCallback? MainTap;
+  final Color diaryColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 7.5, right: 7.5, bottom: 6),
+      child: Card(
+        color: diaryColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 16.5, top: 16, bottom: 15),
+              child: GestureDetector(
+                onTap: ProfileTap,
+                behavior: HitTestBehavior.opaque,
+                child: Row(
+                  children: [
+                    ClipOval(
+                      child: Image.asset(
+                        wholemain,
+                        width: 34,
+                        height: 34,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.5, bottom: 1),
+                          child: Text(
+                            wholename,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'gangwon',
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Row(
+                            children: [
+                              Text(
+                                '$wholeyear.',
+                                style: TextStyle(
+                                  color: Color(0xff818181),
+                                  fontSize: 13,
+                                  fontFamily: 'gangwon',
+                                ),
+                              ),
+                              Text(
+                                '$wholemonth.',
+                                style: TextStyle(
+                                  color: Color(0xff818181),
+                                  fontSize: 13,
+                                  fontFamily: 'gangwon',
+                                ),
+                              ),
+                              Text(
+                                wholeday,
+                                style: TextStyle(
+                                  color: Color(0xff818181),
+                                  fontSize: 13,
+                                  fontFamily: 'gangwon',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: MainTap,
+              behavior: HitTestBehavior.opaque,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 16.5,
+                      right: 16.5,
+                      bottom: 15,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 150,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(wholephoto, fit: BoxFit.fill),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.5, right: 16.5),
+                    child: Text(
+                      wholetitle,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'gangwon',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.5, right: 16.5, top: 10),
+                    child: Text(
+                      wholetext,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'gangwon',
+                        fontWeight: FontWeight.w300,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Color _firstDiaryColor = Color(0xffD9ECFA);
+Color _secondDiaryColor = Color(0xffFBFFD7);
+Color _thirdDiaryColor = Color(0xffF9EEF3);
