@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ver1/mainPage/myDiary/mydiaryFirstType.dart';
 
 class FirstDiaryPage extends StatefulWidget {
+  final double emotion;
+  final String userID;
+
   const FirstDiaryPage({
     super.key,
-   required this.emotion,
+    required this.emotion,
+    required this.userID,
   });
-
- final double emotion;
 
   @override
   State<FirstDiaryPage> createState() => _FirstDiaryPageState();
@@ -54,25 +56,26 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
   }
 
   Future<void> _saveAndOpenDetail() async {
-  final feedsRef = FirebaseFirestore.instance.collection('feeds');
-  final docRef = await feedsRef.add({
-    'title': titleController.text.trim(),
-    'text1': firstTextController.text.trim(),
-    'text2': secondTextController.text.trim(),
-    'text3': thirdTextController.text.trim(),
-    'date': formattedDate,
-    'emotionIndex': _selectedIndex,
-    'isReleased': isReleased,
-    'createdAt': FieldValue.serverTimestamp(),
-    'updatedAt': FieldValue.serverTimestamp(),});
-
+    final feedsRef = FirebaseFirestore.instance.collection('feeds');
+    final docRef = await feedsRef.add({
+      'diaryID' : 'diary.emotion',
+      'userID': widget.userID,
+      'title': titleController.text.trim(),
+      'text1': firstTextController.text.trim(),
+      'text2': secondTextController.text.trim(),
+      'text3': thirdTextController.text.trim(),
+      'date': formattedDate,
+      'emotionIndex': _selectedIndex,
+      'isReleased': isReleased,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
 
     if (!mounted) return;
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (_) => MydiaryFirstType(docId: docRef.id)),
-  );
-}
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => MydiaryFirstType(docId: docRef.id)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +102,7 @@ class _FirstDiaryPageState extends State<FirstDiaryPage> {
                     Checkbox(
                       checkColor: Colors.black,
                       activeColor: Colors.transparent,
-                      side: WidgetStateBorderSide.resolveWith(
+                      side: MaterialStateBorderSide.resolveWith(
                         (states) =>
                             const BorderSide(color: Colors.black, width: 2),
                       ),

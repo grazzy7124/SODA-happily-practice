@@ -5,11 +5,9 @@ import 'package:ver1/mainPage/diarypage/diary3.dart';
 
 class DiaryPageView extends StatefulWidget {
   final double currentEmotion;
+  final String userID;
 
-  const DiaryPageView({
-    super.key,
-    required this.currentEmotion,
-  });
+  const DiaryPageView({super.key, required this.currentEmotion, required this.userID});
 
   @override
   State<DiaryPageView> createState() => _DiaryPageViewState();
@@ -58,9 +56,9 @@ class _DiaryPageViewState extends State<DiaryPageView>
           controller: _pageViewController,
           onPageChanged: _handlePageViewChanged,
           children: <Widget>[
-            FirstDiary(currentEmotion: emotion),
-            SecondDiary(currentEmotion: emotion),
-            ThirdDiary(currentEmotion: emotion),
+            FirstDiary(currentEmotion: emotion, userID: widget.userID),
+            SecondDiary(currentEmotion: emotion, userID: widget.userID),
+            ThirdDiary(currentEmotion: emotion, userID: widget.userID),
           ],
         ),
         PageIndicator(
