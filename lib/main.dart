@@ -31,20 +31,8 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  String title = '';
-  String text = '';
-  String text2 = '';
-  String text3 = '';
-
-  final createRef = FirebaseFirestore.instance.collection('happily');
+class MyApp extends StatelessWidget {
+  const MyApp({super.key}); 
 
   @override
   Widget build(BuildContext context) {
