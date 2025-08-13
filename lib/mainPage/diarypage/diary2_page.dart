@@ -5,8 +5,9 @@ import 'package:ver1/mainPage/myDiary/mydiarySecondType.dart';
 
 class SecondDiaryPage extends StatefulWidget {
   final double emotion;
+  final String userID;
 
-  const SecondDiaryPage({super.key, required this.emotion});
+  const SecondDiaryPage({super.key, required this.emotion, required this.userID});
 
   @override
   State<SecondDiaryPage> createState() => _SecondDiaryPageState();
@@ -52,6 +53,8 @@ class _SecondDiaryPageState extends State<SecondDiaryPage> {
   Future<void> _saveAndOpenDetail() async {
     final feedsRef = FirebaseFirestore.instance.collection('feeds');
     final docRef = await feedsRef.add({
+      'diaryID' : 'diary.happy',
+      'userID': widget.userID,
       'title': titleController.text.trim(),
       'text1': firstTextController.text.trim(),
       'text2': secondTextController.text.trim(),

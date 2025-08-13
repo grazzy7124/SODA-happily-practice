@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Analysispage(userID: userID, emotion: emotion, hasEmotion: hasEmotion),
           MyApp2(),
           NotificationPage(title: 'string'),
-          ProfileMain(
+          ProfileMain(userID: userID,
           //   diarytitle: TitleController.text,
           //   diarytext: FirstTextController.text,
           //   diarytext2: SecondTextController.text,

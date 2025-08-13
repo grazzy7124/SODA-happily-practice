@@ -33,16 +33,16 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
   }
 
   Future<void> _loadTodayEmotion() async {
-  final saved = await FeedService().getTodayEmotion(userID: widget.userID);
-  if (!mounted) return;
-  if (saved != null) {
-    setState(() {
-      emotion = saved;
-      _currentDiscreteSliderValue = saved;
-      _thumbColor = getThumbColor(saved);
-    });
+    final saved = await FeedService().getTodayEmotion(userID: widget.userID);
+    if (!mounted) return;
+    if (saved != null) {
+      setState(() {
+        emotion = saved;
+        _currentDiscreteSliderValue = saved;
+        _thumbColor = getThumbColor(saved);
+      });
+    }
   }
-}
 
   @override
   void dispose() {
@@ -260,7 +260,9 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
           ],
         ),
         // SizedBox(height: 58,),
-        Expanded(child: DiaryPageView(currentEmotion: emotion)),
+        Expanded(
+          child: DiaryPageView(currentEmotion: emotion, userID: widget.userID),
+        ),
         // SizedBox(height: 62,)
       ],
     );
