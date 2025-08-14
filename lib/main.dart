@@ -130,8 +130,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xffFCFAF5),
         type: BottomNavigationBarType.fixed,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
+        showUnselectedLabels: true,
+        showSelectedLabels: true,
+        selectedLabelStyle: selectedlabelStyle,
+        unselectedLabelStyle: unselectedlabelStyle,
         currentIndex: _currentPageIndex,
         onTap: (index) {
           setState(() {
@@ -195,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     width: 21,
                   )
                 : Image.asset(
-                    'assets/images/navigationBarItems/feed.png',
+                    'assets/images/profile_image.png',
                     width: 21,
                   ),
             label: '마이페이지',
@@ -205,3 +207,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
   }
 }
+
+TextStyle selectedlabelStyle = TextStyle(
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.w300,
+  fontSize: 12,
+  letterSpacing: 0.6,
+  color: Color(0xff777777)
+);
+
+TextStyle unselectedlabelStyle = TextStyle(
+  fontFamily: 'gangwon',
+  fontWeight: FontWeight.w300,
+  fontSize: 12,
+  letterSpacing: 0.6,
+  color: Color(0xff444444)
+);
