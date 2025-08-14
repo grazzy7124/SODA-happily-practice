@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ver1/mainPage/pageview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ver1/services/feed_service.dart';
+import 'package:ver1/services/emotion_service.dart';
 
 class Mainpage extends StatefulWidget {
   final double emotion;
@@ -33,7 +33,7 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
   }
 
   Future<void> _loadTodayEmotion() async {
-    final saved = await FeedService().getTodayEmotion(userID: widget.userID);
+    final saved = await EmotionService().getTodayEmotion(userID: widget.userID);
     if (!mounted) return;
     if (saved != null) {
       setState(() {
@@ -204,7 +204,8 @@ class _MainpageState extends State<Mainpage> with TickerProviderStateMixin {
                           min: -10,
                           divisions: 20,
                           onChangeEnd: (value) async {
-                            await FeedService().upsertTodayEmotion(
+                            await EmotionService().upsertTodayEmotion(
+                              // ✅ emotions에만 저장
                               userID: widget.userID,
                               emotion: value,
                             );
