@@ -24,7 +24,7 @@ Future<void> globalCreate(
     'text3': text3,
   });
 }
-                                                          
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -32,7 +32,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key}); 
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      title: 'HAPPI-LY', 
+      title: 'HAPPI-LY',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff94C6FF)),
       ),
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/onboarding': (_) => const Onboarding(),
         '/login': (_) => const LoginPage(),
-        '/home': (_) => const MyHomePage(), 
+        '/home': (_) => const MyHomePage(),
       },
     );
   }
@@ -69,7 +69,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
-  late String userID; 
+  late String userID;
 
   double emotion = 0;
   bool hasEmotion = false;
@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(() {
-      if (_tabController.indexIsChanging) return; 
+      if (_tabController.indexIsChanging) return;
       setState(() => _currentPageIndex = _tabController.index);
     });
   }
@@ -121,13 +121,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           MyApp2(),
           NotificationPage(title: 'string'),
-          ProfileMain(    
-            userID: userID,
-          ),
+          ProfileMain(userID: userID),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xffFCFAF5),
+        selectedItemColor: const Color(0xff444444),
+        unselectedItemColor: const Color(0xff777777),
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
         showSelectedLabels: true,
@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ),
             label: '분석',
           ),
-          BottomNavigationBarItem( 
+          BottomNavigationBarItem(
             icon: _currentPageIndex == 2
                 ? Image.asset(
                     'assets/images/navigationBarItems/feed_filled.png',
@@ -191,14 +191,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           BottomNavigationBarItem(
             icon: _currentPageIndex == 4
-                ? Image.asset(
-                    'assets/images/profile_image.png',
-                    width: 21,
-                  )
-                : Image.asset(
-                    'assets/images/profile_image.png',
-                    width: 21,
-                  ),
+                ? Image.asset('assets/images/profile_image.png', width: 21)
+                : Image.asset('assets/images/profile_image.png', width: 21),
             label: '마이페이지',
           ),
         ],
@@ -212,7 +206,7 @@ TextStyle selectedlabelStyle = TextStyle(
   fontWeight: FontWeight.w300,
   fontSize: 12,
   letterSpacing: 0.6,
-  color: Color(0xff777777)
+  color: Color(0xff777777),
 );
 
 TextStyle unselectedlabelStyle = TextStyle(
@@ -220,5 +214,5 @@ TextStyle unselectedlabelStyle = TextStyle(
   fontWeight: FontWeight.w300,
   fontSize: 12,
   letterSpacing: 0.6,
-  color: Color(0xff444444)
+  color: Color(0xff444444),
 );

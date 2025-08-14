@@ -100,57 +100,54 @@ class _CalendarState extends State<Calendar> {
     return SizedBox(
       width: 340,
       height: 600,
-      child: Card(
-        color: Colors.white,
-        child: TableCalendar(
-          locale: 'ko_KR',
-          focusedDay: _focusedDay,
-          firstDay: DateTime(2020),
-          lastDay: DateTime(2030),
-          daysOfWeekHeight: 50,
-          rowHeight: 70,
-          headerStyle: HeaderStyle(
-            titleCentered: true,
-            titleTextFormatter: (date, locale) {
-              return DateFormat('yyyy년 M월', locale).format(date);
-            },
-            formatButtonVisible: false,
-          ),
-          calendarFormat: CalendarFormat.month,
-          calendarStyle: const CalendarStyle(
-            tablePadding: EdgeInsets.only(left: 20, right: 20),
-            cellAlignment: Alignment.topLeft,
-            // 선택했을 때 시각적 변화 없애기
-            selectedDecoration: BoxDecoration(color: Colors.transparent),
-            selectedTextStyle: TextStyle(color: Colors.black), // 기본과 동일
-            isTodayHighlighted:
-                false, // today도 별도 하이라이트 끔(원하면 true로 두고 todayBuilder에서 동일 UI)
-            tableBorder: TableBorder(),
-          ),
-          selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-          onDaySelected: (selectedDay, focusedDay) {
-            setState(() {
-              _selectedDay = selectedDay;
-              _focusedDay = focusedDay;
-            });
+      child: TableCalendar(
+        locale: 'ko_KR',
+        focusedDay: _focusedDay,
+        firstDay: DateTime(2020),
+        lastDay: DateTime(2030),
+        daysOfWeekHeight: 50,
+        rowHeight: 70,
+        headerStyle: HeaderStyle(
+          titleCentered: true,
+          titleTextFormatter: (date, locale) {
+            return DateFormat('yyyy년 M월', locale).format(date);
           },
-          onPageChanged: (focusedDay) {
+          formatButtonVisible: false,
+        ),
+        calendarFormat: CalendarFormat.month,
+        calendarStyle: const CalendarStyle(
+          tablePadding: EdgeInsets.only(left: 20, right: 20),
+          cellAlignment: Alignment.topLeft,
+          // 선택했을 때 시각적 변화 없애기
+          selectedDecoration: BoxDecoration(color: Colors.transparent),
+          selectedTextStyle: TextStyle(color: Colors.black), // 기본과 동일
+          isTodayHighlighted:
+              false, // today도 별도 하이라이트 끔(원하면 true로 두고 todayBuilder에서 동일 UI)
+          tableBorder: TableBorder(),
+        ),
+        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
             _focusedDay = focusedDay;
-            _loadMonthEmotions(focusedDay);
-          },
-          calendarBuilders: CalendarBuilders(
-            defaultBuilder: (context, day, _) => _buildDayCell(day),
-
-            todayBuilder: (context, day, _) => _buildDayCell(day),
-
-            // 선택된 날도 "완전히 동일"하게 그림 → 탭해도 아무 변화 없음
-            selectedBuilder: (context, day, _) => _buildDayCell(day),
-
-            // (선택) outsideBuilder도 동일하게 그리면, 이전/다음 달 날짜에도 이모지가 있으면 보이게 할 수 있음
-            outsideBuilder: (context, day, _) => Opacity(
-              opacity: 0.5, // 달 바깥 날짜는 반투명으로만
-              child: _buildDayCell(day),
-            ),
+          });
+        },
+        onPageChanged: (focusedDay) {
+          _focusedDay = focusedDay;
+          _loadMonthEmotions(focusedDay);
+        },
+        calendarBuilders: CalendarBuilders(
+          defaultBuilder: (context, day, _) => _buildDayCell(day),
+      
+          todayBuilder: (context, day, _) => _buildDayCell(day),
+      
+          // 선택된 날도 "완전히 동일"하게 그림 → 탭해도 아무 변화 없음
+          selectedBuilder: (context, day, _) => _buildDayCell(day),
+      
+          // (선택) outsideBuilder도 동일하게 그리면, 이전/다음 달 날짜에도 이모지가 있으면 보이게 할 수 있음
+          outsideBuilder: (context, day, _) => Opacity(
+            opacity: 0.5, // 달 바깥 날짜는 반투명으로만
+            child: _buildDayCell(day),
           ),
         ),
       ),
