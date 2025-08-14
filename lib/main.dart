@@ -24,7 +24,7 @@ Future<void> globalCreate(
     'text3': text3,
   });
 }
-                        
+                                                          
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
