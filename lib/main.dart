@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           BottomNavigationBarItem(
             icon: _currentPageIndex == 4
                 ? Image.asset(
-                    'assets/images/navigationBarItems/feed_filled.png',
+                    'assets/images/profile_image.png',
                     width: 21,
                   )
                 : Image.asset(
