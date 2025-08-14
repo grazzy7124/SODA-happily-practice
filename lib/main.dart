@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/onboarding': (_) => const Onboarding(),
         '/login': (_) => const LoginPage(),
-        '/home': (_) => const MyHomePage(), // 기존 홈 위젯
+        '/home': (_) => const MyHomePage(), 
       },
     );
   }
@@ -69,7 +69,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentPageIndex = 0;
   late TabController _tabController;
-  late String userID; // login page에서 받아올 id
+  late String userID; 
 
   double emotion = 0;
   bool hasEmotion = false;
@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(() {
-      if (_tabController.indexIsChanging) return; // 애니메이션 중 이벤트 필터링(선택)
+      if (_tabController.indexIsChanging) return; 
       setState(() => _currentPageIndex = _tabController.index);
     });
   }
@@ -93,7 +93,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // ✅ /home 라우트 진입 시 전달된 arguments에서 userID 읽기
     final args = ModalRoute.of(context)!.settings.arguments;
     userID = (args ?? '') as String;
   }

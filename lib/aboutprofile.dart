@@ -47,6 +47,7 @@ class ProfileList extends StatelessWidget {
     required this.text2,
     required this.date,
     required this.public,
+    required this.diaryID,
     this.onTap,
   });
 
@@ -57,6 +58,7 @@ class ProfileList extends StatelessWidget {
   final String text2;
   final String date;
   final String public;
+  final String diaryID;
   final VoidCallback? onTap;
 
   @override
@@ -67,7 +69,7 @@ class ProfileList extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 5.5, left: 15, right: 15),
         child: Card(
-          color: const Color(0xffFFFFF6),
+          color: _colorForDiary(diaryID),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -135,5 +137,18 @@ class ProfileList extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Color _colorForDiary(String diaryID) {
+  switch (diaryID) {
+    case 'diary.emotion':
+      return const Color(0xFFD9ECFA);
+    case 'diary.happy':
+      return const Color(0xFFFBFFD7);
+    case 'diary.free':
+      return const Color(0xFFF9EEF3);
+    default:
+      return Colors.white;
   }
 }

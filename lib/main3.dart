@@ -37,7 +37,7 @@ class ProfileMain extends StatelessWidget {
           ),
         );
 
-        items.add(                
+        items.add(
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -53,7 +53,7 @@ class ProfileMain extends StatelessWidget {
             ],
           ),
         );
-                 
+
         for (final doc in docs) {
           final data = doc.data();
 
@@ -62,6 +62,7 @@ class ProfileMain extends StatelessWidget {
           final String text2 = (data['text2'] ?? '') as String;
           final String text3 = (data['text3'] ?? '') as String;
           final String date = (data['date'] ?? '') as String;
+          final String diaryID = (data['diaryID'] ?? '') as String;
           final bool isReleased = (data['isReleased'] ?? false) as bool;
           final int emotionIndex = (data['emotionIndex'] ?? 2) as int;
 
@@ -81,19 +82,48 @@ class ProfileMain extends StatelessWidget {
                 text2: text2,
                 date: date,
                 public: isReleased ? '공개' : '비공개',
+                diaryID: diaryID,  
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => Write(
-                        diarytitle: title,
-                        diarytext: text1,
-                        diarytext2: text2,
-                        diarytext3: text3,
-                      ),
-                    ),
-                  );
-                },
+  final pages = <String, Widget>{
+    'diary.emotion': Write(
+      date: date,
+      diarytitle: title,
+      diarytext: text1,
+      diarytext2: text2,
+      diarytext3: text3,
+    ),
+    'diary.happy': Write2(
+      date: date,
+      diarytitle: title,
+      diarytext: text1,
+      diarytext2: text2,
+      diarytext3: text3,
+    ),
+    'diary.free': Write3(
+      date: date,
+      diarytitle: title,
+      diarytext: text1,
+      diarytext2: text2,
+      diarytext3: text3,
+    ),
+  };
+
+  final page = pages[diaryID];
+
+  if (page == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('알 수 없는 diaryID 입니다.')),
+    );
+    return;
+  }
+
+  Navigator.of(context).push(
+    MaterialPageRoute(builder: (_) => page),
+  );
+}
+
+
+
               ),
             ),
           );
