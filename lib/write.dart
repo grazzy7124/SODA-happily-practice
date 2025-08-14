@@ -8,12 +8,14 @@ class Write extends StatelessWidget {
     required this.diarytext,
     required this.diarytext2,
     required this.diarytext3,
+    required this.date,
   });
 
   final String diarytitle;
   final String diarytext;
   final String diarytext2;
   final String diarytext3;
+  final String date;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +42,166 @@ class Write extends StatelessWidget {
             children: [
               Divider(),
               ReadMain(
-                wholeyear: '2025',
-                wholemonth: '7',
-                wholeday: '23',
-                wholedate: '토',
+                color: 0xffD9ECFA,
+                date: date,
+                wholephoto: 'assets/list/1.png',
+                wholetitle: diarytitle,
+                wholetext: diarytext,
+                wholetext2: diarytext2,
+                wholetext3: diarytext3,
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 80,
+            right: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset('assets/c.png', width: 89, height: 34),
+                SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Comment()),
+                    );
+                  },
+                  child: Image.asset('assets/cc.png', width: 30, height: 30),
+                ),
+                SizedBox(width: 17),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Write2 extends StatelessWidget {
+  const Write2({
+    super.key,
+    required this.diarytitle,
+    required this.diarytext,
+    required this.diarytext2,
+    required this.diarytext3,
+    required this.date,
+  });
+
+  final String diarytitle;
+  final String diarytext;
+  final String diarytext2;
+  final String diarytext3;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            SizedBox(width: 10),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Image.asset('assets/Vector.png', width: 9, height: 17),
+            ),
+          ],
+        ),
+        backgroundColor: Color(0xffFCFAF5),
+      ),
+      body: Stack(
+        children: [
+          Container(color: Color(0xffFCFAF5)),
+          ListView(
+            children: [
+              Divider(),
+              ReadMain(
+                color: 0xffFBFFD7,
+                date: date,
+                wholephoto: 'assets/list/1.png',
+                wholetitle: diarytitle,
+                wholetext: diarytext,
+                wholetext2: diarytext2,
+                wholetext3: diarytext3,
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 80,
+            right: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset('assets/c.png', width: 89, height: 34),
+                SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Comment()),
+                    );
+                  },
+                  child: Image.asset('assets/cc.png', width: 30, height: 30),
+                ),
+                SizedBox(width: 17),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Write3 extends StatelessWidget {
+  const Write3({
+    super.key,
+    required this.diarytitle,
+    required this.diarytext,
+    required this.diarytext2,
+    required this.diarytext3,
+    required this.date,
+  });
+
+  final String diarytitle;
+  final String diarytext;
+  final String diarytext2;
+  final String diarytext3;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            SizedBox(width: 10),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Image.asset('assets/Vector.png', width: 9, height: 17),
+            ),
+          ],
+        ),
+        backgroundColor: Color(0xffFCFAF5),
+      ),
+      body: Stack(
+        children: [
+          Container(color: Color(0xffFCFAF5)),
+          ListView(
+            children: [
+              Divider(),
+              ReadMain(
+                color: 0xFFF9EEF3,
+                date: date,
                 wholephoto: 'assets/list/1.png',
                 wholetitle: diarytitle,
                 wholetext: diarytext,
@@ -83,26 +241,22 @@ class Write extends StatelessWidget {
 class ReadMain extends StatelessWidget {
   const ReadMain({
     super.key,
-    required this.wholeyear,
-    required this.wholemonth,
-    required this.wholeday,
-    required this.wholedate,
     required this.wholephoto,
     required this.wholetitle,
     required this.wholetext,
     required this.wholetext2,
     required this.wholetext3,
+    required this.date,
+    required this.color,
   });
 
-  final String wholeyear;
-  final String wholemonth;
-  final String wholeday;
-  final String wholedate;
   final String wholephoto;
   final String wholetitle;
   final String wholetext;
   final String wholetext2;
   final String wholetext3;
+  final String date;
+  final int color;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +275,7 @@ class ReadMain extends StatelessWidget {
                     width: double.infinity,
                     height: 60,
                     child: Card(
-                      color: Color(0xffFFF2FA),
+                      color: Color(color),
                       child: Padding(
                         padding: EdgeInsets.all(15),
                         child: Row(
@@ -135,31 +289,7 @@ class ReadMain extends StatelessWidget {
                             ),
                             Spacer(),
                             Text(
-                              '$wholeyear.',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'gangwon',
-                                color: Color(0xff7F7F7F),
-                              ),
-                            ),
-                            Text(
-                              '$wholemonth.',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'gangwon',
-                                color: Color(0xff7F7F7F),
-                              ),
-                            ),
-                            Text(
-                              wholeday,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'gangwon',
-                                color: Color(0xff7F7F7F),
-                              ),
-                            ),
-                            Text(
-                              '  ($wholedate)',
+                              date,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'gangwon',
