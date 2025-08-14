@@ -55,7 +55,7 @@ class Write extends StatelessWidget {
           Positioned(
             bottom: 80,
             right: 10,
-            child: Row(
+            child: Row(                 
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

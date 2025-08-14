@@ -37,8 +37,8 @@ class ProfileMain extends StatelessWidget {
           ),
         );
 
-        items.add(
-          const Column(                   
+        items.add(                
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Divider(color: Color(0xffD4D4D4)),
