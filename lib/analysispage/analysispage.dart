@@ -45,7 +45,7 @@ class _AnalysispageState extends State<Analysispage> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final analysis = Analysis(userID: widget.userID,emotion: emotion, hasEmotion: widget.hasEmotion);
-    final calendar = Calendar(emotion: emotion, hasEmotion: widget.hasEmotion);
+    final calendar = Calendar(userID: widget.userID,);
     return Column(
       children: [
         SizedBox(height: 20,),

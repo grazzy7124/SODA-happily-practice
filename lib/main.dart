@@ -164,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ),
             label: '분석',
           ),
-          BottomNavigationBarItem(
+          BottomNavigationBarItem( 
             icon: _currentPageIndex == 2
                 ? Image.asset(
                     'assets/images/navigationBarItems/feed_filled.png',
